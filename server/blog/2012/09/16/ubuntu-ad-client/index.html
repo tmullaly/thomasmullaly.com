@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ubuntu AD Client - Thomas Mullaly</title>
+  <meta name="author" content="Thomas Mullaly">
+
+  
+  <meta name="description" content="This is my original way of using Active Directory as the directory server for linux. It requires the schema to be extended to include the unix &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://thomasmullaly.com/blog/2012/09/16/ubuntu-ad-client">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Thomas Mullaly" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Thomas Mullaly</a></h1>
+  
+    <h2>My site</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:thomasmullaly.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Ubuntu AD Client</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-16T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This is my original way of using Active Directory as the directory server for linux.  It requires the schema to be extended to include the unix attributes.  In Windows Server 2008 AD, the schema is actually extended by default.  Unfortunately, in order to access the unix attributes in the AD MMC you need to add the NIS role.  The new way of auto generating the userid is way better and is documented here: [[ubuntu rid client]]</p>
+
+<div>
+  <pre><code class='bash'>sudo apt-get install krb5-user libpam-krb5 libpam-ccreds auth-client-config</code></pre>
+</div>
+
+
+<p>edit /etc/krb5.onf</p>
+
+<div>
+  <pre><code class='text'>[logging]
+default = FILE:/var/log/krb5libs.log
+kdc = FILE:/var/log/krb5kdc.log
+admin_server = FILE:/var/log/kadmind.log
+  
+[libdefaults]
+dns_lookup_realm = true
+dns_lookup_kdc = true
+ticket_lifetime = 24h
+forwardable = yes
+  
+[appdefaults]
+pam = {
+  debug = false
+  ticket_lifetime = 36000
+  renew_lifetime = 36000
+  forwardable = true
+  krb4_convert = false
+}</code></pre>
+</div>
+
+
+<p>sudo apt-get install samba winbind</p>
+
+<div>
+  <pre><code class='text'>#GLOBAL PARAMETERS
+  [global]
+     workgroup = CS
+     realm = CS.UMB.EDU
+     preferred master = no
+     server string = %h Linux Test Machine
+     security = ADS
+     encrypt passwords = yes
+     log level = 3
+     log file = /var/log/samba/%m
+     max log size = 50
+     printcap name = cups
+     printing = cups
+     winbind enum users = No
+     winbind enum groups = No
+     winbind use default domain = Yes
+     winbind nested groups = Yes
+     winbind separator = +
+     winbind nss info = rfc2307
+     winbind cache time = 10
+     idmap backend = tdb
+     idmap uid = 60000-70000
+     idmap gid = 60000-70000
+     idmap config CS: backend = ad
+     idmap config CS: range = 10000-20000
+     idmap config CS: schema_mode = rfc2307
+     ;template primary group = &quot;Domain Users&quot;
+     ;template shell = /bin/bash
+  
+  [homes]
+     comment = Home Direcotries
+     valid users = %S
+     read only = No
+     browseable = No
+  
+  [printers]
+     comment = All Printers
+     path = /var/spool/cups
+     browseable = no
+     printable = yes
+     guest ok = yes</code></pre>
+</div>
+
+
+<p>edit /etc/nsswitch.conf</p>
+
+<div>
+  <pre><code class='text'>passwd:         compat winbind
+group:          compat winbind</code></pre>
+</div>
+
+
+<p>net ads join -U Administrator</p>
+
+<p>wbinfo -u</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thomas Mullaly</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-16T00:00:00-04:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>, <a class='category' href='/blog/categories/ubuntu/'>ubuntu</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://thomasmullaly.com/blog/2012/09/16/ubuntu-ad-client/" data-via="" data-counturl="http://thomasmullaly.com/blog/2012/09/16/ubuntu-ad-client/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/09/15/restclient/" title="Previous Post: Restclient">&laquo; Restclient</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/09/16/ubuntu-automatic-updates/" title="Next Post: Ubuntu Automatic Updates">Ubuntu Automatic Updates &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/zero-out-free-space-in-windows/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/openvpn-on-amazon-ec2/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/24/java-review-flow-control/">Java Review - Flow Control</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/abstract-data-types-in-java/">Abstract Data Types (ADT) in Java</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/10/interview-questions/">Interview Questions</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Thomas Mullaly -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

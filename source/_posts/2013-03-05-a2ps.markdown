@@ -1,0 +1,16 @@
+---
+layout: post
+title:  "a2ps"
+date:   2013-03-05
+categories: linux
+---
+GNU a2ps is an Any to PostScript filter. Of course it processes plain text files, but also pretty prints quite a few popular languages.
+
+More detailed web pages about GNU a2ps, including documentation, flashes, updates, mailing lists, FAQ etc., is available at http://www.inf.enst.fr/~demaille/a2ps
+
+How to print a raw html file with a2ps
+
+a2ps delegates to a web browser rendering engine when printing.  Here's how to print the raw html.
+{% highlight bash %}
+a2ps --delegate no test.html
+{% endhighlight %}

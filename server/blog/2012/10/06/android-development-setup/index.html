@@ -1,0 +1,19 @@
+<p>All development has to be done locally for now.
+I created a /android directory on each linux machine and put eclipse and the Android sdk in there.  I might find a place on the network, but the linux desktops are not mounting /tools (yet).</p>
+
+<p>To use it, start eclipse using the absolute path, if you don&rsquo;t use the absolute path, you&rsquo;ll be using the system eclipse which is older and has no android sdk.
+  /android/eclipse/eclipse</p>
+
+<p>The Android virtual devices HAVE TO BE ON A LOCAL DRIVE!!!
+We&rsquo;re using /tmp to keep the AVD&rsquo;s in, so you&rsquo;ll probably have to recreate the AVD&rsquo;s each time you login.  It&rsquo;s the best I can come up with in this environment.
+Create a sym link to /tmp
+  cd ~
+  ln -s /tmp .android</p>
+
+<p>Find my project on [[<a href="http://www.bitbucket.org|bitbucket.org">http://www.bitbucket.org|bitbucket.org</a>]] and create a fork.  You will be working with your own forked (which is a clone) repository.  You will clone locally (checkout), commit (and branch if you want)  and push to your fork.  You can then request a pull and I&rsquo;ll merge your changes into the master.</p>
+
+<p>Clone YOUR newly created fork into your home directory
+  cd ~
+  git clone <a href="https://bitbucket.org/tommyfun/androidmaps">https://bitbucket.org/tommyfun/androidmaps</a></p>
+
+<p>Now fire up eclipse and import the project</p>

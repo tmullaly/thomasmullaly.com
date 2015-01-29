@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ruby | Thomas Mullaly]]></title>
+  <link href="http://thomasmullaly.com/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://thomasmullaly.com/"/>
+  <updated>2014-07-03T23:18:54-04:00</updated>
+  <id>http://thomasmullaly.com/</id>
+  <author>
+    <name><![CDATA[Thomas Mullaly]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails Developerment Environment Help]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/04/04/development-environment-help/"/>
+    <updated>2013-04-04T05:27:50-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/04/04/development-environment-help</id>
+    <content type="html"><![CDATA[<p>Apple&rsquo;s OS X Mountain Lion can be tricky to set up here&rsquo;s how we solved one problem
+<div>
+  <pre><code class='bash'>rvm remove 2.0.0 # get rid of unsuccessful installation
+rvm get head &amp;mdash;autolibs=3 # get the latest RVM and build required libs
+rvm requirements # just in case, install all other required stuff
+rvm install ruby-2.0.0
+rvm &amp;mdash;default use ruby-2.0.0</code></pre>
+</div>
+</p>
+]]></content>
+  </entry>
+  
+</feed>

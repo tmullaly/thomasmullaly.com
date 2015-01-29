@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Network | Thomas Mullaly]]></title>
+  <link href="http://thomasmullaly.com/blog/categories/network/atom.xml" rel="self"/>
+  <link href="http://thomasmullaly.com/"/>
+  <updated>2014-07-03T23:18:54-04:00</updated>
+  <id>http://thomasmullaly.com/</id>
+  <author>
+    <name><![CDATA[Thomas Mullaly]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[MRTG]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/04/18/mrtg/"/>
+    <updated>2013-04-18T03:12:31-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/04/18/mrtg</id>
+    <content type="html"><![CDATA[<p>MRTG records the traffic on the switch ports by way of snmp.  It&rsquo;s quick and dirty, but it gives you an overall view of what&rsquo;s going on and can indicate if something has gone haywire.</p>
+
+<p>I do one configuration per switch like this:
+<div>
+  <pre><code class='bash'>cfgmaker &amp;mdash;global &amp;lsquo;WorkDir: /var/www/mrtg&amp;rsquo; \&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;     --global &#39;Options[_]: bits,growright&#39; \
+     --output=/etc/mrtg/mrtg-10.0.0.1.cfg \
+     public@10.0.0.1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;</code></pre>
+</div>
+
+Then I build the index like this:
+  indexmaker &mdash;output=/var/www/mrtg/index.html *.cfg</p>
+
+<p>Edit crontab with crontab -e</p>
+
+<p>I run as root, you can create a user if you wish
+<div>
+  <pre><code class='bash'>&lt;em&gt;/5 * * * *  env LANG=C /usr/bin/mrtg /etc/mrtg/mrtg-10.0.0.1.cfg &amp;mdash;logging /var/log/mrtg.log
+&lt;/em&gt;/5 * * * *  env LANG=C /usr/bin/mrtg /etc/mrtg/mrtg-10.0.0.2.cfg &amp;mdash;logging /var/log/mrtg.log
+*/5 * * * *  env LANG=C /usr/bin/mrtg /etc/mrtg/mrtg-10.0.0.2.cfg &amp;mdash;logging /var/log/mrtg.log</code></pre>
+</div>
+</p>
+]]></content>
+  </entry>
+  
+</feed>

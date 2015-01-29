@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Java | Thomas Mullaly]]></title>
+  <link href="http://thomasmullaly.com/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://thomasmullaly.com/"/>
+  <updated>2014-07-03T23:18:54-04:00</updated>
+  <id>http://thomasmullaly.com/</id>
+  <author>
+    <name><![CDATA[Thomas Mullaly]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Java Review - Flow Control]]></title>
+    <link href="http://thomasmullaly.com/blog/2014/05/24/java-review-flow-control/"/>
+    <updated>2014-05-24T00:00:00-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2014/05/24/java-review-flow-control</id>
+    <content type="html"><![CDATA[<h1>Selection</h1>
+
+<h2>If statements with optional else clauses</h2>
+
+<p><div>
+  <pre><code class='java'>if (boolean condition)
+  statement;
+else
+statement;</code></pre>
+</div>
+</p>
+
+<h2>Switch statements</h2>
+
+<p><div>
+  <pre><code class='java'>switch (interger value) {
+  case FIRST_NAME:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;statements;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;  case SECOND_NAME:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;statements;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;  default:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;statements;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;}</code></pre>
+</div>
+</p>
+
+<h1>Repetition</h1>
+
+<h2>While</h2>
+
+<p><div>
+  <pre><code class='java'>while (scan.hasNext()) {
+  statements; // repeated until false above
+}</code></pre>
+</div>
+</p>
+
+<h2>For</h2>
+
+<p><div>
+  <pre><code class='java'>for (int i = 0; i &amp;lt; MAX; i++) {
+  statements; // repeated until false above
+}</code></pre>
+</div>
+</p>
+
+<h2>Do &hellip; while</h2>
+
+<p><div>
+  <pre><code class='java'>do {
+  statements; // repeated until false above
+} while (done!);</code></pre>
+</div>
+</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Abstract Data Types (ADT) in Java]]></title>
+    <link href="http://thomasmullaly.com/blog/2014/05/23/abstract-data-types-in-java/"/>
+    <updated>2014-05-23T00:00:00-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2014/05/23/abstract-data-types-in-java</id>
+    <content type="html"><![CDATA[<p>A data type is a set of values and operations that can be preformed on thoses values.  In Java, the primitive data types (byte, short, int, long, float, double, boolean, char) have values and operations defined in Java itself.  An Abstract Data Type (ADT) is a data type that has values and operations that are NOT defined in the Java language itself.  In Java, ADT is implemented using a class or an interface.</p>
+
+<p>The code for Arrays.sort is designed to sort an array of comparable opjects.
+<div>
+  <pre><code class='java'>public static void sort(Comparable [ ] data)</code></pre>
+</div>
+</p>
+]]></content>
+  </entry>
+  
+</feed>

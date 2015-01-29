@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Rails | Thomas Mullaly]]></title>
+  <link href="http://thomasmullaly.com/blog/categories/rails/atom.xml" rel="self"/>
+  <link href="http://thomasmullaly.com/"/>
+  <updated>2014-07-03T23:20:05-04:00</updated>
+  <id>http://thomasmullaly.com/</id>
+  <author>
+    <name><![CDATA[Thomas Mullaly]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby on Rails Links for CS410]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/06/12/ruby-on-rails-links-for-cs410/"/>
+    <updated>2013-06-12T13:32:49-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/06/12/ruby-on-rails-links-for-cs410</id>
+    <content type="html"><![CDATA[<h1>Ruby on Rails</h1>
+
+<p>[<a href="http://ruby.railstutorial.org/ruby-on-rails-tutorial-book">http://ruby.railstutorial.org/ruby-on-rails-tutorial-book</a>]
+(<a href="http://ruby.railstutorial.org/ruby-on-rails-tutorial-book">http://ruby.railstutorial.org/ruby-on-rails-tutorial-book</a>)</p>
+
+<p>[<a href="http://railscasts.com/">http://railscasts.com/</a>]
+(<a href="http://railscasts.com/">http://railscasts.com/</a>)</p>
+
+<p>[<a href="http://www.ruby-toolbox.com">http://www.ruby-toolbox.com</a>]
+(<a href="http://www.ruby-toolbox.com">http://www.ruby-toolbox.com</a>)</p>
+
+<p>[<a href="http://guides.rubyonrails.org/">http://guides.rubyonrails.org/</a>]
+(<a href="http://guides.rubyonrails.org/">http://guides.rubyonrails.org/</a>)</p>
+
+<h1>Ruby</h1>
+
+<p>[<a href="http://ruby.activeventure.com/usersguide/rg/index.html">http://ruby.activeventure.com/usersguide/rg/index.html</a>]
+(<a href="http://ruby.activeventure.com/usersguide/rg/index.html">http://ruby.activeventure.com/usersguide/rg/index.html</a>)</p>
+
+<p>[<a href="http://tryruby.org/">http://tryruby.org/</a>]
+(<a href="http://tryruby.org/">http://tryruby.org/</a>)</p>
+
+<p>[<a href="http://koans.heroku.com/">http://koans.heroku.com/</a>]
+(<a href="http://koans.heroku.com/">http://koans.heroku.com/</a>)</p>
+
+<h1>Git</h1>
+
+<p>[<a href="http://randyfay.com/content/rebase-workflow-git">http://randyfay.com/content/rebase-workflow-git</a>]
+(<a href="http://randyfay.com/content/rebase-workflow-git">http://randyfay.com/content/rebase-workflow-git</a>)</p>
+
+<p>Excellent post on building an api for your rails app:</p>
+
+<p>[<a href="http://blog.gomiso.com/2011/06/27/building-a-platform-api-on-rails/">http://blog.gomiso.com/2011/06/27/building-a-platform-api-on-rails/</a>]
+(<a href="http://blog.gomiso.com/2011/06/27/building-a-platform-api-on-rails/">http://blog.gomiso.com/2011/06/27/building-a-platform-api-on-rails/</a>)</p>
+
+<h1>Unicorn</h1>
+
+<p>I like Unicorn because it&rsquo;s Unix</p>
+
+<p>[<a href="http://tomayko.com/writings/unicorn-is-unix">http://tomayko.com/writings/unicorn-is-unix</a>]
+(<a href="http://tomayko.com/writings/unicorn-is-unix">http://tomayko.com/writings/unicorn-is-unix</a>)</p>
+
+<p>Everything You Need to Know About Unicorn</p>
+
+<p>[<a href="https://blog.engineyard.com/2010/everything-you-need-to-know-about-unicorn">https://blog.engineyard.com/2010/everything-you-need-to-know-about-unicorn</a>]
+(<a href="https://blog.engineyard.com/2010/everything-you-need-to-know-about-unicorn">https://blog.engineyard.com/2010/everything-you-need-to-know-about-unicorn</a>)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Unicorn Init Script]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/04/06/unicorn-init-script/"/>
+    <updated>2013-04-06T00:00:00-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/04/06/unicorn-init-script</id>
+    <content type="html"><![CDATA[<p><div>
+  <pre><code class='bash'>&lt;/p&gt;
+
+&lt;h1&gt;!/bin/sh&lt;/h1&gt;
+
+&lt;p&gt;set -e&lt;/p&gt;
+
+&lt;h1&gt;Example init script, this can be used with nginx, too,&lt;/h1&gt;
+
+&lt;h1&gt;since nginx and unicorn accept the same signals&lt;/h1&gt;
+
+&lt;h1&gt;Feel free to change any of the following variables for your app:&lt;/h1&gt;
+
+&lt;p&gt;TIMEOUT=${TIMEOUT-60}
+APP_ROOT=/var/rails/tom/MyApp
+PID=$APP_ROOT/tmp/pids/unicorn.pid
+CMD=&amp;ldquo;/var/rails/tom/.rvm/bin/bootup_unicorn -D -c $APP_ROOT/config/unicorn.rb&amp;rdquo;&lt;/p&gt;
+
+&lt;h1&gt;INIT_CONF=$APP_ROOT/config/init.conf&lt;/h1&gt;
+
+&lt;p&gt;action=&amp;ldquo;$1&amp;rdquo;
+set -u&lt;/p&gt;
+
+&lt;h1&gt;test -f &amp;ldquo;$INIT_CONF&amp;rdquo; &amp;amp;&amp;amp; . $INIT_CONF&lt;/h1&gt;
+
+&lt;p&gt;old_pid=&amp;ldquo;$PID.oldbin&amp;rdquo;
+cd $APP_ROOT || exit 1
+sig () {&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;test -s &quot;$PID&quot; &amp;amp;&amp;amp; kill -$1 `cat $PID`
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;}
+oldsig () {&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;test -s $old_pid &amp;amp;&amp;amp; kill -$1 `cat $old_pid`
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;}
+case $action in
+start)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sig 0 &amp;amp;&amp;amp; echo &amp;gt;&amp;amp;2 &quot;Already running&quot; &amp;amp;&amp;amp; exit 0
+$CMD
+;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;stop)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sig QUIT &amp;amp;&amp;amp; exit 0
+echo &amp;gt;&amp;amp;2 &quot;Not running&quot;
+;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;force-stop)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sig TERM &amp;amp;&amp;amp; exit 0
+echo &amp;gt;&amp;amp;2 &quot;Not running&quot;
+;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;restart|reload)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sig HUP &amp;amp;&amp;amp; echo reloaded OK &amp;amp;&amp;amp; exit 0
+echo &amp;gt;&amp;amp;2 &quot;Couldn&#39;t reload, starting &#39;$CMD&#39; instead&quot;
+$CMD
+;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;upgrade)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;if sig USR2 &amp;amp;&amp;amp; sleep 2 &amp;amp;&amp;amp; sig 0 &amp;amp;&amp;amp; oldsig QUIT
+then
+    n=$TIMEOUT
+    while test -s $old_pid &amp;amp;&amp;amp; test $n -ge 0
+    do
+        printf &#39;.&#39; &amp;amp;&amp;amp; sleep 1 &amp;amp;&amp;amp; n=$(( $n - 1 ))
+    done
+    echo
+    if test $n -lt 0 &amp;amp;&amp;amp; test -s $old_pid
+    then
+        echo &amp;gt;&amp;amp;2 &quot;$old_pid still exists after $TIMEOUT seconds&quot;
+        exit 1
+    fi
+    exit 0
+fi
+echo &amp;gt;&amp;amp;2 &quot;Couldn&#39;t upgrade, starting &#39;$CMD&#39; instead&quot;
+$CMD
+;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;reopen-logs)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sig USR1
+;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;*)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;echo &amp;gt;&amp;amp;2 &quot;Usage: $0 &amp;lt;start|stop|restart|upgrade|force-stop|reopen-logs&amp;gt;&quot;
+exit 1
+;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;esac</code></pre>
+</div>
+</p>
+]]></content>
+  </entry>
+  
+</feed>

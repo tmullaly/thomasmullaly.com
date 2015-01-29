@@ -1,0 +1,752 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Thomas Mullaly</title>
+  <meta name="author" content="Thomas Mullaly">
+
+  
+  <meta name="description" content="====== Introduction ======
+Our Capstone project is to simulate a functional enterprise computer network in a virtual environment. The computer &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://thomasmullaly.com/blog/page/6">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Thomas Mullaly" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Thomas Mullaly</a></h1>
+  
+    <h2>My site</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:thomasmullaly.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/31/capstone-project/">Capstone Project</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-31T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>====== Introduction ======
+Our Capstone project is to simulate a functional enterprise computer network in a virtual environment.  The computer network will involve an integrated Microsoft Windows server and Linux server setup which will include auto-deployment of each clients.</p>
+
+<p>====== Authentication ======</p>
+
+<p>A secure, centralized authentication system is the Holy Grail of systems administration in a heterogeneous network.</p>
+
+<p>====== PXE Pre Execution Environment ======</p>
+
+<p>The Preboot eXecution Environment (PXE, also known as Pre-Execution Environment; sometimes pronounced &ldquo;pixie&rdquo;) is an environment to boot computers using a network interface independently of data storage devices (like hard disks) or installed operating systems.</p>
+
+<p>====== Puppet ======</p>
+
+<p>Puppet is IT automation software that helps system administrators manage infrastructure throughout its lifecycle, from provisioning and configuration to patch management and compliance. Using Puppet, you can easily automate repetitive tasks, quickly deploy critical applications, and proactively manage change, scaling from 10s of servers to 1000s, on-premise or in the cloud.</p>
+
+<p>Puppet is available as both open source and commercial software. You can see the differences here and decide which is right for your organization.</p>
+
+<p>How Puppet Works
+Puppet uses a declarative, model-based approach to IT automation.</p>
+
+<ul>
+<li>Ordered List ItemDefine the desired state of the infrastructure’s configuration using Puppet’s declarative configuration language.</li>
+<li>Simulate configuration changes before enforcing them.</li>
+<li>Enforce the deployed desired state automatically, correcting any configuration drift.</li>
+<li>Report on the differences between actual and desired states and any changes made enforcing the desired state.</li>
+</ul>
+
+
+<p>In short, the only way to do away with scripting is to create an application that abstracts the scripting process. Automated scripting would then be based on user descriptions of the desired outcome/goal rather than having the user describe the steps to reach said goal.</p>
+
+<p>This really gets to the heart of how things need to change. I wouldn&rsquo;t call it &ldquo;abstracting the scripting process&rdquo; any more than I&rsquo;d call a web browser &ldquo;abstracting the network,&rdquo; but that doesn&rsquo;t make it inaccurate.</p>
+
+<p>What is exactly right is his characterization of the ideal state: user descriptions of the desired outcome/goal. We call this approach model driven. What that means is administrators can describe how a system should look, and let tools move the system from whatever state it&rsquo;s in to the end state automatically.</p>
+
+<p>This distinction between model driven and script driven has been evolving for a while. Tools like Cfengine and Puppet have supported model-driven configuration for years (the Puppet web page describes itself as having a &ldquo;declarative language&rdquo;). They give administrators a language to (for example) specify the DNS server for a machine; the tools are responsible for knowing how to update the right files on the system in a safe manner. Before Puppet and Cfengine a simple tool called rdist was state of the art for managing distributed systems, and it was entirely script based. You don&rsquo;t see it much anymore; rdist scripts are much more brittle than the more popular model-based approach.</p>
+
+<p>It&rsquo;s probably obvious why I like this approach better than writing scripts for each change:</p>
+
+<p>Models are understandable. It&rsquo;s much easier to look at a model and know that it&rsquo;s correct than to look at a script which implements the model.
+Models can be verified and have policies enforced against them.
+Models have a much simpler testing matrix.
+Models are invertible; just move back to the old version of the model.
+A model-based approach supports a high level of rapid change and automation.
+All of this assumes you have a reliable way of applying the model to a production machine”but once you do, it works over and over. You&rsquo;re splitting the what from the how. It&rsquo;s exactly the same idea which lies beneath the Model-View-Controller paradigm, and it&rsquo;s right for exactly the same reasons.</p>
+
+<p>When I was speaking with a prospective customer last week they described the same idea using slightly different language. They described their goal as being able to completely describe the &ldquo;goal state&rdquo; of the system and have &ldquo;viewers&rdquo; which could see how a system differed from the goal state. &ldquo;Controllers&#8221;would be responsible for moving a system to its goal state. This is exactly the same idea as model-based system management, just using different language (I&rsquo;d just about finished reading Neal Stephenson&rsquo;s book Anathem, so I obviously found the idea of systems moving between points in a Hemn space quite appealing!).</p>
+
+<p>Model-based approaches are a compelling alternative to scripts. It&rsquo;s the right approach for managing large numbers of machines without employing large numbers of people.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/28/windows-7/">Windows 7</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-28T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>There&rsquo;s been an arp problem with the new dells.</p>
+
+<p><code>
+C:\Windows\system32>arp -a</p>
+
+<p>Interface: 192.168.105.199 &mdash;&ndash; 0xb
+  Internet Address      Physical Address      Type
+  192.168.104.2         00-03-ba-1d-a9-70     dynamic
+  192.168.104.3         00-03-ba-67-d4-e9     dynamic
+</code>
+Type cmd then ctrl + shift + enter to get admin privilege.</p>
+
+<p>  C:\Windows\system32>netsh -c &ldquo;interface ipv4&rdquo;
+  netsh interface ipv4>set neighbors &ldquo;Local Area Connection&rdquo; 192.168.104.1 00-09-43-1b-21-4c
+  netsh interface ipv4>exit</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/25/enable-group-policy-in-windows-2008/">Enable Group Policy in Windows 2008</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-25T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Group Policy provides an infrastructure for centralized configuration management of the operating system and applications that run on the operating system.  It is not enabled by default.</p>
+
+<p>You can manage local and domain Group Policy by using domain-based versions of Windows Server 2008 R2. Although the Group Policy Management Console (GPMC) is distributed with Windows Server 2008 R2, you must install Group Policy Management as a feature through Server Manager.</p>
+
+<p>You can also manage local and domain Group Policy by using Windows 7. For managing local Group Policy, the Group Policy Object Editor has been replaced by the Local Group Policy Editor. To manage domain Group Policy, you must first install the GPMC. The GPMC is included with RSAT, which is available for download:</p>
+
+<p>[[<a href="http://go.microsoft.com/fwlink/?LinkId=130862|Windows">http://go.microsoft.com/fwlink/?LinkId=130862|Windows</a> Server 2008 R2 Remote Server Administration Tools for Windows 7]]</p>
+
+<p>RSAT enables IT administrators to remotely manage roles and features in Windows Server 2008 R2 from a computer that is running Windows 7. RSAT includes support for the remote management of computers that are running either a Server Core installation or the full installation option of Windows Server 2008 R2. The functionality RSAT provides is similar to Windows Server 2003 Administration Tools Pack.</p>
+
+<p>Installing RSAT does not automatically install the GPMC. To install the GPMC after you install RSAT, click Programs in Control Panel, click Turn Windows features on or off, expand Remote Server Administration Tools, expand Feature Administration Tools, and select the Feature Administration Tools and Group Policy Management Tools check boxes.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/19/linux-cpu-info-commands/">Linux Cpu Info Commands</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-19T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Find Number of CPU Cores Command</p>
+
+<p>How do I find out the number of CPU cores available under HP x86_64 Linux serer running on RHEL / Debian Linux 6.x?</p>
+
+<p>You can use the lscpu or nproc command to display the number of processing units available to the current process, which may be less than the number of online processors (please note that not all server supports hotplug a CPU on a running Linux system).</p>
+
+<p>The proc file system is a pseudo-file system which is used as an interface to kernel data structures. It is commonly mounted at /proc. The /proc/cpuinfo file is nothing but a collection of CPU and system architecture dependent items, for each supported architecture a different list. Two common entries are processor which gives CPU number and bogomips; a system constant that is calculated during kernel initialization. SMP machines have information for each CPU.</p>
+
+<p>====== nproc Example ======</p>
+
+<p>The nproc command shows the number of processing units available:
+  # nproc</p>
+
+<p>Sample outputs:</p>
+
+<p>  8
+====== lscpu Command ======</p>
+
+<p>lscpu gathers CPU architecture information form /proc/cpuinfon in human-read-able format:
+  # lscpu</p>
+
+<p>Sample outputs, vm71 and cyan:
+<code>
+Architecture:          x86_64
+CPU op-mode(s):        32-bit, 64-bit
+Byte Order:            Little Endian
+CPU(s):                1
+On-line CPU(s) list:   0
+Thread(s) per core:    1
+Core(s) per socket:    1
+Socket(s):             1
+NUMA node(s):          1
+Vendor ID:             AuthenticAMD
+CPU family:            15
+Model:                 65
+Stepping:              2
+CPU MHz:               2593.109
+BogoMIPS:              5186.21
+L1d cache:             64K
+L1i cache:             64K
+L2 cache:              1024K
+NUMA node0 CPU(s):     0
+</code>
+<code>
+Architecture:          x86_64
+CPU op-mode(s):        32-bit, 64-bit
+Byte Order:            Little Endian
+CPU(s):                8
+On-line CPU(s) list:   0-7
+Thread(s) per core:    2
+Core(s) per socket:    4
+Socket(s):             1
+NUMA node(s):          1
+Vendor ID:             GenuineIntel
+CPU family:            6
+Model:                 42
+Stepping:              7
+CPU MHz:               1600.000
+BogoMIPS:              6784.26
+Virtualization:        VT-x
+L1d cache:             32K
+L1i cache:             32K
+L2 cache:              256K
+L3 cache:              8192K
+NUMA node0 CPU(s):     0-7
+</code>
+====== /proc/cpuinfo ======</p>
+
+<p>The /proc/cpuinfo and sysfs stores info about your CPU architecture ike number of CPUs, threads, cores, sockets, NUMA nodes, information about CPU caches, CPU family, model, bogoMIPS, yte order and much more:
+  # less /proc/cpuinfo</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/19/debian-linux/">Debian Linux</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-19T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>[[apt reference]]</p>
+
+<p>[[Installing MySQL]]</p>
+
+<p>[[Linux CPU info commands]]</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/18/how-to-create-an-active-directory-server/">How to Create an Active Directory Server</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-18T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>====== Clone a new server ======</p>
+
+<p>Create a clone from the Windows 2008 R2 Gold Master</p>
+
+<p>====== Rename the Server ======
+Call it AD
+Shutdown the server</p>
+
+<p>====== Change the Network ======
+While powered off, change the network settings</p>
+
+<p>Change the Network to be <strong>Custom (VMnet7)</strong></p>
+
+<p>Power on the VM
+====== Change the Network Configuration ======
+Open up the Network and Sharing Center</p>
+
+<p>Click on Local Area Network</p>
+
+<p>Click on Properties</p>
+
+<p>Choose IPv4 and Click Properties</p>
+
+<p>Make the network config as follows:
+  IP address: 10.10.10.10
+  Subnet mask: 255.255.255.0
+  Default gateway: 10.10.10.1
+  DNS: 127.0.0.1</p>
+
+<p>Click on OK</p>
+
+<p>====== Install the Active Directory Role ======
+Open the Server Manager</p>
+
+<p>Click on Roles</p>
+
+<p>Click on Add Roles</p>
+
+<p>Next</p>
+
+<p>Select Active Directory Domain Services</p>
+
+<p>Reboot</p>
+
+<p>Open Server Manager and Run the Active Directory Services Installation Wizard (dcpromo.exe)</p>
+
+<p>Create a domain in a new forest</p>
+
+<p>FQDN: tom.umb.edu</p>
+
+<p>Functional Level: Windows Server 2008 R2</p>
+
+<p>Make sure DNS sever is checked</p>
+
+<p>Yes you want to continue</p>
+
+<p>Reboot</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/06/android-development-setup/">Android Development Setup</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-06T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>All development has to be done locally for now.
+I created a /android directory on each linux machine and put eclipse and the Android sdk in there.  I might find a place on the network, but the linux desktops are not mounting /tools (yet).</p>
+
+<p>To use it, start eclipse using the absolute path, if you don&rsquo;t use the absolute path, you&rsquo;ll be using the system eclipse which is older and has no android sdk.
+  /android/eclipse/eclipse</p>
+
+<p>The Android virtual devices HAVE TO BE ON A LOCAL DRIVE!!!
+We&rsquo;re using /tmp to keep the AVD&rsquo;s in, so you&rsquo;ll probably have to recreate the AVD&rsquo;s each time you login.  It&rsquo;s the best I can come up with in this environment.
+Create a sym link to /tmp
+  cd ~
+  ln -s /tmp .android</p>
+
+<p>Find my project on [[<a href="http://www.bitbucket.org|bitbucket.org">http://www.bitbucket.org|bitbucket.org</a>]] and create a fork.  You will be working with your own forked (which is a clone) repository.  You will clone locally (checkout), commit (and branch if you want)  and push to your fork.  You can then request a pull and I&rsquo;ll merge your changes into the master.</p>
+
+<p>Clone YOUR newly created fork into your home directory
+  cd ~
+  git clone <a href="https://bitbucket.org/tommyfun/androidmaps">https://bitbucket.org/tommyfun/androidmaps</a></p>
+
+<p>Now fire up eclipse and import the project</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/04/chmod/">Chmod</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-04T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>====== Fix course directory permissions ======
+  cd /courses/coursename/f12/profname
+  sudo chmod 750 username
+  sudo chmod +s username
+  sudo chmod 750 username</p>
+
+<p>This might have worked:
+  sudo chmod g+s username</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/03/puppet-tutorial/">Puppet Tutorial</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-03T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>We&rsquo;re going to create two vms to practice using puppet.</p>
+
+<p>First make sure you have done [[How to make an Ubuntu Gold Master Image]]</p>
+
+<p>Now clone the Gold Master Virtual Machine twice, once for the master and one for the client.</p>
+
+<p><a href="http://docs.puppetlabs.com/learning/agentprep.html">http://docs.puppetlabs.com/learning/agentprep.html</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/27/winston-s-definition-of-a-technology/">Winston S Definition of a Technology</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-27T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The definition of &ldquo;a technology&rdquo;, excerpted from WINSTON &ldquo;Children of Invention Revisited&rdquo;, p. 3: &ldquo;Instead, we will think of technologies as consisting of several distinguishable but interacting aspects:</p>
+
+<ul>
+<li>skill, techniques, human activity-forms, or sociotechnical practices;</li>
+<li>resources, tools, and materials;</li>
+<li>technological products, or artifacts;</li>
+<li>ends, intentions or functions;</li>
+<li>background knowledge; and</li>
+<li>the social contexts in which the technology is designed, developed, used and disposed of.</li>
+</ul>
+
+
+<p>These six aspects are present in every technology.&#8221;</p>
+
+<p>Be able use these six (6) aspects to define the technology of a) your cell phone (&ldquo;cell phone technology&rdquo;) and either b) a pair of eyeglasses (invented in Pisa, Italy at the end of the thirteenth century) (WINSTON, Landes article, p 29-30) or c) a central power plant (the first one for electricity started up in 1881)(Wikipedia: [[<a href="http://en.wikipedia.org/wiki/Electricity_generation|Electricity">http://en.wikipedia.org/wiki/Electricity_generation|Electricity</a> generation]], &ldquo;History&rdquo;)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/7/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/5/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/zero-out-free-space-in-windows/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/openvpn-on-amazon-ec2/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/24/java-review-flow-control/">Java Review - Flow Control</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/abstract-data-types-in-java/">Abstract Data Types (ADT) in Java</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/10/interview-questions/">Interview Questions</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Thomas Mullaly -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

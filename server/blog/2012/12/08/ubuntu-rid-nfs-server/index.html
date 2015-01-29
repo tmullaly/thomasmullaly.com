@@ -1,0 +1,162 @@
+<p>====== Network Configuration ======
+rename to fileserver
+  vi /etc/hostname
+  vi /etc/hosts</p>
+
+<p>Create static interface and add the Active Directory Server as the DNS
+  vi /etc/network/interfaces</p>
+
+<p><code>
+auto eth0
+iface eth0 inet static
+  address 10.10.10.30
+  netmask 255.255.255.0
+  network 10.10.10.0
+  gateway 10.10.10.1
+  dns-nameservers 10.10.10.10
+  dns-search tom.umb.edu
+</code></p>
+
+<p>reboot and check if /etc/resolve.conf has the windows ad server as its dns
+====== Get Kerberos working ======</p>
+
+<p>  sudo apt-get install krb5-user libpam-krb5 libpam-ccreds auth-client-config</p>
+
+<p>use TOM.UMB.EDU as Realm</p>
+
+<p>  Vi /etc/krb5.conf</p>
+
+<p>  [logging]
+  default = FILE:/var/log/krb5libs.log
+  kdc = FILE:/var/log/krb5kdc.log
+  admin_server = FILE:/var/log/kadmind.log</p>
+
+<p>  [libdefaults]
+  dns_lookup_realm = true
+  dns_lookup_kdc = true
+  ticket_lifetime = 24h
+  forwardable = yes</p>
+
+<p>  [appdefaults]
+  pam = {
+   debug = false
+   ticket_lifetime = 36000
+   renew_lifetime = 36000
+   forwardable = true
+   krb4_convert = false
+  }</p>
+
+<p>test kerberos
+  [root@rid-nfs ~]# host -t srv <em>kerberos.</em>tcp.tom.umb.edu
+  <em>kerberos.</em>tcp.tom.umb.edu has SRV record 0 100 88 ad.tom.umb.edu.</p>
+
+<p>====== Samba and winbind ======</p>
+
+<p>  sudo apt-get install samba winbind</p>
+
+<p>  vi /etc/samba/smb.conf</p>
+
+<p>  #GLOBAL PARAMETERS
+  [global]</p>
+
+<pre><code> workgroup = TOM
+ realm = TOM.UMB.EDU
+ preferred master = no
+ server string = Home Directory Server
+ security = ADS
+ encrypt passwords = yes
+ log level = 3
+ log file = /var/log/samba/%m
+ max log size = 50
+ printcap name = cups
+ printing = cups
+ winbind enum users = Yes
+ winbind enum groups = Yes
+ winbind use default domain = Yes
+ winbind nested groups = Yes
+ winbind separator = +
+ winbind cache time = 10
+ idmap uid = 10000-20000
+ idmap gid = 10000-20000
+ idmap config TOM: backend = rid
+ idmap config TOM: range = 10000-20000
+ allow trusted domains = No
+ template shell = /bin/bash
+ template homedir = /home/%D/%U
+ ;template primary group = "Domain Users"
+</code></pre>
+
+<p>  [homes]</p>
+
+<pre><code> comment = Home Direcotries
+ path = /export/home/
+ valid users = %S
+ read only = No
+ browseable = No
+ inherit acls = yes
+ inherit permissions = yes
+ writable = yes
+</code></pre>
+
+<p>  [printers]</p>
+
+<pre><code> comment = All Printers
+ path = /var/spool/cups
+ browseable = no
+ printable = yes
+ guest ok = yes
+</code></pre>
+
+<p>  vi nsswitch.conf</p>
+
+<p>  passwd: compat winbind
+  group: compat winbind
+  shadow: compat</p>
+
+<p>restart winbind nmbd and smbd</p>
+
+<p>join the domain
+  net ads join -U Administrator</p>
+
+<p>test
+  wbinfo -u
+  getent passwd
+====== Setup the NFS Server ======</p>
+
+<p>  apt-get install acl nfs-kernel-server</p>
+
+<p>  mkdir /export/home</p>
+
+<p>add user directories and modify permissions</p>
+
+<p>  vi /etc/exports</p>
+
+<p>  /export/home 10.10.10.0/24(rw,sync,no_subtree_check)</p>
+
+<p>export the new directory
+  service nfs-kernel-server restart</p>
+
+<p>test
+  exportfs</p>
+
+<p>enable ACL support (important, this will fix file permission creation issues</p>
+
+<p>Open /etc/fstab, navigate to the entry for the home directory
+partition, and add acl to the list of options.
+  /dev/sda1 /export/home ext3 defaults,acl 0 0
+With this option in place, remount the ﬁlesystem.
+  sudo mount -o remount /dev/sda1</p>
+
+<p>My setup was a bit different in /etc/fstab
+  /dev/mapper/ubuntu-root /               ext4    errors=remount-ro,acl 0       1</p>
+
+<p>====== Sign the Puppet Cert on Master ======
+<code>
+root@puppet:/etc/puppet# puppet cert list
+  &ldquo;fileserver.tom.umb.edu&rdquo; (MD5) E0:C3:90:FF:55:A8:81:A3:05:DD:61:A4:07:4B:EB:7B
+root@puppet:/etc/puppet# puppet cert sign fileserver.tom.umb.edu
+Signed certificate request for fileserver.tom.umb.edu
+Removing file Puppet::SSL::CertificateRequest fileserver.tom.umb.edu at &lsquo;/var/lib/puppet/ssl/ca/requests/fileserver.tom.umb.edu.pem&rsquo;
+</code>
+====== Go Setup the Linux Client ======
+[[ubuntu_rid_client]]</p>

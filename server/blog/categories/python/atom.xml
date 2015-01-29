@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Python | Thomas Mullaly]]></title>
+  <link href="http://thomasmullaly.com/blog/categories/python/atom.xml" rel="self"/>
+  <link href="http://thomasmullaly.com/"/>
+  <updated>2014-07-03T23:20:05-04:00</updated>
+  <id>http://thomasmullaly.com/</id>
+  <author>
+    <name><![CDATA[Thomas Mullaly]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Python Square Root]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/02/10/python-square-root/"/>
+    <updated>2013-02-10T00:00:00-05:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/02/10/python-square-root</id>
+    <content type="html"><![CDATA[<p><div>
+  <pre><code class='python'>&lt;/p&gt;
+
+&lt;h1&gt;! /usr/bin/python2.7&lt;/h1&gt;
+
+&lt;h1&gt;sqrt by Newton-Raphson&lt;/h1&gt;
+
+&lt;p&gt;def sqrtNR(x, epsilon):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;x = float(x)
+guess = x/2.0
+diff = guess**2 - x
+count = 0
+while abs(diff) &amp;gt; epsilon:
+    count += 1
+    print &quot;count =&quot;, count, &quot;guess =&quot;, guess, &quot;diff =&quot;, diff
+    guess = guess - diff/(2.0*guess)
+    diff = guess**2 - x
+print &quot;number of guesses =&quot;, count
+print &quot;guess =&quot;, guess
+# sqrt by bisection
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;def sqrt(x,epsilon):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;numguesses = 0
+low = 0.0
+high = x
+guess = (high + low)/2.0
+while abs(guess**2 - x) &amp;gt;= epsilon:
+    numguesses += 1
+    print &quot;count =&quot;, numguesses, &quot;low =&quot;, low, &quot;high =&quot;, high, &quot;guess =&quot;, guess
+    if guess**2 &amp;lt; x:
+        low = guess
+    else:
+        high = guess
+    guess = (high + low)/2.0
+print &quot;number of guesses =&quot;, numguesses
+print guess, &quot;is close to the square root of&quot;, x
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;print &amp;ldquo;sqrtNR&amp;rdquo;
+print sqrtNR(2,.00000001)
+print
+print &amp;ldquo;sqrt&amp;rdquo;
+print sqrt(2,.00000001)</code></pre>
+</div>
+</p>
+]]></content>
+  </entry>
+  
+</feed>

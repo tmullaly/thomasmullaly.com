@@ -1,0 +1,18 @@
+<p>Install [[Oracle Solaris 11]]</p>
+
+<p>Install OpenCSW
+  pkgadd -d <a href="http://get.opencsw.org/now">http://get.opencsw.org/now</a></p>
+
+<p>Add /opt/csw/bin to path
+  export PATH=$PATH:/opt/csw/bin</p>
+
+<p>Install the puppet agent
+  pkgutil &mdash;install puppet</p>
+
+<p>The puppet agent will auto start, if you need to add the puppet master to /etc/hosts and restart puppet:</p>
+
+<p>  svcs</p>
+
+<p>this prints out the services running</p>
+
+<p>  svcadm restart cswpuppetd</p>

@@ -1,0 +1,22 @@
+---
+layout: post
+title:  "Windows 7 ARP problem"
+date:   2012-10-28
+categories: windows
+---
+There's been an arp problem with the new dells.
+
+{% highlight bash %}
+C:\Windows\system32>arp -a
+
+Interface: 192.168.105.199 --- 0xb
+  Internet Address      Physical Address      Type
+  192.168.104.2         00-03-ba-1d-a9-70     dynamic
+  192.168.104.3         00-03-ba-67-d4-e9     dynamic
+{% endhighlight %}
+Type cmd then ctrl + shift + enter to get admin privilege. 
+{% highlight bash %}
+  C:\Windows\system32>netsh -c "interface ipv4"
+  netsh interface ipv4>set neighbors "Local Area Connection" 192.168.104.1 00-09-43-1b-21-4c
+  netsh interface ipv4>exit
+{% endhighlight %}

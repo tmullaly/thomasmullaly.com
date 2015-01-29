@@ -1,0 +1,26 @@
+---
+layout: post
+title:  "MRTG"
+date:   2013-04-18 07:12:31
+categories: network
+---
+MRTG records the traffic on the switch ports by way of snmp.  It's quick and dirty, but it gives you an overall view of what's going on and can indicate if something has gone haywire.
+
+I do one configuration per switch like this:
+{% highlight bash %}
+cfgmaker --global 'WorkDir: /var/www/mrtg' \
+         --global 'Options[_]: bits,growright' \
+         --output=/etc/mrtg/mrtg-10.0.0.1.cfg \
+         public@10.0.0.1
+{% endhighlight %}
+Then I build the index like this:
+  indexmaker --output=/var/www/mrtg/index.html *.cfg
+  
+Edit crontab with crontab -e
+
+I run as root, you can create a user if you wish
+{% highlight bash %}
+*/5 * * * *  env LANG=C /usr/bin/mrtg /etc/mrtg/mrtg-10.0.0.1.cfg --logging /var/log/mrtg.log
+*/5 * * * *  env LANG=C /usr/bin/mrtg /etc/mrtg/mrtg-10.0.0.2.cfg --logging /var/log/mrtg.log
+*/5 * * * *  env LANG=C /usr/bin/mrtg /etc/mrtg/mrtg-10.0.0.2.cfg --logging /var/log/mrtg.log
+{% endhighlight %}

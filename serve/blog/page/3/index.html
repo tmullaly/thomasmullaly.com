@@ -1,0 +1,1533 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Thomas Mullaly</title>
+  <meta name="author" content="Thomas Mullaly">
+
+  
+  <meta name="description" content="[[Ruby on Rails Links for CS410]] [[Production Rails Server for CS410]] [[Development Environment Help]] I&rsquo;ve installed rvm globally on each &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://thomasmullaly.com/blog/page/3">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Thomas Mullaly" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Thomas Mullaly</a></h1>
+  
+    <h2>My site</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:thomasmullaly.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/04/ruby-on-rails-at-umb/">Ruby on Rails at Umb</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-04T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>[[Ruby on Rails Links for CS410]]</p>
+
+<p>[[Production Rails Server for CS410]]</p>
+
+<p>[[Development Environment Help]]</p>
+
+<p>I&rsquo;ve installed rvm globally on each linux workstation.</p>
+
+<p>First, make sure you speak with me first, I need to add you into the proper unix group.</p>
+
+<ol>
+<li><p>Check your group to make sure you are in the rvm group
+tmullaly@yel:~$ id
+uid=7265(tmullaly) gid=10241(ugrad) groups=10241(ugrad),1080(cs108-1),20106(rvm)</p></li>
+<li><p>Add this rvm directive to your .bashrc
+[[ -s &ldquo;/etc/profile.d/rvm.sh&rdquo; ]] &amp;&amp; . &ldquo;/etc/profile.d/rvm.sh&rdquo; # Load RVM function</p></li>
+<li><p>Logout and log back in to make sure your .bashrc has been sourced</p></li>
+<li><p>Check to see if ruby and gem is now in your path
+tmullaly@yel:~$ which ruby
+/usr/local/rvm/rubies/ruby-2.0.0-p0/bin/ruby
+tmullaly@yel:~$ which gem
+/usr/local/rvm/rubies/ruby-2.0.0-p0/bin/gem</p></li>
+<li><p>Check what gems are installed
+<code>
+tmullaly@yel:~$ gem list</p></li>
+</ol>
+
+
+<p><strong><em> LOCAL GEMS </em></strong></p>
+
+<p>bundler (1.3.0)
+rake (10.0.3)
+rubygems-bundler (1.1.1)
+rvm (1.11.3.6)
+</code></p>
+
+<ol>
+<li>install rails, or whatever gem you need
+gem install rails
+Gems get install globally per machine, if you install a gem on red, I can use it.  If you install a gem on blue and then you login to cyan, you need to install it again.</li>
+</ol>
+
+
+<p>Here are some more notes to update to a newer version of rvm and/or ruby
+  rvm get stable
+  rvm install ruby
+  rvm &mdash;default use 2.0.0</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/29/ubuntu-linux/">Ubuntu Linux</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-29T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>====== NetworkManager ======
+NetworkManager sucks, at least in our lab environment.  I don&rsquo;t want users messing around with any network settings, creating vps or managing a wireless card.  Our desktops and servers don&rsquo;t move around so the advantages of using it do not exist.</p>
+
+<p>Remove it!!!
+  apt-get purge network-manager</p>
+
+<p>Now edit this file:
+  /etc/network/interfaces
+<code>
+auto lo
+iface lo inet loopback</p>
+
+<p>auto eth0
+iface eth0 inet dhcp
+</code></p>
+
+<p>====== Avahi-daemon ======
+Remove it!!!</p>
+
+<p>  apt-get remove avahi-daemon</p>
+
+<p>====== Change the Unity login screen ======</p>
+
+<p>  vi /etc/lightdm/lightdm.conf</p>
+
+<p>  [SeatDefaults]
+  user-session=ubuntu
+  greeter-session=unity-greeter
+  greeter-show-manual-login=true
+  allow-guest=false
+  greeter-hide-users=true</p>
+
+<p>====== Mail ======
+First get autofs in place</p>
+
+<p>  apt-get install mailutils postfix</p>
+
+<p>look at the following files and configure
+  /etc/mailname
+  /etc/postfix/main.cf</p>
+
+<p>setup sym link to enable automounting
+  rm -rf /var/mail
+  ln -s /spool/mail /var/mail</p>
+
+<p>====== Install a printer ======
+If you have a cups server, all you need is the cups client.
+see here: <a href="http://www.debianadmin.com/setup-cups-common-unix-printing-system-server-and-client-in-debian.html">http://www.debianadmin.com/setup-cups-common-unix-printing-system-server-and-client-in-debian.html</a></p>
+
+<p>  apt-get install cups-client
+  apt-get install a2ps
+<del>apt-get install cups-bsd</del></p>
+
+<p><code>
+ServerName sf01.cs.umb.edu</p>
+
+<h1>ServerName ip-address[:port]</h1>
+
+<h1>Encryption Always</h1>
+
+<h1>Encryption Never</h1>
+
+<h1>Encryption Required</h1>
+
+<p>Encryption IfRequested
+</code></p>
+
+<p>  service cups restart</p>
+
+<p>====== Install ant ======</p>
+
+<p>  sudo apt-get install ant ant-optional</p>
+
+<p>====== Install Google Chrome on Ubuntu 12.04 ======
+Install chrome from google official repository.</p>
+
+<p>First we need to add the repository source to the update manager.</p>
+
+<p>Step 1 » Setup key .
+  wget -q -O &ndash; <a href="https://dl-ssl.google.com/linux/linux_signing_key.pub">https://dl-ssl.google.com/linux/linux_signing_key.pub</a> | sudo apt-key add &ndash;</p>
+
+<p>Step 2 » Type this command exactly to add chrome repositories .
+  sudo sh -c &lsquo;echo &ldquo;deb <a href="http://dl.google.com/linux/chrome/deb/">http://dl.google.com/linux/chrome/deb/</a> stable main&rdquo; >> /etc/apt/sources.list.d/google.list&rsquo;</p>
+
+<p>Step 3 » Now Update the package list .
+  sudo apt-get update</p>
+
+<p>Step 4 » Finally install google chrome
+  sudo apt-get install google-chrome-stable</p>
+
+<p>This should auto update chrome whenever the system does an upgrade.</p>
+
+<p>====== List packages installed ======
+  apt-cache pkgnames > pkgnames
+====== Install from list of packages ======
+  cat pkgnames | xargs apt-get install
+====== Automatic Updating ======
+  apt-get install unattended-upgrades</p>
+
+<p>  /etc/apt/apt.conf.d/10periodic
+<code>
+APT::Periodic::Update-Package-Lists &ldquo;1&rdquo;;
+APT::Periodic::Download-Upgradeable-Packages &ldquo;1&rdquo;;
+APT::Periodic::AutocleanInterval &ldquo;7&rdquo;;
+APT::Periodic::Unattended-Upgrade &ldquo;1&rdquo;;
+</code></p>
+
+<p>  /etc/apt/apt.conf.d/50unattended-upgrades
+<code>
+// Automatically upgrade packages from these (origin:archive) pairs
+Unattended-Upgrade::Allowed-Origins {</p>
+
+<pre><code>    "${distro_id}:${distro_codename}-security";
+    "${distro_id}:${distro_codename}-updates";
+</code></pre>
+
+<p>//      &ldquo;${distro_id}:${distro_codename}-proposed&rdquo;;
+//      &ldquo;${distro_id}:${distro_codename}-backports&rdquo;;</p>
+
+<pre><code>"Google\, Inc.:stable";
+</code></pre>
+
+<p>};</p>
+
+<p>// List of packages to not update
+Unattended-Upgrade::Package-Blacklist {
+//      &ldquo;vim&rdquo;;
+//      &ldquo;libc6&rdquo;;
+//      &ldquo;libc6-dev&rdquo;;
+//      &ldquo;libc6-i686&rdquo;;
+};</p>
+
+<p>// This option allows you to control if on a unclean dpkg exit
+// unattended-upgrades will automatically run
+//   dpkg &mdash;force-confold &mdash;configure -a
+// The default is true, to ensure updates keep getting installed
+//Unattended-Upgrade::AutoFixInterruptedDpkg &ldquo;false&rdquo;;</p>
+
+<p>// Split the upgrade into the smallest possible chunks so that
+// they can be interrupted with SIGUSR1. This makes the upgrade
+// a bit slower but it has the benefit that shutdown while a upgrade
+// is running is possible (with a small delay)
+//Unattended-Upgrade::MinimalSteps &ldquo;true&rdquo;;</p>
+
+<p>// Install all unattended-upgrades when the machine is shuting down
+// instead of doing it in the background while the machine is running
+// This will (obviously) make shutdown slower
+//Unattended-Upgrade::InstallOnShutdown &ldquo;true&rdquo;;</p>
+
+<p>// Send email to this address for problems or packages upgrades
+// If empty or unset then no email is sent, make sure that you
+// have a working mail setup on your system. A package that provides
+// &lsquo;mailx&rsquo; must be installed.
+Unattended-Upgrade::Mail &ldquo;root@localhost&rdquo;;</p>
+
+<p>// Set this value to &ldquo;true&rdquo; to get emails only on errors. Default
+// is to always send a mail if Unattended-Upgrade::Mail is set
+//Unattended-Upgrade::MailOnlyOnError &ldquo;true&rdquo;;</p>
+
+<p>// Do automatic removal of new unused dependencies after the upgrade
+// (equivalent to apt-get autoremove)
+//Unattended-Upgrade::Remove-Unused-Dependencies &ldquo;false&rdquo;;</p>
+
+<p>// Automatically reboot <em>WITHOUT CONFIRMATION</em> if a
+// the file /var/run/reboot-required is found after the upgrade
+Unattended-Upgrade::Automatic-Reboot &ldquo;true&rdquo;;</p>
+
+<p>// Use apt bandwidth limit feature, this example limits the download
+// speed to 70kb/sec
+//Acquire::<a href="http::Dl-Limit">http::Dl-Limit</a> &ldquo;70&rdquo;;
+</code></p>
+
+<p>  /etc/apt/apt.conf.d/20auto-upgrades
+<code>
+APT::Periodic::Update-Package-Lists &ldquo;1&rdquo;;
+APT::Periodic::Unattended-Upgrade &ldquo;1&rdquo;;
+</code>
+====== Turn off and disable Whoopsie ======
+New in Ubuntu 12.04 is whoopsie – which sends a crash log to ubuntu. Nice feature? Well no as they don’t tell you about it nor to they ask you, they just do it.</p>
+
+<p>Nice privacy issue guys.</p>
+
+<p>To tell if you have it check the file /etc/default/whoopsie</p>
+
+<p>  [General]
+  report_crashes=true</p>
+
+<p>If you see that then it’s enabled. You’ll also see a process running called whoopsie as well.</p>
+
+<p>To turn it off just change it from true to false &amp; kill the whoopsie process (or reboot).</p>
+
+<p>====== last: /var/log/wtmp: No such file or directory ======
+as a work around you can run:
+  touch /var/log/{btmp,lastlog,wtmp}</p>
+
+<p>====== deja-dup-monitor ======
+For deja-dup I did
+<code></p>
+
+<h1>X-GNOME-Autostart-Delay=120</h1>
+
+<p>X-GNOME-Autostart-enabled=false
+</code>
+in /etc/xdg/autostart/deja-dup-monitor.desktop &hellip;</p>
+
+<p>You do not have to reboot, simple restart of X is sufficient&hellip;</p>
+
+<p>====== Ubuntu VM stall problem ======
+Fixed!!!</p>
+
+<p>The core switch was the problem, bad memory module.</p>
+
+<p>Now java is killing the VM&rsquo;s</p>
+
+<p>Re-Nice the processes:</p>
+
+<pre><code>renice +5 `pgrep java`
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/21/how-to-create-a-virtual-linux-router-using-ubuntu/">How to Create a Virtual Linux Router Using Ubuntu</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-21T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>====== How to Create a Virtual Ubuntu Linux Router ======</p>
+
+<p>In order to use our own DHCP server in VMware Workstation/Fusion (and even Virtual Box), we need to use the Host-Only Networking feature.  The reason we need a totally private virtual network is that Bridged Networking would put us on the production network and that&rsquo;s not an option.  Network Address Translation networking would give us a private network, but it&rsquo;s impossible to turn off the dhcp server built into VMware Workstation/Fusion and Virtual Box.  This guide is the setup of a virtual ubuntu linux machine that will have two virtual network interfaces and be configured as a NAT router.  The first network interface will be configured in VMware to NAT and the second network interface will be configure in VMware to Host-Only, acting as our private network&rsquo;s gateway.</p>
+
+<p>Ok, so technically we don&rsquo;t need internet access to perform our [[Capstone Tasks]], but whatever.</p>
+
+<p>====== Create the Virtual Router Image ======
+Now that you&rsquo;ve already created your [[How to make an Ubuntu Gold Master Image|ubuntu server gold master]], clone it and call it &ldquo;router&rdquo;.</p>
+
+<p>Now before you power it up, let&rsquo;s change some settings.</p>
+
+<p>Open up the virtual machine setting control panel.</p>
+
+<p>===== Network Adapter Configuration =====</p>
+
+<p>There should already be a network interface adapter connected to the virtual machine.  Make sure it&rsquo;s of type NAT.</p>
+
+<p>Add a second interface and make sure it&rsquo;s of type &ldquo;Host Only&rdquo;.  Fusion, on my mac only allows for one private network, VMWare Workstation allows for up to 7 different private networks.  If you&rsquo;re on VMware Workstation, make a note of witch one you chose because all of the rest of our virtual machine will have to be configured on the same private network in order to communicate with each other.</p>
+
+<p>===== Processors &amp; RAM =====
+Because we&rsquo;re going to be running so many virtual machines on one host, let&rsquo;s change the memory of the linux router to be only what is needed to perform it&rsquo;s duty.</p>
+
+<p>Click on the Processors &amp; RAM settings and change it to be 128 MB of RAM.</p>
+
+<p>The Processor should already be configured to be 1 CPU, leave it there.</p>
+
+<p>===== USB Devices =====
+Disable USB Devices, just uncheck &ldquo;Enable USB 2.0 support&rdquo;.</p>
+
+<p>We&rsquo;re done now power up the virtual machine.</p>
+
+<p>====== Change the Hostname ======
+Login as the user you created the gold master as and then fire up a root shell.
+  sudo -s
+Sudo, as you know, allows you to run commands as root, the &ldquo;dash s&rdquo; creates a root shell.  This isn&rsquo;t typically a good idea, but I&rsquo;m awesome and I know what I&rsquo;m doing.</p>
+
+<p>Let&rsquo;s change the hostname.
+  vi /etc/hostname
+Change it to &ldquo;router&rdquo; and save it.</p>
+
+<p>Now edit the hosts file.
+  vi /etc/hosts
+You&rsquo;ll see two entries for the loopback address (127.0.0.1), change the second one to &ldquo;router&rdquo;.</p>
+
+<p>reboot and login, the hostname is now changed.</p>
+
+<p>====== Install IP Tables ======
+  apt-get install iptables</p>
+
+<p>====== Configure the Network Interfaces ======
+The first network interface should be already working and configured for dchp so let&rsquo;s add the configuration for the second interface.</p>
+
+<p>  vi /etc/network/interfaces</p>
+
+<p><code></p>
+
+<h1>This file describes the network interfaces available on your system</h1>
+
+<h1>and how to activate them. For more information, see interfaces(5).</h1>
+
+<h1>The loopback network interface</h1>
+
+<p>auto lo
+iface lo inet loopback</p>
+
+<h1>The primary network interface</h1>
+
+<p>auto eth0
+iface eth0 inet dhcp
+  pre-up iptables-restore &lt; /etc/iptables.rules</p>
+
+<h1>The inside interface</h1>
+
+<p>auto eth1
+iface eth1 inet static
+  address 10.10.10.1
+  netmask 255.255.255.0
+  network 10.10.10.0
+  broadcast 10.10.10.255
+</code></p>
+
+<p>====== Enable IPv4 Forwarding ======
+This will make ip forwarding permanent
+  vi /etc/sysctl.conf
+Find this line and make it look the same:
+  # Uncomment the next line to enable packet forwarding for IPv4
+  net.ipv4.ip_forward=1</p>
+
+<p>====== Add the IP Table rules and save them ======
+  iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+  iptables -A FORWARD -i eth0 -o eth1 -m state &mdash;state RELATED,ESTABLISHED -j ACCEPT
+  iptables -A FORWARD -i eth1 -o eth0 -j ACCEPT</p>
+
+<p>  iptables-save > /etc/iptables.rules</p>
+
+<p>====== Rules for it20 ======
+<code>
+iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
+iptables -A FORWARD -i eth1 -o eth0 -m state &mdash;state RELATED,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i eth0 -o eth1 -j ACCEPT
+</code></p>
+
+<p><code>
+root@it20:~# iptables -L -n -v
+Chain INPUT (policy ACCEPT 2035K packets, 2873M bytes)
+ pkts bytes target     prot opt in     out     source               destination</p>
+
+<p>Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination       <br/>
+ 2176  654K ACCEPT     all  &mdash;  eth1   eth0    0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED
+ 2594  537K ACCEPT     all  &mdash;  eth0   eth1    0.0.0.0/0            0.0.0.0/0</p>
+
+<p>Chain OUTPUT (policy ACCEPT 1105K packets, 61M bytes)
+ pkts bytes target     prot opt in     out     source               destination       <br/>
+root@it20:~#
+</code></p>
+
+<p>Problems? try flushing:
+  iptables -F
+  iptables -F -t nat</p>
+
+<p>====== On startup ======
+The script /etc/network/if-pre-up.d/iptablesload will contain:
+<code></p>
+
+<h1>!/bin/sh</h1>
+
+<p>iptables-restore &lt; /etc/iptables.rules
+exit 0
+</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/17/nginx/">Nginx</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-17T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>  apt-get install python-software-properties</p>
+
+<p>  add-apt-repository ppa:nginx/stable</p>
+
+<p>  sudo apt-get update</p>
+
+<p>  sudo apt-get install nginx</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/13/git/">Git</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-13T08:45:20-04:00" pubdate data-updated="true">Mar 13<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Typical Usage</h1>
+
+<p>Create a new branch</p>
+
+<div>
+  <pre><code class='bash'>git branch production
+git checkout production
+git merge master
+git push origin production</code></pre>
+</div>
+
+
+<h1>Simple single user private hosting</h1>
+
+<p>If you want to use users as a simple single user repository.</p>
+
+<p>ssh to users</p>
+
+<p>Now create your repository:</p>
+
+<div>
+  <pre><code class='bash'>mkdir myrepo.git
+cd !$
+git --bare init</code></pre>
+</div>
+
+
+<p>The last step creates an empty repository, assuming you have a local repository that you want to push to a remote server.</p>
+
+<p>Now on your local machine:</p>
+
+<p>If you&rsquo;ve already defined a remote origin, you&rsquo;ll want to delete the remote first:</p>
+
+<div>
+  <pre><code class='bash'>git remote rm origin</code></pre>
+</div>
+
+
+<p>Now you can add the new remote:</p>
+
+<div>
+  <pre><code class='bash'>git remote add origin username@users.cs.umb.edu:myrepo.git
+git push origin master</code></pre>
+</div>
+
+
+<p>Make sure you add a default merge and remote:</p>
+
+<div>
+  <pre><code class='bash'>git config branch.master.remote origin &amp;&amp; git config branch.master.merge refs/heads/master</code></pre>
+</div>
+
+
+<h1>Rebase</h1>
+
+<p>Say you&rsquo;ve forked a project and want to update your clone to the forks.</p>
+
+<div>
+  <pre><code class='bash'>git clone git@bitbucket.org:tommyfun/androidcatornotcat.git
+cd androidcatornotcat/
+ls
+git status
+git remote add upstream git@bitbucket.org:lamdersar/androidcatornotcat.git
+git fetch upstream
+git status
+git checkout master
+git rebase upstream/master
+git push</code></pre>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/10/oracle-solaris-11/">Oracle Solaris 11</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-10T00:00:00-05:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Oracle has released solaris 11.  It&rsquo;s great, but they have completely changed everything.  Checkout the official docs here: <a href="http://www.oracle.com/technetwork/server-storage/solaris11/documentation/index.html">http://www.oracle.com/technetwork/server-storage/solaris11/documentation/index.html</a></p>
+
+<p>Here&rsquo;s my notes:</p>
+
+<h1>Network Time Protocol</h1>
+
+<p>Since I don&rsquo;t think there&rsquo;s a vmware tools or open vm tools for solaris I&rsquo;m putting ntp on.</p>
+
+<div>
+  <pre><code class='bash'>cd /etc/inet
+cp ntp.client ntp.conf
+svcadm enable ntp
+svcs | grep ntp</code></pre>
+</div>
+
+
+<h1>Kerberos</h1>
+
+<p>Make sure you&rsquo;ve entered the hostname into DNS</p>
+
+<p>Login in as root and type</p>
+
+<div>
+  <pre><code class='bash'>kinit Administrator@TOM.UMB.EDU</code></pre>
+</div>
+
+
+<p>You should see something like this in return</p>
+
+<div>
+  <pre><code class='bash'>Password for Administrator@TOM.UMB.EDU:
+kinit: no ktkt_warnd warning possible</code></pre>
+</div>
+
+
+<p>Type klist</p>
+
+<div>
+  <pre><code class='bash'>Ticket cache: FILE:/tmp/krb5cc_0
+Default principal: Administrator@TOM.UMB.EDU
+
+Valid starting                     Expires                              Service principle
+08/12/2012 21:11    09/12/2012 07:13 krbtgt/TOM.UMB.EDU@TOM.UMB.EDU
+        renew until 15/12/2012 21:11</code></pre>
+</div>
+
+
+<h1>Samba and Winbind</h1>
+
+<div>
+  <pre><code class='bash'>pkg install samba</code></pre>
+</div>
+
+
+<p>Copy the good smb config to /etc/samba</p>
+
+<p>join the domain</p>
+
+<div>
+  <pre><code class='bash'>net ads join -U Administrator@TOM.UMB.EDU</code></pre>
+</div>
+
+
+<p>start samba and winbind</p>
+
+<div>
+  <pre><code class='bash'>svcadm enable samba
+svcadm enable winbind</code></pre>
+</div>
+
+
+<p>test</p>
+
+<div>
+  <pre><code class='bash'>wbinfo -u</code></pre>
+</div>
+
+
+<p>edit nsswitch.conf</p>
+
+<p>test</p>
+
+<div>
+  <pre><code class='bash'>getent passwd</code></pre>
+</div>
+
+
+<h1>Setup PAM and nsswitch</h1>
+
+<p>Here we are going to enable the use of winbind through PAM. This will give us the capability of using active directory users and groups when assigning permissions on files and directories. We could also use this for other authentication methods that use PAM such as apache web sites (but that is another discussion).</p>
+
+<p>Enable winbind in pam.conf</p>
+
+<div>
+  <pre><code class='bash'>cp /etc/pam.conf /etc/pam.conf-OLD
+cp /etc/pam.conf-winbind /etc/pam.conf</code></pre>
+</div>
+
+
+<p>Enable winbind in nsswitch.conf to set up the search order for all authentication. The system will now look at the local files followed by a check against winbind.</p>
+
+<div>
+  <pre><code class='bash'>svccfg -s name-service/switch 
+&gt; setprop config/password = &quot;files winbind&quot;
+&gt; setprop config/group = &quot;files winbind&quot;
+&gt; exit
+svcadm refresh name-service/switch</code></pre>
+</div>
+
+
+<p>Make sure the entries were adjusted in nsswitch by:</p>
+
+<p>cat /etc/nsswitch.conf
+You should see the following entries in passwd and group:</p>
+
+<div>
+  <pre><code class='bash'>passwd:     files winbind
+group:      files winbind</code></pre>
+</div>
+
+
+<h1>Add OpenCSW to software package repositories</h1>
+
+<p>To install third party software from a package repository:</p>
+
+<div>
+  <pre><code class='bash'>pkgadd -d https://get.opencsw.org/now</code></pre>
+</div>
+
+
+<p>Add /opt/csw/bin to your path</p>
+
+<div>
+  <pre><code class='bash'>export PATH=$PATH:/opt/csw/bin</code></pre>
+</div>
+
+
+<p>You can now install with the pkgutil command:</p>
+
+<div>
+  <pre><code class='bash'>pkgutil --install puppet</code></pre>
+</div>
+
+
+<h1>Services</h1>
+
+<p>List all services</p>
+
+<div>
+  <pre><code class='bash'>scvs</code></pre>
+</div>
+
+
+<p>Start/Stop/Restart/Enable/Disable a service</p>
+
+<div>
+  <pre><code class='bash'>svcadm &lt;cmd&gt; &lt;service&gt;</code></pre>
+</div>
+
+
+<h1>Setup domainname</h1>
+
+<div>
+  <pre><code class='bash'>svcadm disable nis/domain
+  svccfg -s svc:/network/nis/domain listprop config/domainname
+  svccfg -s svc:/network/nis/domain setprop config/domainname = &lt;your domain name&gt;
+  svccfg -s nis/domain:default refresh
+  svcadm enable nis/domain</code></pre>
+</div>
+
+
+<p>Verify that domainname is setup correctly</p>
+
+<div>
+  <pre><code class='bash'>domainname</code></pre>
+</div>
+
+
+<h1>Installing kadmin</h1>
+
+<p>If you find youself thinking Kerberosis installed, but I could not find kadmin. What package is it in?</p>
+
+<p>Only the basic packages
+are installed by default and the KDC is not one of them. If you want a
+package/command that isn&rsquo;t included in the base install you can search
+for it like this:</p>
+
+<div>
+  <pre><code class='bash'>$ pkg search -r kadmin</code></pre>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/09/ubuntu-rid-client/">Ubuntu Winbind RID Client</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-09T00:00:00-05:00" pubdate data-updated="true">Mar 9<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Network Time Protocol</h1>
+
+<p>Keeping a computer system&rsquo;s clock accurate is critical for many things.  In setting up samba and winbind to connect to a windows domain you need kerberos working.  Kerberos is dependent on the clock accuracy of the clients and servers.</p>
+
+<p><strong>Do not install ntpd on virtual machines!!!</strong>
+Virtual machines should have the client vm tools installed, which among other things, keeps the clock synced with the host machine.  You <strong>should</strong> have some sort of time synchronization installed on the host machine.</p>
+
+<div>
+  <pre><code class='bash'>sudo apt-get install ntp</code></pre>
+</div>
+
+
+<h1>Kerberos</h1>
+
+<div>
+  <pre><code class='bash'>sudo apt-get install krb5-user libpam-krb5 libpam-ccreds auth-client-config</code></pre>
+</div>
+
+
+<p>use TOM.UMB.EDU as Realm</p>
+
+<p>Edit /etc/krb5.conf</p>
+
+<div>
+  <pre><code class='bash'>vi /etc/krb5.conf</code></pre>
+</div>
+
+
+<p>Make it look like this:</p>
+
+<div>
+  <pre><code class='bash'>[logging]
+default = FILE:/var/log/krb5libs.log
+kdc = FILE:/var/log/krb5kdc.log
+admin_server = FILE:/var/log/kadmind.log
+
+[libdefaults]
+dns_lookup_realm = true
+dns_lookup_kdc = true
+ticket_lifetime = 24h
+forwardable = yes
+
+[appdefaults]
+pam = {
+ debug = false
+ ticket_lifetime = 36000
+ renew_lifetime = 36000
+ forwardable = true
+ krb4_convert = false
+}</code></pre>
+</div>
+
+
+<p>test kerberos</p>
+
+<div>
+  <pre><code class='bash'>[root@rid-nfs ~]# host -t srv _kerberos._tcp.cs.umb.edu
+_kerberos._tcp.cs.umb.edu has SRV record 0 100 88 win-ad.cs.umb.edu.</code></pre>
+</div>
+
+
+<h1>Samba and winbind</h1>
+
+<div>
+  <pre><code class='bash'>sudo apt-get install samba winbind
+
+vi /etc/samba/smb.conf
+
+  #GLOBAL PARAMETERS
+  [global]
+     workgroup = TOM
+     realm = TOM.UMB.EDU
+     preferred master = no
+     server string = Home Directory Server
+     security = ADS
+     encrypt passwords = yes
+     log level = 3
+     log file = /var/log/samba/%m
+     max log size = 50
+     printcap name = cups
+     printing = cups
+     winbind enum users = Yes
+     winbind enum groups = Yes
+     winbind use default domain = Yes
+     winbind nested groups = Yes
+     winbind separator = +
+     winbind cache time = 10
+     idmap uid = 10000-20000
+     idmap gid = 10000-20000
+     idmap config TOM: backend = rid
+     idmap config TOM: range = 10000-20000
+     allow trusted domains = No
+     template shell = /bin/bash
+     template homedir = /home/%D/%U
+     ;template primary group = &quot;Domain Users&quot;
+
+  vi nsswitch.conf</code></pre>
+</div>
+
+
+<p>restart winbind nmbd and smbd</p>
+
+<p>join the domain
+  net ads join -U Administrator</p>
+
+<p>test
+  wbinfo -u
+  wbinfo -g
+  getent passwd</p>
+
+<p>As root:
+  kinit -V
+  net ads info</p>
+
+<h1>nsswitch.conf</h1>
+
+<p>Edit your /etc/nsswitch.conf file and add winbind</p>
+
+<div>
+  <pre><code class='bash'>passwd:         compat winbind
+group:          compat winbind
+shadow:         compat</code></pre>
+</div>
+
+
+<h1>Home Directories</h1>
+
+<p>You&rsquo;ve got three choices here</p>
+
+<p>The traditional unix network used a centralized fileserver/fileservers to store the user&rsquo;s home directory.  Upon logon to any system on the network, the user&rsquo;s home directory would be auto-mounted and appear local.  This worked very well in the 80&rsquo;s and early 90&rsquo;s but today we live in a different world.</p>
+
+<h2>Traditional Unix Automount</h2>
+
+<h3>Configure Automount</h3>
+
+<div>
+  <pre><code class='bash'>sudo apt-get install autofs</code></pre>
+</div>
+
+
+<p>To mount user home directories at login, we need to conﬁgure the automount service. Open
+/etc/auto.master and add the following entry.
+/home /etc/auto.home</p>
+
+<p>Now create /etc/auto.home and add this line</p>
+
+<div>
+  <pre><code class='bash'>* -fstype=nfs,nolock,nosuid rid-nfs.cs.umb.edu:/export/home/&amp;</code></pre>
+</div>
+
+
+<h3>Configure PAM</h3>
+
+<p>If you want to be able to change your password</p>
+
+<p>/etc/pam.d/common-password:</p>
+
+<div>
+  <pre><code class='bash'>password   sufficient pam_winbind.so
+password   required   pam_unix.so nullok obscure min=4 max=8 md5</code></pre>
+</div>
+
+
+<h2>The New Way, PAM Make Home Directory</h2>
+
+<p>The pam_mkhomedir PAM module will create a users home directory if it does not exist when the session begins. This allows users to be present in central database (such as NIS, kerberos or LDAP) without using a distributed file system or pre-creating a large number of directories.  The skeleton directory (usually /etc/skel/) is used to copy default files and also set’s a umask for the creation.  This is probably the best for performance reasons and local disks a big and cheap.  All software should be in source control anyway.</p>
+
+<p>The new users home directory will not be removed after logout of the user.</p>
+
+<p>Add this to /etc/pam.d/common-account</p>
+
+<div>
+  <pre><code class='bash'>session    required    pam_mkhomedir.so skel=/etc/skel/ umask=0022</code></pre>
+</div>
+
+
+<p>You can read more about it on the debian documentation site: <a href="http://www.debian-administration.org/articles/403">http://www.debian-administration.org/articles/403</a></p>
+
+<h2>smb auto mounting</h2>
+
+<p>Actually you can skip nfs altogether and mount the users windows homedirectory:</p>
+
+<p>Install libpam-mount:</p>
+
+<p>  apt-get install libpam-mount</p>
+
+<p>When you install libpam-mount it should add the pammount directive in pam.d/common-session</p>
+
+<p>I changed where the directory gets mounted to be just /home/username in smb.conf</p>
+
+<p>Now edit the /etc/security/pam_mount.conf.xml</p>
+
+<div>
+  <pre><code class='bash'>&lt;!-- mkmountpoint enable=&quot;1&quot; remove=&quot;true&quot; / --&gt;
+&lt;mkmountpoint enable=&quot;1&quot; remove=&quot;false&quot; /&gt;
+
+
+&lt;volume user=&quot;*&quot; server=&quot;snap&quot; path=&quot;home_dir&quot; mountpoint=&quot;home&quot; fstype=&quot;cifs&quot; /&gt;
+
+&lt;cifsmount&gt;mount -t cifs //%(SERVER)/%(USER) %(MNTPT)/%(USER) -o &quot;user=%(USER),uid=%(USERUID),gid=%(USERGID)%(before=\&quot;,\&quot; OPTIONS)&quot;&lt;/cifsmount&gt;
+
+&lt;umount&gt;umount %(MNTPT)/%(USER)&lt;/umount&gt;
+
+&lt;/pam_mount&gt;</code></pre>
+</div>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/05/a2ps/">A2ps</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-05T00:00:00-05:00" pubdate data-updated="true">Mar 5<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>GNU a2ps is an Any to PostScript filter. Of course it processes plain text files, but also pretty prints quite a few popular languages.</p>
+
+<p>More detailed web pages about GNU a2ps, including documentation, flashes, updates, mailing lists, FAQ etc., is available at <a href="http://www.inf.enst.fr/~demaille/a2ps">http://www.inf.enst.fr/~demaille/a2ps</a></p>
+
+<p>How to print a raw html file with a2ps</p>
+
+<p>a2ps delegates to a web browser rendering engine when printing.  Here&rsquo;s how to print the raw html.</p>
+
+<div>
+  <pre><code class='bash'>a2ps --delegate no test.html</code></pre>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/13/it-for-startups/">IT for Startups</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-13T00:00:00-05:00" pubdate data-updated="true">Feb 13<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>IT for startups and small businesses is very difficult.  Until an organization gets to a certain size and/or the organization becomes profitable hiring an IT professional is not an option.  Therefore the burden of IT professional usually becomes the responsibility of the office manager.  This is the reality.</p>
+
+<h1>Security</h1>
+
+<h2>Physical</h2>
+
+<h2>Network</h2>
+
+<h2>Application</h2>
+
+<h1>Server Management</h1>
+
+<h2>Licensing</h2>
+
+<h2>Software</h2>
+
+<p>Software updates
+Antivirus</p>
+
+<h2>Hardware</h2>
+
+<h1>Desktop Management</h1>
+
+<p>Workers hired into a startup must be somewhat proficient with managing their own computer.  There is no standard dektop to deploy, in fact most startups these days require you to bring your own devices.  Startups have a few advantages to compete against big, established companies, one of which is speed.  Users should be comfortable installing and configuring their own software, configuring printers and connecting to resources, with the proper documentation.</p>
+
+<h2>Windows</h2>
+
+<p>Software and security updates
+Anti-virus</p>
+
+<h2>Apple</h2>
+
+<p>Software and security updates
+Anti-virus</p>
+
+<h1>ackups and Disaster Recovery</h1>
+
+<h2>Backups</h2>
+
+<ul>
+<li>Identify critical assets</li>
+<li>Identify acceptable downtime
+
+<h2>Disaster Recovery</h2></li>
+<li>Identify Relocation plan</li>
+<li>Identify acceptable downtime</li>
+</ul>
+
+
+<h1>Networking</h1>
+
+<h2>Internet Service Providers</h2>
+
+<h2>Gateway</h2>
+
+<h2>Wired</h2>
+
+<h2>Wireless</h2>
+
+<p>Wireless network can be tricky.  Operating an office wireless network is unlike running an access point at home.</p>
+
+<h2>IP address space</h2>
+
+<p>Get a spreadsheet</p>
+
+<h1>Applications and Services</h1>
+
+<h2>Finance and Accounting</h2>
+
+<ul>
+<li>Document</li>
+<li>Ensure Whole Disk Encryption on any computer with financial information
+
+<h2>Email</h2></li>
+<li>Document email admin account info</li>
+<li>Document new user creation</li>
+<li>Document user de-activation</li>
+<li>Document Anti-SPAM and anti-virus on server</li>
+<li>Document Backup and Restore Procedures</li>
+<li>Email Policy creation</li>
+<li>Document Email client configuration
+
+<h2>File-sharingx</h2>
+
+<h2>Printing</h2></li>
+<li>Document Printers</li>
+<li>Document Drivers</li>
+<li>Document Installation Instructions
+
+<h2>DHCP</h2></li>
+<li>Document DHCP scope and location of server
+
+<h2>DNS</h2></li>
+</ul>
+
+
+<p><strong>Internal</strong></p>
+
+<ul>
+<li>Document internal dns settings</li>
+</ul>
+
+
+<p><strong>External</strong></p>
+
+<ul>
+<li>Register Name:</li>
+<li>Account Info:</li>
+</ul>
+
+
+<h2>Telephony</h2>
+
+<h2>Licensing</h2>
+
+<p>Get a spreadsheet</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/10/python-square-root/">Python Square Root</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-10T00:00:00-05:00" pubdate data-updated="true">Feb 10<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div>
+  <pre><code class='python'>#! /usr/bin/python2.7
+# sqrt by Newton-Raphson
+def sqrtNR(x, epsilon):
+    x = float(x)
+    guess = x/2.0
+    diff = guess**2 - x
+    count = 0
+    while abs(diff) &gt; epsilon:
+        count += 1
+        print &quot;count =&quot;, count, &quot;guess =&quot;, guess, &quot;diff =&quot;, diff
+        guess = guess - diff/(2.0*guess)
+        diff = guess**2 - x
+    print &quot;number of guesses =&quot;, count
+    print &quot;guess =&quot;, guess
+    # sqrt by bisection
+def sqrt(x,epsilon):
+    numguesses = 0
+    low = 0.0
+    high = x
+    guess = (high + low)/2.0
+    while abs(guess**2 - x) &gt;= epsilon:
+        numguesses += 1
+        print &quot;count =&quot;, numguesses, &quot;low =&quot;, low, &quot;high =&quot;, high, &quot;guess =&quot;, guess
+        if guess**2 &lt; x:
+            low = guess
+        else:
+            high = guess
+        guess = (high + low)/2.0
+    print &quot;number of guesses =&quot;, numguesses
+    print guess, &quot;is close to the square root of&quot;, x
+print &quot;sqrtNR&quot;
+print sqrtNR(2,.00000001)
+print
+print &quot;sqrt&quot;
+print sqrt(2,.00000001)</code></pre>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/4/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/2/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/zero-out-free-space-in-windows/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/openvpn-on-amazon-ec2/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/24/java-review-flow-control/">Java Review - Flow Control</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/abstract-data-types-in-java/">Abstract Data Types (ADT) in Java</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/10/interview-questions/">Interview Questions</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Thomas Mullaly -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

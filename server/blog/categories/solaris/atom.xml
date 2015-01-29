@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Solaris | Thomas Mullaly]]></title>
+  <link href="http://thomasmullaly.com/blog/categories/solaris/atom.xml" rel="self"/>
+  <link href="http://thomasmullaly.com/"/>
+  <updated>2014-07-03T23:20:05-04:00</updated>
+  <id>http://thomasmullaly.com/</id>
+  <author>
+    <name><![CDATA[Thomas Mullaly]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Oracle Solaris 11]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/03/10/oracle-solaris-11/"/>
+    <updated>2013-03-10T00:00:00-05:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/03/10/oracle-solaris-11</id>
+    <content type="html"><![CDATA[<p>Oracle has released solaris 11.  It&rsquo;s great, but they have completely changed everything.  Checkout the official docs here: <a href="http://www.oracle.com/technetwork/server-storage/solaris11/documentation/index.html">http://www.oracle.com/technetwork/server-storage/solaris11/documentation/index.html</a></p>
+
+<p>Here&rsquo;s my notes:</p>
+
+<h1>Network Time Protocol</h1>
+
+<p>Since I don&rsquo;t think there&rsquo;s a vmware tools or open vm tools for solaris I&rsquo;m putting ntp on.
+<div>
+  <pre><code class='bash'>cd /etc/inet
+cp ntp.client ntp.conf
+svcadm enable ntp
+svcs | grep ntp</code></pre>
+</div>
+</p>
+
+<h1>Kerberos</h1>
+
+<p>Make sure you&rsquo;ve entered the hostname into DNS</p>
+
+<p>Login in as root and type
+<div>
+  <pre><code class='bash'>kinit &lt;a href=&quot;&amp;#x6d;&amp;#97;&amp;#105;&amp;#x6c;&amp;#x74;&amp;#x6f;&amp;#x3a;&amp;#65;&amp;#x64;&amp;#x6d;&amp;#x69;&amp;#110;&amp;#x69;&amp;#115;&amp;#x74;&amp;#114;&amp;#x61;&amp;#x74;&amp;#x6f;&amp;#114;&amp;#64;&amp;#x54;&amp;#79;&amp;#x4d;&amp;#x2e;&amp;#85;&amp;#77;&amp;#x42;&amp;#46;&amp;#x45;&amp;#68;&amp;#x55;&quot;&gt;&amp;#65;&amp;#100;&amp;#109;&amp;#x69;&amp;#110;&amp;#x69;&amp;#x73;&amp;#x74;&amp;#114;&amp;#x61;&amp;#x74;&amp;#111;&amp;#x72;&amp;#64;&amp;#84;&amp;#x4f;&amp;#x4d;&amp;#46;&amp;#x55;&amp;#77;&amp;#x42;&amp;#x2e;&amp;#x45;&amp;#x44;&amp;#x55;&lt;/a&gt;</code></pre>
+</div>
+
+You should see something like this in return
+<div>
+  <pre><code class='bash'>Password for Administrator@TOM.UMB.EDU:
+kinit: no ktkt_warnd warning possible</code></pre>
+</div>
+
+Type klist
+<div>
+  <pre><code class='bash'>Ticket cache: FILE:/tmp/krb5cc_0
+Default principal: &lt;a href=&quot;&amp;#109;&amp;#97;&amp;#105;&amp;#x6c;&amp;#116;&amp;#x6f;&amp;#x3a;&amp;#x41;&amp;#100;&amp;#x6d;&amp;#x69;&amp;#x6e;&amp;#105;&amp;#115;&amp;#116;&amp;#x72;&amp;#x61;&amp;#116;&amp;#x6f;&amp;#x72;&amp;#64;&amp;#84;&amp;#x4f;&amp;#77;&amp;#x2e;&amp;#x55;&amp;#77;&amp;#66;&amp;#46;&amp;#x45;&amp;#x44;&amp;#85;&quot;&gt;&amp;#x41;&amp;#x64;&amp;#109;&amp;#105;&amp;#x6e;&amp;#x69;&amp;#x73;&amp;#x74;&amp;#114;&amp;#97;&amp;#116;&amp;#x6f;&amp;#114;&amp;#64;&amp;#84;&amp;#x4f;&amp;#77;&amp;#x2e;&amp;#85;&amp;#x4d;&amp;#x42;&amp;#x2e;&amp;#x45;&amp;#68;&amp;#85;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Valid starting                     Expires                              Service principle
+08/12/2012 21:11    09/12/2012 07:13 krbtgt/&lt;a href=&quot;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#108;&amp;#116;&amp;#x6f;&amp;#58;&amp;#x54;&amp;#x4f;&amp;#77;&amp;#46;&amp;#x55;&amp;#x4d;&amp;#x42;&amp;#x2e;&amp;#x45;&amp;#68;&amp;#85;&amp;#x40;&amp;#84;&amp;#x4f;&amp;#77;&amp;#x2e;&amp;#85;&amp;#77;&amp;#66;&amp;#46;&amp;#69;&amp;#x44;&amp;#85;&quot;&gt;&amp;#84;&amp;#x4f;&amp;#x4d;&amp;#x2e;&amp;#x55;&amp;#x4d;&amp;#x42;&amp;#x2e;&amp;#69;&amp;#68;&amp;#x55;&amp;#x40;&amp;#x54;&amp;#79;&amp;#77;&amp;#x2e;&amp;#x55;&amp;#77;&amp;#x42;&amp;#46;&amp;#x45;&amp;#68;&amp;#85;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    renew until 15/12/2012 21:11
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;</code></pre>
+</div>
+</p>
+
+<h1>Samba and Winbind</h1>
+
+<p><div>
+  <pre><code class='bash'>pkg install samba</code></pre>
+</div>
+
+Copy the good smb config to /etc/samba</p>
+
+<p>join the domain</p>
+
+<p><div>
+  <pre><code class='bash'>net ads join -U &lt;a href=&quot;&amp;#109;&amp;#x61;&amp;#x69;&amp;#108;&amp;#x74;&amp;#x6f;&amp;#x3a;&amp;#x41;&amp;#x64;&amp;#109;&amp;#105;&amp;#x6e;&amp;#105;&amp;#x73;&amp;#116;&amp;#x72;&amp;#97;&amp;#116;&amp;#x6f;&amp;#x72;&amp;#64;&amp;#x54;&amp;#x4f;&amp;#x4d;&amp;#x2e;&amp;#85;&amp;#77;&amp;#x42;&amp;#x2e;&amp;#x45;&amp;#68;&amp;#x55;&quot;&gt;&amp;#65;&amp;#x64;&amp;#x6d;&amp;#x69;&amp;#110;&amp;#105;&amp;#115;&amp;#x74;&amp;#x72;&amp;#x61;&amp;#116;&amp;#x6f;&amp;#114;&amp;#64;&amp;#84;&amp;#79;&amp;#x4d;&amp;#x2e;&amp;#x55;&amp;#x4d;&amp;#x42;&amp;#x2e;&amp;#69;&amp;#68;&amp;#x55;&lt;/a&gt;</code></pre>
+</div>
+
+start samba and winbind
+<div>
+  <pre><code class='bash'>svcadm enable samba
+svcadm enable winbind</code></pre>
+</div>
+
+test
+<div>
+  <pre><code class='bash'>wbinfo -u</code></pre>
+</div>
+
+edit nsswitch.conf</p>
+
+<p>test
+<div>
+  <pre><code class='bash'>getent passwd</code></pre>
+</div>
+</p>
+
+<h1>Setup PAM and nsswitch</h1>
+
+<p>Here we are going to enable the use of winbind through PAM. This will give us the capability of using active directory users and groups when assigning permissions on files and directories. We could also use this for other authentication methods that use PAM such as apache web sites (but that is another discussion).</p>
+
+<p>Enable winbind in pam.conf
+<div>
+  <pre><code class='bash'>cp /etc/pam.conf /etc/pam.conf-OLD
+cp /etc/pam.conf-winbind /etc/pam.conf</code></pre>
+</div>
+
+Enable winbind in nsswitch.conf to set up the search order for all authentication. The system will now look at the local files followed by a check against winbind.
+<div>
+  <pre><code class='bash'>svccfg -s name-service/switch&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;setprop config/password = &amp;ldquo;files winbind&amp;rdquo;
+setprop config/group = &amp;ldquo;files winbind&amp;rdquo;
+exit
+svcadm refresh name-service/switch</code></pre>
+</div>
+
+Make sure the entries were adjusted in nsswitch by:</p></blockquote>
+
+<p>cat /etc/nsswitch.conf
+You should see the following entries in passwd and group:
+<div>
+  <pre><code class='bash'>passwd:     files winbind
+group:      files winbind</code></pre>
+</div>
+</p>
+
+<h1>Add OpenCSW to software package repositories</h1>
+
+<p>To install third party software from a package repository:
+<div>
+  <pre><code class='bash'>pkgadd -d &lt;a href=&quot;https://get.opencsw.org/now&quot;&gt;https://get.opencsw.org/now&lt;/a&gt;</code></pre>
+</div>
+
+Add /opt/csw/bin to your path
+<div>
+  <pre><code class='bash'>export PATH=$PATH:/opt/csw/bin</code></pre>
+</div>
+
+You can now install with the pkgutil command:
+<div>
+  <pre><code class='bash'>pkgutil &amp;mdash;install puppet</code></pre>
+</div>
+</p>
+
+<h1>Services</h1>
+
+<p>List all services
+<div>
+  <pre><code class='bash'>scvs</code></pre>
+</div>
+</p>
+
+<p>Start/Stop/Restart/Enable/Disable a service
+<div>
+  <pre><code class='bash'>svcadm &lt;cmd&gt; &lt;service&gt;</code></pre>
+</div>
+</p>
+
+<h1>Setup domainname</h1>
+
+<p><div>
+  <pre><code class='bash'>svcadm disable nis/domain
+  svccfg -s svc:/network/nis/domain listprop config/domainname
+  svccfg -s svc:/network/nis/domain setprop config/domainname = &lt;your domain name&gt;
+  svccfg -s nis/domain:default refresh
+  svcadm enable nis/domain</code></pre>
+</div>
+
+Verify that domainname is setup correctly
+<div>
+  <pre><code class='bash'>domainname</code></pre>
+</div>
+</p>
+
+<h1>Installing kadmin</h1>
+
+<p>If you find youself thinking Kerberosis installed, but I could not find kadmin. What package is it in?</p>
+
+<p>Only the basic packages
+are installed by default and the KDC is not one of them. If you want a
+package/command that isn&rsquo;t included in the base install you can search
+for it like this:
+<div>
+  <pre><code class='bash'>$ pkg search -r kadmin</code></pre>
+</div>
+</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,786 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Thomas Mullaly</title>
+  <meta name="author" content="Thomas Mullaly">
+
+  
+  <meta name="description" content="====== Install puppet agent ====== apt-get install puppet
+====== Edit /etc/default/puppet ====== Defaults for puppet &ndash; sourced by /etc/init.d/ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://thomasmullaly.com/blog/page/4">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Thomas Mullaly" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Thomas Mullaly</a></h1>
+  
+    <h2>My site</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:thomasmullaly.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/25/puppet-client/">Puppet Client</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-25T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>====== Install puppet agent ======
+  apt-get install puppet
+====== Edit /etc/default/puppet ======
+<code></p>
+
+<h1>Defaults for puppet &ndash; sourced by /etc/init.d/puppet</h1>
+
+<h1>Start puppet in boot?</h1>
+
+<p>START=yes</p>
+
+<h1>Startup options</h1>
+
+<p>DAEMON_OPTS=&ldquo;&mdash;report&rdquo;
+</code>
+====== Add the puppet master host to DNS ======
+In my case I&rsquo;m adding to the local hosts file because I don&rsquo;t have access to DNS:
+  23.22.145.26    puppet</p>
+
+<p>====== Check for connectivity to the puppet master======
+  ping puppet</p>
+
+<p>====== Agent Setup ======
+  puppet agent &mdash;test</p>
+
+<p>you should get this:
+<code>
+root@red:~# puppet agent &mdash;test
+warning: peer certificate won&rsquo;t be verified in this SSL session
+warning: peer certificate won&rsquo;t be verified in this SSL session
+info: Creating a new SSL certificate request for red.cs.umb.edu
+info: Certificate Request fingerprint (md5): A0:A6:0C:8A:0E:A9:FD:AB:C9:5D:C8:3C:72:EE:33:57
+warning: peer certificate won&rsquo;t be verified in this SSL session
+warning: peer certificate won&rsquo;t be verified in this SSL session
+warning: peer certificate won&rsquo;t be verified in this SSL session
+Exiting; no certificate found and waitforcert is disabled
+</code>
+I got this because I reinstall the host and didn&rsquo;t backup the certs.
+<code>
+root@red:~# puppet agent &mdash;test
+info: Creating a new SSL key for red.cs.umb.edu
+warning: peer certificate won&rsquo;t be verified in this SSL session
+info: Caching certificate for ca
+warning: peer certificate won&rsquo;t be verified in this SSL session
+info: Caching certificate for red.cs.umb.edu
+err: Could not request certificate: The certificate retrieved from the master does not match the agent&rsquo;s private key.
+Certificate fingerprint: 4F:6B:D2:D7:A9:A4:DE:D6:59:AA:94:C8:59:26:3F:F5
+To fix this, remove the certificate from both the master and the agent and then start a puppet run, which will automatically regenerate a certficate.
+On the master:
+  puppet cert clean red.cs.umb.edu
+On the agent:
+  rm -f /var/lib/puppet/ssl/certs/red.cs.umb.edu.pem
+  puppet agent -t</p>
+
+<p>Exiting; failed to retrieve certificate and waitforcert is disabled
+</code></p>
+
+<p>The Puppet agent found the puppet master, but it got stopped at the certificate roadblock. It isn’t authorized to fetch configurations, so the master is turning it away.</p>
+
+<p>====== Sign the cert on the puppet master======
+=====List the certs waiting to be signed=====
+  puppet cert list</p>
+
+<p><code>
+root@puppet:~# puppet cert list
+  &ldquo;blu&rdquo;            (MD5) 8B:96:E5:59:45:97:EF:C1:BA:34:0F:1E:91:62:AF:1C
+  &ldquo;red.cs.umb.edu&rdquo; (MD5) A0:5D:C8:3C:72:EE:A6:0C:8A:0E:A4:FD:AB:C9:33:57
+</code>
+=====Sign the cert=====
+  puppet cert sign red.cs.umb.edu
+<code>
+root@puppet:~# puppet cert sign red.cs.umb.edu
+Signed certificate request for red.cs.umb.edu
+Removing file Puppet::SSL::CertificateRequest red.cs.umb.edu at &lsquo;/var/lib/puppet/ssl/ca/requests/red.cs.umb.edu.pem&rsquo;
+</code>
+====== Test the Client Agent again======
+  puppet agent &mdash;test</p>
+
+<p><code>
+root@red:~# puppet agent &mdash;test
+warning: peer certificate won&rsquo;t be verified in this SSL session
+info: Caching certificate for red.cs.umb.edu
+info: Caching certificate_revocation_list for ca
+info: Caching catalog for red.cs.umb.edu
+info: Applying configuration version &lsquo;1357769924&rsquo;
+</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/23/apple-os-x/">Apple Os X</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-23T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>[[Recover Mac Password without CD]]</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/19/capstone-tasks/">Capstone Tasks</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-19T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>====== Capstone Tasks ======</p>
+
+<p>These are the tasks needed to complete our [[Capstone Project]]</p>
+
+<ul>
+<li>Create a [[How to make an Ubuntu Gold Master Image|Gold Master Ubuntu Server Virtual Machine Image]]</li>
+<li>Create a [[Gold Master Windows 2008 Server Virtual Machine Image]]</li>
+<li>Create a [[How to Create a Virtual Linux Router using Ubuntu|Virtual Linux Router]]</li>
+<li>Create a Virtual [[How to Create an Active Directory Server|Active Directory Server]]</li>
+<li>[[Enable Group Policy in Windows 2008]]</li>
+<li>Create a Virtual [[Ubuntu RID NFS Server|Linux NFS Server with Samba]]</li>
+<li>Create a [[Virtual Windows Deployment Server]]</li>
+<li>[[Configure DHCP]]</li>
+<li>[[Deploy a Virtual Windows 7 Desktop using Windows Deployment Server]]</li>
+<li>Create a Virtual [[Puppet Master Server]]  and [[Puppet Dashboard]]</li>
+<li>Configure the [[Puppet Client]] on the host nodes</li>
+<li>[[Puppet on Oracle Solaris 11]]</li>
+<li>[[Deploy a Virtual Ubuntu Linux Desktop using Windows Deployment Server and Puppet]]</li>
+</ul>
+
+
+<p>Here is the diagram:</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/17/windows-7-software/">Windows 7 Software</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-17T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This page is to document what software is needed to be installed on the Windows Desktops in the [[<a href="http://www.cs.umb.edu/sp/about/facilities/|Unix">http://www.cs.umb.edu/sp/about/facilities/|Unix</a> Lab]].  The table will document whether the software is to be included on the deployment image or to be deployed via GPO.  The table will also include what mechanism to update the software.  Certain software packages need to be updated more frequently due to security concerns.  If the solution for updating is Re-Imaging then automatic update checking should be turned off because the user won&rsquo;t be able to update anyway.</p>
+
+<p>^ Software Name                ^ Vendor      ^ Deployment Method   ^ Update Method  ^
+| Windows 7                       | Microsoft   | Image               | WSUS           |
+| Office Professional Plus 2010   | Microsoft   | Image               | WSUS           |
+| Office Project Professional 2010| Microsoft   | Image               | WSUS           |
+| Adobe Flash Player 11           | Adobe       | Image               | WSUS           |
+| Adobe Reader                    | Adobe       | Image               | ???            |
+| CyberLink PowerDVD 9.5          | CyberLink   | Image               | Re-Image       |
+| Google Chrome                   | Google      | ???                 | [[<a href="http://support.google.com/chromeos/a/bin/answer.py?hl=en&amp;answer=188447|Chrome">http://support.google.com/chromeos/a/bin/answer.py?hl=en&amp;answer=188447|Chrome</a> Browser FAQ for Admins]] |
+| GSview 5.0                      | Ghostgum    | Image               | Re-Image       |
+| Java SE Developer Kit 7         | Oracle      | ???                 | ???            |
+| McAfee VirusScan Ent.           | McAfee      | Image               | McAfee Server  |
+| Microsoft Visual Studio 2010    | Microsoft   | Image               | WSUS           |
+| Mozilla Firefox                 | Mozilla     | Image               | Self-updates?  |
+| NetBeans IDE 7.2.1              | NetBeans.org| Image               | Re-Image       |
+| PuTTY                           | Simon Tatham| Image               | Re-Image       |
+| Python 2.7.3 (64-bit)           | Python Soft | Image               | Re-Image       |
+| QtSpim                          | Larus-Stone | Image               | Re-Image       |
+| SSH Secure Shell                | F-Secure    | Image               | Re-Image       |
+| VMware vSphere Client 5.0       | VMware Inc. | Image               | Re-Image       |
+| VMware Workstation 8            | VMware Inc. | Image               | Re-Image       |
+| WinZip 17.0                     | WinZip      | Image               | Re-Image       |
+| Wireshark 1.8.3                 | Wireshark   | Image               | Re-Image       |</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/13/recover-mac-password-without-cd/">Recover Mac Password Without Cd</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-13T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Reset Mac Password – without a CD
+Using a pretty nifty trick you can reset a forgotten Mac password without a Mac OS X installer CD/DVD. The steps may seem a little intimidating at first but I assure you it’s easy if you follow them exactly, here is exactly how to do this in three stages:</p>
+
+<p>Stage 1) Boot into Single User Mode and remove a setup file</p>
+
+<p>Restart the Mac holding down the Command+S keys, this will take you into Single User Mode and it’s Terminal interface
+You’ll need to check the filesystem first:
+fsck -fy</p>
+
+<p>Next, you must mount the root drive as writeable so that changes will save:
+mount -uw /</p>
+
+<p>Now, type the following command exactly, followed by the enter key:
+rm /var/db/.applesetupdone</p>
+
+<p>After removing the applesetupdone file, you need to reboot, type ‘reboot’ and hit enter
+Stage 2) Create a New User Account upon System Boot
+You aren’t finished, but the hard part is now over – no more command lines, you’ll now be in the familiar Mac OS X GUI to finish the password reset process. In this step we just create a new user account as if you just got a new Mac:</p>
+
+<p>Upon reboot, you will be presented with the traditional “Welcome Wizard” startup screen just like when you first get a Mac
+Follow the welcome wizard and create a new user account – making the account name different from the account whose password you want to recover
+Continue on and boot into Mac OS X with this newly created user account, this new user account is an Administrator and has administrative access
+Stage 3) Reset the Forgot Password via System Preferences
+You are almost done, now you just need to reset the forgotten user account password using the Accounts control panel:</p>
+
+<p>Once you are booted into Mac OS X, click on the Apple logo and then navigate down to “System Preferences”
+Click on the “Accounts” icon in System Preferences
+Click on the Lock icon in the lower left corner of the “Accounts” preference window and enter the newly created user credentials, this enables you to change other user accounts and reset other users passwords
+On the left side user panel, select the user account containing the forgotten password
+With the user of the forgotten password account selected, click on the “Reset Password” button
+Enter a new password for that user, be sure to include a meaningful hint so you don’t forget it again!
+Close System Preferences and reboot the Mac
+You can now login to the previously inaccessible user account using the newly reset password! All user files and settings are maintained as before the password was forgotten
+Optional: If you’d like, you can delete the temporary account you created to reset the users password. This is wise for security purposes.</p>
+
+<p>Here’s how this works: by deleting the .applesetupdone file, you are telling Mac OS X to re-run the setup wizard, which by default creates a new user account with Administrative abilities, which can then reset the forgotten password of any other user on the Mac. This is a great trick and excellent troubleshooting technique if you don’t have a Mac OS X installer CD/DVD laying around, which is pretty much the norm as many people tend to lose or misplace the installer disks that come with their computers. I have used this exact method multiple times to restore various Macs with forgotten/lost passwords.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/09/dell-optiplex-790-bios-configuration/">Dell Optiplex 790 Bios Configuration</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-09T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>====== Dell OptiPlex 790 BIOS Settings ======
+  * Hit F12 to enter Boot Options</p>
+
+<ul>
+<li><p>Choose BIOS Setup from OTHER OPTIONS</p></li>
+<li><p>System Configuration &ndash;> Integrated NIC &ndash;> Enabled w/PXE</p></li>
+<li><p>General &ndash;> Boot Sequence &ndash;></p>
+
+<ul>
+<li>Only check: <strong>Onboard NIC</strong> and <strong>P0: WDC WD5000AAKX-753CA1</strong></li>
+<li>Make the <strong>OnBoard NIC</strong> the first option in the list</li>
+</ul>
+</li>
+<li><p><del>USB Configuration &ndash;> Uncheck Enable Boot Support</del></p></li>
+<li><p>Power Management &ndash;> Wake on LAN &ndash;> LAN only</p></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/08/wds-for-cs/">Wds for Cs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-08T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>====== Prerequisites ======
+Bring up the Domain functional level to Windows Server 2008 R2</p>
+
+<p>Modify the lab computers to PXE boot with the needed [[Dell Optiplex 790 BIOS Configuration]]</p>
+
+<p>Modify the [[configure dhcp|DHCP server configuration]] to include the settings needed by WDS</p>
+
+<p>======Install Windows Deployment Services======
+Add Computer to Domain and login with administrative Domain Account!!!</p>
+
+<p>Install WDS role on the WDS computer</p>
+
+<p>Get the volume licensed install media to add the boot and install image to WDS</p>
+
+<p>Test by installing a default windows 7 install on a machine</p>
+
+<p>======Create Capture Image======
+On WDS go into Boot Images</p>
+
+<p>Click on Create Capture Boot Image</p>
+
+<p>Walk through wizard</p>
+
+<p>Click Add Boot Image</p>
+
+<p>======Custom Install Image======</p>
+
+<p>Create a reference computer (install the operating systeem, applications, and any other changes)</p>
+
+<p>run sysprep /oobe /generalize /reboot</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/07/configure-dhcp/">Configure Dhcp</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-07T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I cloned a new virtual Ubuntu 12.04 server and added isc&rsquo;s dhcp server to emulate the cs department&rsquo;s network.</p>
+
+<p>  apt-get install dhcpd-server</p>
+
+<p>This installs isc&rsquo;s dhcpd version 4 I think.</p>
+
+<p>Edit /etc/dhcp/dhcpd.conf
+<code>
+default-lease-time 600;
+max-lease-time 7200;
+authoritative;
+subnet 10.10.10.0 netmask 255.255.255.0 {
+  range 10.10.10.100 10.10.10.200;
+  option routers 10.10.10.1;
+  option subnet-mask 255.255.255.0;
+  option broadcast-address 10.10.10.255;
+  option domain-name-servers 10.10.10.10, 10.10.10.11;
+  option domain-name &ldquo;tom.umb.edu&rdquo;;
+  option domain-search &ldquo;tom.umb.edu&rdquo;;</p>
+
+<p>  # dynamic DNS updates
+  ddns-updates on;
+  ddns-domainname &ldquo;tom.umb.edu&rdquo;;
+  ddns-rev-domainname &ldquo;10.10.10.in-addr.arpa&rdquo;;</p>
+
+<p>  next-server 10.10.10.20;
+  filename &ldquo;boot\x86\wdsnbp.com&rdquo;;
+}
+</code></p>
+
+<p>Start the server:
+  service isc-dhcp-server start</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/06/convert-man-page-to-text/">Convert Man Page to Text</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-06T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>At the command line, run:</p>
+
+<p>  $ man MANPAGE | col -b > filename.txt</p>
+
+<p>Here&rsquo;s what it means:</p>
+
+<p>man = display the man pages for a stated command</p>
+
+<p> | = pipe the output of the man pages somewhere else</p>
+
+<p>col -b = format the output</p>
+
+<blockquote><p>= send the output to a file</p></blockquote>
+
+<p>filename.txt = name of the file you wish to create and populate with output</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/19/10-important-google-search-terms/">10 Important Google Search Terms</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-19T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>10 important Google search terms</strong></p>
+
+<p>======site======
+  * The site operator is great for trolling through all the content Google has gathered for a target.
+  * This operator is used in conjunction with many of the other queries presented here to narrow the focus of the search to one target.
+======intitle:index.of======
+  * The universal search for Apache-style directory listings.
+  * Directory listings provide a wealth of information for an attacker.
+======error | warning======
+  * Error messages are also very revealing in just about every context.
+  * In some cases, warning text can provide important insight into the behind-the-scenes code used by a target.
+======login | logon======
+  * This query locates login portals fairly effectively.
+  * It can also be used to harvest usernames and troubleshoot procedures.
+======username | userid | employee.ID | &ldquo;your username is&rdquo;======
+  * This is one of the most generic searches for username harvesting.
+  * In cases where this query does not reveal usernames, the context around these words can reveal procedural informations an attacker can use in later offensive action.
+======admin | administrator======
+  *Using the two most common terms for the owner or maintainer of a site, this query can also be used to reveal procedural information (&ldquo;contact your administrator&rdquo;) and even admin login portals.
+======-ext:html -ext:htm -ext:shtml -ext:asp -ext:php======
+  * This query, when combined with the site operator, gets the most common files out of the way to reveal more interesting documents.
+  * This query locates backup or tempory files and directories
+======inurl:temp | inurl:tmp | inurl:backup | inurl:bak======
+  * This query locates backup or temporary files and directories.
+======intranet | help.desk======
+  * This query locates intranet sites ( which are often supposed to be protected from the general public) and help desk contact information and procedures.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/5/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/3/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/zero-out-free-space-in-windows/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/openvpn-on-amazon-ec2/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/24/java-review-flow-control/">Java Review - Flow Control</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/abstract-data-types-in-java/">Abstract Data Types (ADT) in Java</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/10/interview-questions/">Interview Questions</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Thomas Mullaly -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

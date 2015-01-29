@@ -1,0 +1,13 @@
+---
+layout: post
+title:  "RStudio"
+date:   2013-08-01
+categories: linux
+---
+{% highlight bash %}
+sudo add-apt-repository 'deb http://cran.rstudio.com/bin/linux/ubuntu precise/'
+apt-get update
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+apt-get update
+apt-get install r-base
+{% endhighlight %}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Vmware | Thomas Mullaly]]></title>
+  <link href="http://thomasmullaly.com/blog/categories/vmware/atom.xml" rel="self"/>
+  <link href="http://thomasmullaly.com/"/>
+  <updated>2014-07-03T23:18:54-04:00</updated>
+  <id>http://thomasmullaly.com/</id>
+  <author>
+    <name><![CDATA[Thomas Mullaly]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[VMWare Toolbox Commands]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/06/02/vmware-toolbox-cmd/"/>
+    <updated>2013-06-02T11:58:49-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/06/02/vmware-toolbox-cmd</id>
+    <content type="html"><![CDATA[<p><div>
+  <pre><code class='bash'>vmware-toolbox-cmd stat hosttime
+vmware-toolbox-cmd timesync status</code></pre>
+</div>
+</p>
+]]></content>
+  </entry>
+  
+</feed>

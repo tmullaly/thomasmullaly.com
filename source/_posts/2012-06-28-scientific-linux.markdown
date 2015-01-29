@@ -1,0 +1,31 @@
+{{ http://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Scientific_linux_logo.svg/100px-Scientific_linux_logo.svg.png}}  Scientific Linux (SL) is a Linux distribution produced by Fermi National Accelerator Laboratory and the European Organization for Nuclear Research (CERN). It is a free and open source operating system based on Red Hat Enterprise Linux and aims to be "as close to the commercial enterprise distribution as we can get it."
+
+This product is derived from the free and open source software made available by Red Hat, Inc., but is not produced, maintained or supported by Red Hat. Specifically, this product is built from the source code for Red Hat Enterprise Linux versions, under the terms and conditions of Red Hat Enterprise Linux's EULA and the GNU General Public License.
+
+Perform a minimal install.
+
+A feature of Red Hat Enterprise Server 6 (and therefore of all its clones, so this applies to Scientific Linux 6, too) is that it defaults to managing your network connections with NetworkManager, which isn’t actually installed as part of a minimal install. The net result (no pun intended) is that your network doesn’t work when you first boot into your new, slimline O/S.
+
+The fix is to run the command system-config-network-tui, which allows you to specify a fixed IP address manually. In Centos 6, however, even this tool is not installed as part of a minimal install (I guess they took the word ‘minimal’ literally), so you’ll end up having to edit by hand the /etc/sysconfig/network-scripts/ifcfg-eth0 file.
+
+It looks like this at first:
+  DEVICE="eth0"
+  HWADDR="00:0C:29:9B:0C:CD"
+  NM_CONTROLLED="yes"
+  ONBOOT="no"
+
+You’ll need to end up with something looking like this:
+
+  IPADDR=172.16.25.10
+  BOOTPROTO=none
+  NETMASK=255.255.255.0
+  GATEWAY=172.16.25.2
+  DNS1=172.16.25.2
+
+Obviously, you replace those specific IP addresses with whatever suits your local environment. Once the file has the appropriate entries, a reboot will do to make the new settings take effect.
+
+In Scientific Linux 6, the system-config-network-tui tool exists, so you could use that… or you can achieve all these edits with the nano text editor. The Centos 6 minimal install is less forgiving, however, and you’ll have to use vi (because nano is not installed as part of its minimal install option).
+
+
+[[dhcpd]]
+

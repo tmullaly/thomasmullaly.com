@@ -1,0 +1,58 @@
+<p>======Puppet Recipies======
+<a href="http://projects.puppetlabs.com/projects/puppet/wiki/Puppet_Patterns">http://projects.puppetlabs.com/projects/puppet/wiki/Puppet_Patterns</a></p>
+
+<p>Some of my puppet configurations:</p>
+
+<p>====== Dr Java ======
+<code ruby>
+class drjava {</p>
+
+<p>  file { &ldquo;drjava-stable-20120818-r5686.jar&rdquo;:</p>
+
+<pre><code>path    =&gt; '/usr/bin/drjava-stable-20120818-r5686.jar',
+ensure  =&gt; file,
+source =&gt; 'puppet:///modules/drjava/drjava-stable-20120818-r5686.jar',
+owner =&gt; 'root',
+group =&gt; 'root',
+mode =&gt; '644',
+</code></pre>
+
+<p>  }</p>
+
+<p>  file { &ldquo;drjava&rdquo;:</p>
+
+<pre><code>path =&gt; '/usr/bin/drjava',
+ensure  =&gt; file,
+source =&gt; 'puppet:///modules/drjava/drjava',
+owner =&gt; 'root',
+group =&gt; 'root',
+mode =&gt; '755',
+</code></pre>
+
+<p>  }</p>
+
+<p>  file { &ldquo;drjava.desktop&rdquo;:</p>
+
+<pre><code>path =&gt; '/usr/share/applications/drjava.desktop',
+ensure  =&gt; file,
+source =&gt; 'puppet:///modules/drjava/drjava.desktop',
+owner =&gt; 'root',
+group =&gt; 'root',
+mode =&gt; '644',
+</code></pre>
+
+<p>  }</p>
+
+<pre><code>file { "drjava.png":
+path =&gt; '/usr/share/app-install/icons/drjava.png',
+ensure  =&gt; file,
+source =&gt; 'puppet:///modules/drjava/drjava.png',
+owner =&gt; 'root',
+group =&gt; 'root',
+mode =&gt; '644',
+</code></pre>
+
+<p>  }</p>
+
+<p>}
+</code></p>

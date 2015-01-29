@@ -1,0 +1,43 @@
+<p>====== Choose a Package Source ======
+Download the “puppetlabs-release” package for your OS version.
+You can see a full list of these packages on the front page of <a href="http://apt.puppetlabs.com/.">http://apt.puppetlabs.com/.</a> They are all named puppetlabs-release-<CODE NAME>.deb.</p>
+
+<p>Install the package by running dpkg -i <PACKAGE NAME>.
+For example, to enable the repository for Ubuntu 12.04 Precise Pangolin:</p>
+
+<p>  $ wget <a href="http://apt.puppetlabs.com/puppetlabs-release-precise.deb">http://apt.puppetlabs.com/puppetlabs-release-precise.deb</a>
+  $ sudo dpkg -i puppetlabs-release-precise.deb
+  $ sudo apt-get update</p>
+
+<p>====== Install the Puppet Master ======
+  apt-get install puppetmaster
+====== Configure Reporting ======
+How to see client changes in the master log
+My default puppet configuration shows all the interesting changes in the client&rsquo;s /var/log/daemon.log. I&rsquo;d rather be able to see those client-side changes in the master&rsquo;s log. Making this happen involves turning on puppet&rsquo;s client reporting mechanism.
+=====client-side reporting=====
+This is controlled by a setting in puppet.conf or a command line parameter to puppetd. I added the switch to
+/etc/default/puppet:
+<code></p>
+
+<h1>Defaults for puppet &ndash; sourced by /etc/init.d/puppet</h1>
+
+<h1>Start puppet on boot?</h1>
+
+<p>START=yes</p>
+
+<h1>Startup options</h1>
+
+<p>DAEMON_OPTS=&ldquo;&mdash;report&rdquo;
+</code>
+=====server handling of reports=====
+On the server side, puppet has several options for processing reports. The default is to create a yaml file in /var/lib/puppet/report/<nodename> To tell puppet to send the client report of changes to syslog (which in this case is sent to daemon.log), make this change to /etc/puppet/puppet.conf
+<code>
+[master]
+reports = log
+</code>
+Now, if you fiddle with a puppet controlled resource on the client (like adding a blank line to /etc/hosts), and restart the puppet client, you&rsquo;ll see puppet&rsquo;s corrective actions reported in the master&rsquo;s /var/log/daemon.log.</p>
+
+<p>====== Signing Client Certificates ======
+On the master
+  puppet cert list
+  puppet cert sign blue.cs.umb.edu</p>

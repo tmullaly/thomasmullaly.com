@@ -1,0 +1,1302 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Thomas Mullaly</title>
+  <meta name="author" content="Thomas Mullaly">
+
+  
+  <meta name="description" content="To overwrite deleted data on a volume by using Cipher.exe, use the /w switch with the cipher command. Use the following steps: Quit all programs. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://thomasmullaly.com">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Thomas Mullaly" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Thomas Mullaly</a></h1>
+  
+    <h2>My site</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:thomasmullaly.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/02/zero-out-free-space-in-windows/">How to Zero Out Free Disk Space in Windows</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-02T00:00:00-04:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>To overwrite deleted data on a volume by using Cipher.exe, use the /w switch with the cipher command. Use the following steps:</p>
+
+<ol>
+<li><p>Quit all programs.</p></li>
+<li><p>Click Start, click Run, type cmd, and then press ENTER.</p></li>
+<li><p>Type cipher /w:driveletter:\foldername, and then press ENTER. Specify the drive and the folder that identifies the volume that contains the deleted data that you want to overwrite. Data that is not allocated to files or folders will be overwritten. This permanently removes the data. This can take a long time if you are overwriting a large space.</p></li>
+</ol>
+
+
+<p>Note With mount points in Windows 2000, you can mount a volume on any empty folder on an NTFS volume. When you do this, the mounted volume does not have a drive letter of its own. The only way to address that volume is by using the path where you created the mount point. Therefore, the /w switch requests a path of a folder, and from that, it determines the associated volume to wipe. Because of the way the file system works, the whole volume must be wiped. A file can be written anywhere on the volume at any time. A folder does not address a specific physical location on disk but is a logical container for file entries in the volume&rsquo;s table of contents (MFT or FAT). To make sure that there is no leftover data in unallocated space, all unallocated space on the volume must be wiped.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/02/openvpn-on-amazon-ec2/">How to Zero Out Free Disk Space in Windows</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-02T00:00:00-04:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div>
+  <pre><code class='bash'>1  yum update
+    2  reboot
+   16  vi /etc/sysconfig/network
+   17  vi /etc/hosts
+   18  reboot
+   19  yum install openvpn
+   20  cd /etc/openvpn/
+   21  ls
+   22  cp /usr/share/doc/openvpn-2.3.2/sample/sample-config-files/server.conf .
+   26  vi server.conf 
+   27  mkdir -p /etc/openvpn/easy-rsa/keys
+   35  yum install lzo
+   36  yum-config-manager --enable epel
+   37  yum install easy-rsa
+   42  cp -rf /usr/share/easy-rsa/2.0/* /etc/openvpn/easy-rsa
+   56  vi vars 
+   57  source ./vars
+   58  ./clean-all
+   59  ./build-ca
+   65  ./build-key-server server
+   66  ./build-dh 
+   67  cd keys/
+   69  cp dh2048.pem ca.crt server.crt server.key /etc/openvpn
+   70  cd ..
+   72  ./build-key macbookair
+   75  iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
+   76  service iptables save
+   77  vi /etc/sysctl.conf
+   80  vi server.conf 
+   81  ifconfig
+   82  cd easy-rsa/keys/
+   85  zip macbookair.zip macbookair.*
+   92  mv macbookair.zip /tmp
+   93  cd /tmp
+   94  scp macbookair.zip tom@thunderhouse.com
+   95  mv tom\@thunderhouse.com macbookair.zip
+   96  ls
+   97  rm tom\@thunderhouse.com 
+   98  scp macbookair.zip tom@thunderhouse.com:.
+   99  cd /etc/openvpn/
+  100  ls
+  101  cd /usr/share/openvpn/
+  102  ls
+  103  cd
+  104  reboot
+  105  cd /etc/open
+  106  ls
+  107  cd /etc/openvpn/
+  108  ls
+  109  scp ca.crt tom@thunderhouse.com:.
+  110  tail -f /var/log/syslog
+  111  tail -f /var/log/messages 
+  112  ps -ef
+  113  netstat -tap
+  114  sysctl -p
+  115  service openvpn start
+  116  tail -f /var/log/messages 
+  117  ls
+  118  vi server.conf 
+  119  service openvpn start
+  120  chkconfig openvpn on
+  121  tail -f /var/log/messages 
+  122  cd /var/log
+  123  ll
+  124  cat secure 
+  125  tail -f messages 
+  126  w
+  127  top
+  128  cd /etc
+  129  vi aliases
+  130  newaliases
+  131  w
+  132  netstat -tap
+  133  netstat -ta
+  134  netstat
+  135  netstat -a
+  136  netstat -ta
+  137  ifconfig
+  138  netstat -ta -i eth0
+  139  netstat -ta -I eth0
+  140  exit
+  141  ls -la
+  142  ls
+  143  cd /tmp
+  144  ls
+  145  rm macbookair.zip 
+  146  cd 
+  147  netstat -tap
+  148  iptables =L
+  149  iptables -L
+  150  iptables -L -n -V
+  151  iptables -L -n -v
+  152  yum install netstat-nat
+  153  netstat-nat
+  154  exit
+  155  tail -f /var/log/messages 
+  156  history</code></pre>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/24/java-review-flow-control/">Java Review - Flow Control</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-24T00:00:00-04:00" pubdate data-updated="true">May 24<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Selection</h1>
+
+<h2>If statements with optional else clauses</h2>
+
+<div>
+  <pre><code class='java'>if (boolean condition)
+  statement;
+else
+statement;</code></pre>
+</div>
+
+
+<h2>Switch statements</h2>
+
+<div>
+  <pre><code class='java'>switch (interger value) {
+  case FIRST_NAME:
+    statements;
+  case SECOND_NAME:
+    statements;
+  default:
+    statements;
+}</code></pre>
+</div>
+
+
+<h1>Repetition</h1>
+
+<h2>While</h2>
+
+<div>
+  <pre><code class='java'>while (scan.hasNext()) {
+  statements; // repeated until false above
+}</code></pre>
+</div>
+
+
+<h2>For</h2>
+
+<div>
+  <pre><code class='java'>for (int i = 0; i &lt; MAX; i++) {
+  statements; // repeated until false above
+}</code></pre>
+</div>
+
+
+<h2>Do &hellip; while</h2>
+
+<div>
+  <pre><code class='java'>do {
+  statements; // repeated until false above
+} while (done!);</code></pre>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/23/abstract-data-types-in-java/">Abstract Data Types (ADT) in Java</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-23T00:00:00-04:00" pubdate data-updated="true">May 23<span>rd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>A data type is a set of values and operations that can be preformed on thoses values.  In Java, the primitive data types (byte, short, int, long, float, double, boolean, char) have values and operations defined in Java itself.  An Abstract Data Type (ADT) is a data type that has values and operations that are NOT defined in the Java language itself.  In Java, ADT is implemented using a class or an interface.</p>
+
+<p>The code for Arrays.sort is designed to sort an array of comparable opjects.</p>
+
+<div>
+  <pre><code class='java'>public static void sort(Comparable [ ] data)</code></pre>
+</div>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/10/interview-questions/">Interview Questions</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-10T15:57:30-04:00" pubdate data-updated="true">Apr 10<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Unix Process</h1>
+
+<h2>What is the difference between a process and a thread?</h2>
+
+<p>A thread is a lightweight process.  Each process has a separate stack, text, data and heap. Threads have their own stack, but share text, data and heap with the process. Text is the actual program itself, data is the input to the program and heap is the memory which stores files, locks, sockets. Reference:
+<a href="https://computing.llnl.gov/tutorials/pthreads/#Thread" rel="nofollow"><a href="https://computing.llnl.gov/tutorials/pthreads/#Thread">https://computing.llnl.gov/tutorials/pthreads/#Thread</a></a></p>
+
+<h2>What is a zombie process?</h2>
+
+<p>A zombie process is a one which has completed execution, however it&rsquo;s entry is still in the process table to allow the parent to read the child&rsquo;s exit status. The reason the process is a zombie is because it is &ldquo;dead&rdquo; but not yet &ldquo;reaped&rdquo; by it&rsquo;s parent.  Parent processes normally issue the wait system call to read the child&rsquo;s exit status whereupon the zombie is removed. The kill command does not work on zombie process. When a child dies the parent receives a SIGCHLD signal.</p>
+
+<p>Reference: <a href="http://en.wikipedia.org/wiki/Zombie_process" rel="nofollow"><a href="http://en.wikipedia.org/wiki/Zombie_process">http://en.wikipedia.org/wiki/Zombie_process</a></a></p>
+
+<h2>Describe ways of process inter-communication</h2>
+
+<ul>
+<li>POSIX mmap, message queues, semaphores, and Shared memory</li>
+<li>Anonymous pipes and named pipes</li>
+<li>Unix domain sockets</li>
+<li>RPC</li>
+<li>For a complete list see <a href="http://en.wikipedia.org/wiki/Inter-process_communication" rel="nofollow"><a href="http://en.wikipedia.org/wiki/Inter-process_communication">http://en.wikipedia.org/wiki/Inter-process_communication</a></a></li>
+</ul>
+
+
+<h2>How to daemonize a process</h2>
+
+<ul>
+<li>The fork() call is used to create a separate process.</li>
+<li>The setsid() call is used to detach the process from the parent (normally a shell).</li>
+<li>The file mask should be reset.</li>
+<li>The current directory should be changed to something benign.</li>
+<li>The standard files (stdin,stdout and stderr) need to be reopened.</li>
+</ul>
+
+
+<h2>Describe how processes executes in a Unix shell</h2>
+
+<p>Let&rsquo;s take the example of /bin/ls. When run &ldquo;ls&rdquo; the shell searches in it&rsquo;s path for an executable named &ldquo;ls&rdquo;, when it finds it, the shell will forks off a copy of itself using the fork system call. If the fork succeeds, then in the child process the shell will run &ldquo;exec /bin/ls&rdquo; which will replace the copy of the child shell wit itself.  Any parameters that that are passed to &ldquo;ls&rdquo; are done so by exec.</p>
+
+<h2>When you send a kill -9 to a process, you notice that it does not die, what could have happened?</h2>
+
+<p>During critical section execution, some processes can setup signal blocking.  The system call to mask signals is &ldquo;sigprocmask&rdquo;. When the kernel raises a blocked signal, it is not delivered. Such signals are called pending.  When a pending signal is unblocked, the kernel passes it off to the process to handle.  It is possible that the process was masking -9.</p>
+
+<h2>How do you end up with zombie processes?</h2>
+
+<p>Zombie processes are created when the parent does not reap the child. This can happen due to parent not executing the wait() system call after forking.</p>
+
+<h2>What are Unix Signals?</h2>
+
+<p>Signals are an inter process communication method. The default signal in Linux is SIG-TERM. SIG-INT cannot be ignored and causes an application to be forcefully killed. Use the &ldquo;kill&rdquo; command to send signals to a process. Another popular signal is the &ldquo;HUP&rdquo; signal which is used to &ldquo;reset&rdquo; or &ldquo;hang up&rdquo; applications.</p>
+
+<h1>Networking</h1>
+
+<h2>Define TCP slow start</h2>
+
+<p>Tcp slow start is a congestion control algorithm that starts by increasing the TCP congestion window each time an ACK is received, until an ACK is not received.
+Reference:<a href="http://en.wikipedia.org/wiki/Slow-start" rel="nofollow"><a href="http://en.wikipedia.org/wiki/Slow-start">http://en.wikipedia.org/wiki/Slow-start</a></a></p>
+
+<h2>Name a few TCP connections states</h2>
+
+<ol>
+<li>LISTEN &ndash; Server is listening on a port, such as HTTP</li>
+<li>SYNC-SENT &ndash; Sent a SYN request, waiting for a response</li>
+<li>SYN-RECEIVED &ndash; (Server) Waiting for an ACK, occurs after sending an ACK from the server</li>
+<li>ESTABLISHED &ndash; 3 way TCP handshake has completed</li>
+</ol>
+
+
+<h2>Define the various protocol states of DHCP</h2>
+
+<ul>
+<li>DHCPDISCOVER     client-&gt;server : broadcast to locate server</li></li>
+<li>DHCPOFFER    server-&gt;client :  offer to client with offer of configuration parameters</li></li>
+<li>DHCPREQUEST  client-&gt;server : requesting a dhcp config from server</li></li>
+<li>DHCPACK          server-&gt;client : actual configuration paramters</li></li>
+<li>DHCPNAK          server-&gt;client : indicating client&#8217;s notion of network address is incorrect</li></li>
+<li>DHCPDECLINE      client-&gt;server : address is already in use</li></li>
+<li>DHCPRELEASE      client-&gt;server : giving up of ip address</li></li>
+<li>DHCPINFORM       client-&gt;server : asking for local config parameters</li></li>
+<li>Reference: <a href="https://www.ietf.org/rfc/rfc2131.txt" rel="nofollow"><a href="https://www.ietf.org/rfc/rfc2131.txt">https://www.ietf.org/rfc/rfc2131.txt</a></a></li>
+</ul>
+
+
+<h2>How do you figure out the network and broadcast address of a network given a netmask?</h2>
+
+<h2>Describe a TCP packet fields</h2>
+
+<h2>Difference between TCP/UDP</h2>
+
+<ul>
+<li>Reliable/Unreliable</li>
+<li>Ordered/Unordered</li>
+<li>Heavyweight/Lightweight</li>
+<li>Streaming</li>
+<li>Header size</li>
+<li>Examples:
+
+<h2>What are the different kind of NAT available?</h2>
+
+<p>There is SNAT and DNAT. SNAT stands for source network address translation. DNAT stands for destination network address translation. SNAT occurs when the source IP address if RFC 1918 and is changed to be non-RFC 1918. For instance if you are at home using your cable model and want to connect to and external site such as <a href="http://www.cnn.com" rel="nofollow"><a href="http://www.cnn.com">http://www.cnn.com</a></a>, then your router will change the source address of the TCP packet to be it&rsquo;s external public IP. This is called SNAT. DNAT is when the destination IP address is changed. For instance when your packet reaches the <a href="http://www.cnn.com" rel="nofollow"><a href="http://www.cnn.com">http://www.cnn.com</a></a> router, and the web server behind the router is using RFC 1918 space, then the router might change the destination to be the RFC 1918 IP address of the web server. This is called DNAT.</p></li>
+</ul>
+
+
+<h1>DNS</h1>
+
+<h2>Explain the SOA record in DNS</h2>
+
+<p>SOA stands for Start of Authority and it contains the following entries:</p>
+
+<div>
+  <pre><code class='bash'>@   IN  SOA     nameserver.mycomaind.com.  postmaster.mydomain.com. (
+                               1            ; serial number
+                               3600         ; refresh   [1h]
+                               600          ; retry     [10m]
+                               86400        ; expire    [1d]
+                               3600 )       ; min TTL   [1h]fire</code></pre>
+</div>
+
+
+<p><strong>Serial number</strong> should be refreshed each time a change is made to the zone file. This is how slave DNS servers know to pull a change from the master.</p>
+
+<p><strong>Refresh</strong> is the amount of time a slave DNS server should wait before pulling from the master.</p>
+
+<p><strong>Retry</strong> is how long a slave should wait before retrying to get a zone file if the initial retry fails.</p>
+
+<p><strong>Expire</strong> is how long a secondary server will keep trying to get a zone from the master. If this time expires before a successful zone transfer, the secondary will stop answering queries.</p>
+
+<p><strong>TTL</strong> is how long to keep the data in a zone file.</p>
+
+<h1>Filesystems</h1>
+
+<h2>List open file handles</h2>
+
+<ul>
+<li>lsop -p process-id</li>
+<li>Or ls /proc/process-id/fd</li>
+</ul>
+
+
+<h2>What is an inode?</h2>
+
+<p>An inode is a data structure in Unix that contains metadata about a file. Some of the items contained in an inode are:</p>
+
+<ol>
+<li>mode</li>
+<li>owner (UID, GID)</li>
+<li>size</li>
+<li>atime, ctime, mtime</li>
+<li>acl&rsquo;s</li>
+<li>blocks list of where the data is
+The filename is present in the parent directory&rsquo;s inode structure.</li>
+</ol>
+
+
+<h2>What is the difference between a soft link and a hard link?</h2>
+
+<p>1) Hardlink shares the same inode number as the source link. Softlink has a different inode number. Example:</p>
+
+<div>
+  <pre><code class='bash'>$ touch a
+$ ln a b
+$ ls -i a b
+24 a  24 b
+$ ln -s a c
+$ ls -i a c
+24 a  25 c</code></pre>
+</div>
+
+
+<p>2) In the data portion of the softlink is the name of the source file.</p>
+
+<p>3) Hardlinks are only valid in the same filesystem, softlinks can be across filesystems.</p>
+
+<h2>When would you use a hardlink over a softlink?</h2>
+
+<p>A hardlink is useful when the source file is getting moved around, because renaming the source does not remove the hardlink connection. On the other hand, if you rename the source of a softlink, the softlink is broken. This is because hardlink&rsquo;s share the same inode, and softlink uses the source filename in it&rsquo;s data portion.</p>
+
+<h2>Describe LVM and how it can be helpful</h2>
+
+<p>LVM stands for logical volume manager and it is a way of grouping disks into logical units. The basic unit of LVM is a PE or a physical extent. One disk may be divided into one or more PE&rsquo;s.  One or more PE&rsquo;s are contained in a VG or a volume group. Or or more LV or logical volumes are created out of a VG. For instance, if we have a server with 2x1TB disk drives, we can create 4xPE&rsquo;s on it, each one being 500GB. On disk 1 let&rsquo;s say we name the PE&rsquo;s PE1 and PE3 and on disk 2 we name the PE&rsquo;s PE2 and PE4. We can then create VG0 out of PE1 and PE2, and VG1 out of PE3 and PE4. After that we can create a LV called /root and another one called swap on VG0.</p>
+
+<p>An advantage of using LVM is that we can create &ldquo;software&rdquo; RAID, i.e., we can join multiple disks into one bigger disk. We cannot select the RAID level with LVM, for instance we cannot say that a VG is of RAID 5 type, however we are able to pick and chose the different PE&rsquo;s we want in a VG. Also LVM allows for dynamically growing a disk.</p>
+
+<h2>What is &ldquo;md&rdquo; and how do you use it?</h2>
+
+<p>MD is Linux software RAID. RAID can be done either in hardware wherein there is a RAID controller that does RAID and presents a logical volume to the OS, or RAID can be done in software wherein the kernel has a RAID driver which takes one or more disks can does RAID across them. &ldquo;MD&rdquo; refers to the software RAID component of Linux.</p>
+
+<h2>What are some reasons to consider one filesystem type over another, such as XFS, ext?</h2>
+
+<h2>What is RAID, and define a few RAID levels</h2>
+
+<h3>RAID 0</h3>
+
+<p>RAID 0 comprises striping (but no parity or mirroring). This level provides no data redundancy nor fault tolerance, but improves performance through parallelism of read and write operations across multiple drives. RAID 0 has no error detection mechanism, so the failure of one disk causes the loss of all data on the array.</p>
+
+<h3>RAID 1</h3>
+
+<p>RAID 1 comprises mirroring (without parity or striping). Data are written identically to two (or more) drives, thereby producing a &ldquo;mirrored set&rdquo;. The read request is serviced by any of the drives containing the requested data. This can improve performance if data is read from the disk with the least seek latency and rotational latency. Conversely, write performance can be degraded because all drives must be updated; thus the write performance is determined by the slowest drive. The array continues to operate as long as at least one drive is functioning.</p>
+
+<h3>RAID 2</h3>
+
+<p>RAID 2 comprises bit-level striping with dedicated Hamming-code parity. All disk spindle rotation is synchronized and data is striped such that each sequential bit is on a different drive. Hamming-code parity is calculated across corresponding bits and stored on at least one parity drive. This level is of historical significance only. Although it was used on some early machines (e.g. the Thinking Machines CM-2), it is only recently used by high-performance commercially available systems.</p>
+
+<h3>RAID 3</h3>
+
+<p>RAID 3 comprises byte-level striping with dedicated parity. All disk spindle rotation is synchronized and data is striped such that each sequential byte is on a different drive. Parity is calculated across corresponding bytes and stored on a dedicated parity drive. Although implementations exist, RAID 3 is not commonly used in practice.</p>
+
+<h3>RAID 4</h3>
+
+<p>RAID 4 comprises block-level striping with dedicated parity. This level was previously used by NetApp, but has now been largely replaced by a proprietary implementation of RAID 4 with two parity disks, called RAID-DP.</p>
+
+<h3>RAID 5</h3>
+
+<p>RAID 5 comprises block-level striping with distributed parity. Unlike in RAID 4, parity information is distributed among the drives. It requires that all drives but one be present to operate. Upon failure of a single drive, subsequent reads can be calculated from the distributed parity such that no data is lost. RAID 5 requires at least three disks. RAID 5 is seriously affected by the general trends regarding array rebuild time and chance of failure during rebuild. In August 2012, Dell posted an advisory against the use of RAID 5 in any configuration and of RAID 50 with &ldquo;Class 2 7200 RPM drives of 1 TB and higher capacity&rdquo;.</p>
+
+<h3>RAID 6</h3>
+
+<p>RAID 6 comprises block-level striping with double distributed parity. Double parity provides fault tolerance up to two failed drives. This makes larger RAID groups more practical, especially for high-availability systems, as large-capacity drives take longer to restore. As with RAID 5, a single drive failure results in reduced performance of the entire array until the failed drive has been replaced. With a RAID 6 array, using drives from multiple sources and manufacturers, it is possible to mitigate most of the problems associated with RAID 5. The larger the drive capacities and the larger the array size, the more important it becomes to choose RAID 6 instead of RAID 5. RAID 10 also minimizes these problems.</p>
+
+<h3>RAID 0+1</h3>
+
+<p>RAID 0+1 (also called RAID 01), is a RAID level used for both replicating and sharing data among disks. RAID 0+1 is a mirror of stripes. The usable capacity of a RAID 0+1 array is the same as a RAID 1 array, where half of the total capacity is used to mirror the other half. (N/2) * S<sub>min</sub>, where N is the total number of drives and S<sub>min</sub> is the capacity of the smallest drive in the array.</p>
+
+<h3>RAID 1+0</h3>
+
+<p>A RAID 1+0, sometimes called RAID 1&amp;0 or RAID 10, is similar to a RAID 0+1 with exception that the RAID levels used are reversed—RAID 10 is a stripe of mirrors.</p>
+
+<p>Wikipedia has a very well written on RAID here <a href="https://en.wikipedia.org/wiki/RAID" rel="nofollow"><a href="https://en.wikipedia.org/wiki/RAID">https://en.wikipedia.org/wiki/RAID</a></a>.</p>
+
+<h2>If a filesystem is full, and you see a large file that is taking up a lot of space, how do make space on the filesystem?</h2>
+
+<p>1) If no process has the filehandle open, you can delete the file.</p>
+
+<p>2) If a process has the filehandle open, it is better if you do not delete the file, instead you can &ldquo;cp /dev/null&rdquo; on the file, which will reduce it&rsquo;s size to 0.</p>
+
+<p>3) A filesystem has a reserve, you can reduce the size of this reserve to create more space using tunefs.</p>
+
+<h1>Algorithms</h1>
+
+<h2>Binary tree complexity</h2>
+
+<p>O(log n)</p>
+
+<h2>Hash table complexity</h2>
+
+<p>O(1)</p>
+
+<h1>HTTP</h1>
+
+<h2>Common Http response codes</h2>
+
+<ul>
+<li>200 OK The request has succeeded</li></li>
+<li>500 Internal Server Error (Server Error)</li></li>
+<li>403 Forbidden</li></li>
+<li>301 Permanent Redirect</li></li>
+<li>302 Temporary Redirect</li></li>
+<li><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html" rel="nofollow"><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html</a></a></li>
+</ul>
+
+
+<h2>What is an http cookie</h2>
+
+<ul>
+<li>Http cookie is a small piece of data that a server sends to a browser, which a browser usually stores in it&rsquo;s cookie cache. Cookie can be used to maintain session information since HTTP is stateless, and also for user preferences at a given site. Cookies can also be used to store encrypted password. Browsers send cookies back to the server when they make a connection.</li>
+<li><a href="http://en.wikipedia.org/wiki/HTTP_cookie" rel="nofollow"><a href="http://en.wikipedia.org/wiki/HTTP_cookie">http://en.wikipedia.org/wiki/HTTP_cookie</a></a></li>
+</ul>
+
+
+<h2>Http methods</h2>
+
+<ul>
+<li>Http methods are ways of communicating between server and client. Common examples are http get and http put which is used by http forms for data exchange. Other methods include, post, head,  and connect. </li>
+<li><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html" rel="nofollow">http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html</a></li>
+</ul>
+
+
+<h5>Http headers</h5>
+
+
+<ul>
+<li>Http header fields are common components of HTTP requests and responses. Headers are colon separated name-value pairs in clear text. Some common headers are: Cache-control which specifies where to cache or not the contents of a page, Accept, which can be text/plain, Content-length which specifies the size of the content, Host, which is the domain name of the server.</li>
+<li><a href="http://en.wikipedia.org/wiki/List_of_HTTP_header_fields" rel="nofollow">http://en.wikipedia.org/wiki/List_of_HTTP_header_fields</a></li>
+</ul>
+
+
+<hr />
+
+
+<h3>Databases</h3>
+
+
+<h5>What is the difference between MyISAM and InnoDB?</h5>
+
+
+<p>MyISAM:<br />
+1. Supports table level locking<br />
+2. Is Faster than InnoDB<br />
+3. Does not support foreign keys<br />
+4. Stores table, data and index in different files<br />
+5. Does not support transactions (no commit with rollback)<br />
+6. Useful for more selects with fewer updates<br />
+InnoDB:<br />
+1. Support row level locking<br />
+2. Is slower than MyISAM<br />
+3. Supports foreign keys<br />
+4. Stores table and index in table space<br />
+5. Supports transactions</p>
+
+
+<h5>What are some things to check on a slow database?</h5>
+
+
+<p>MySQL is fairly popular, so let&#8217;s look at some basic MySQL debugging. First off, check the OS to make sure the system is running fine, specially check CPU, memory, SWAP space and disk I/O. Assuming those are all ok, then log into MySQL and check the running queries, you can do so by running the command <i>&#8216;show full processlist&#8217;</i>. This will give you a list of queries running on the server. If you see a query that has been running for an excessively long time, you should investigate that query. See <a href="https://dev.mysql.com/doc/refman/5.1/en/show-processlist.html" rel="nofollow">https://dev.mysql.com/doc/refman/5.1/en/show-processlist.html</a> for additional details.</p>
+
+
+<div>
+  <pre><code class='bash'>mysql&gt; show full processlist;
++-----+------+-----------+-----------+---------+------+-------+-----------------------+
+| Id  | User | Host      | db        | Command | Time | State | Info                  |
++-----+------+-----------+-----------+---------+------+-------+-----------------------+
+| 865 | root | localhost | wordpress | Query   |   -1 | NULL  | show full processlist |
++-----+------+-----------+-----------+---------+------+-------+-----------------------+
+1 row in set (0.00 sec)</code></pre>
+</div>
+
+
+<p>To investigate queries use the command &lsquo;explain&rsquo;. When investigating queries, if you notice the lack of a primary key you should investigate if having a primary key for that particular table makes sense. Having a key in general improves performance of a table. See <a href="https://dev.mysql.com/doc/refman/5.0/en/explain.html" rel="nofollow"><a href="https://dev.mysql.com/doc/refman/5.0/en/explain.html">https://dev.mysql.com/doc/refman/5.0/en/explain.html</a></a> for additional details.</p>
+
+<div>
+  <pre><code class='bash'>mysql&gt; explain select * from wp_posts;
++----+-------------+----------+------+---------------+------+---------+------+------+-------+
+| id | select_type | table    | type | possible_keys | key  | key_len | ref  | rows | Extra |
++----+-------------+----------+------+---------------+------+---------+------+------+-------+
+|  1 | SIMPLE      | wp_posts | ALL  | NULL          | NULL | NULL    | NULL |   19 |       |
++----+-------------+----------+------+---------------+------+---------+------+------+-------+
+1 row in set (0.01 sec)</code></pre>
+</div>
+
+
+
+
+<p>Another item you should investigate is the slow query log file. If you look in <i>/etc/mysql/my.cnf</i>, you will notice 2 lines that relate to slow queries, make sure you uncomment them and restart MySQL. The long_query_time can be adjusted to say 10 seconds, so that any query running longer than 10 seconds is logged. See <a href="https://dev.mysql.com/doc/refman/5.1/en/slow-query-log.html" rel="nofollow">https://dev.mysql.com/doc/refman/5.1/en/slow-query-log.html</a> for additional details.</p>
+
+
+<pre class="brush: plain; title: ; notranslate" title="">
+#log_slow_queries       = /var/log/mysql/mysql-slow.log
+#long_query_time = 2
+</pre>
+
+
+<p>Another thing you can do is enable logging for queries that are not using indexes. As mentioned above using indexes speeds up performance. In <i>/etc/mysql/my.cnf</i> uncomment the below line and restart MySQL. The log will be in the same place as mysql-slow.log.</p>
+
+
+<pre class="brush: plain; title: ; notranslate" title="">
+#log-queries-not-using-indexes
+</pre>
+
+
+<p>Query cache is another item to check. MySQL caches queries and returns results from this cache if the table has not changed. This has a performance improvement of over 200%. You should check the query cache to ensure that there is no memory for the cache and that the cache is not having to be cleared for new items. Additional information can be found here <a href="https://dev.mysql.com/doc/refman/5.1/en/query-cache.html" rel="nofollow">https://dev.mysql.com/doc/refman/5.1/en/query-cache.html</a>.</p>
+
+
+<div>
+  <pre><code class='bash'>mysql&gt; SHOW VARIABLES LIKE &#39;have_query_cache&#39;;
++------------------+-------+
+| Variable_name    | Value |
++------------------+-------+
+| have_query_cache | YES   |
++------------------+-------+
+1 row in set (0.00 sec)
+
+mysql&gt; SHOW STATUS LIKE &#39;Qcache%&#39;;
++-------------------------+----------+
+| Variable_name           | Value    |
++-------------------------+----------+
+| Qcache_free_blocks      | 12       |
+| Qcache_free_memory      | 16491184 |
+| Qcache_hits             | 7645     |
+| Qcache_inserts          | 5539     |
+| Qcache_lowmem_prunes    | 0        |
+| Qcache_not_cached       | 277      |
+| Qcache_queries_in_cache | 156      |
+| Qcache_total_blocks     | 334      |
++-------------------------+----------+
+8 rows in set (0.00 sec)</code></pre>
+</div>
+
+
+
+
+<hr />
+
+
+<h3>Linux Systems</h3>
+
+
+<h5>Define the boot process of a Linux system</h5>
+
+
+<ul>
+<li> Once you power a system on, the first thing that happens is the BIOS loads and performs POST or a power on self test, to ensure that the components needed for a boot are ok. For instance if the CPU is defective, the system will give an error that POST has failed. (BIOS stands for Basic Input/Output system)</li>
+<li>After POST the BIOS looks at the MBR or master book record and executes the boot loader. In case of a Linux system that might be GRUB or Grand Unified BootLoader. GRUB&#8217;s job is to give you the choice of loading a Linux kernel or other OS that you may be running</li>
+<li>Once you ask GRUB to load a kernel, usually an initial ramdisk kernel is loaded, which is a small kernel that understands filesystem. This will in turn mount the filesystem and will start the Linux kernel from the filesystem</li>
+<li>The kernel will then start init, which is the very first process, usually having PID 1. Init will look at /etc/inittab and will switch to the default run-level which on Linux servers tends to be 3.</li>
+<li>There are different run level scripts in /etc/rc.d/rc[0-6].d/ which are then executed based on the runlevel the system needs to be in.</li>
+<li>And that&#8217;s about it!</li>
+</ul>
+
+
+<h5>How do you make changes to kernel parameters that you want to persist across boot?</h5>
+
+
+<p>/etc/sysctl.conf contains kernel parameters that can be modified. You can also use the sysctl command to make changes at runtime.</p>
+
+
+<hr />
+
+
+<h3>Security</h3>
+
+
+<h5>How does SSL work?</h5>
+
+
+<p>SSL stands for secure socket layer. It has been superseded by TLS or transport layer security. TLS is a secure way of communicating through a network. A majority of secure HTTP communication on the web takes place using TLS.  TLS works at session layer and presentation layer of the OSI model.  Initially at the session layer asymmetric encryption takes place, after that at the presentation later symmetric cipher and session key are used. The basic principle behind TLS is to encrypt data going across the network using public key encryption first, followed by using a shared key. Also the other component of TLS is server certificate authentication which is done through a certificate authority. Clients contain a list of certificate authorities, and it uses the public key of the CA in the certificate to verify the certificate being authentic.  A good reference for TLS is here <a href="https://en.wikipedia.org/wiki/Secure_Socket_Layer" rel="nofollow">https://en.wikipedia.org/wiki/Secure_Socket_Layer</a>.</p>
+
+
+<hr />
+
+
+<h3>Miscellaneous</h3>
+
+
+<h5>How does Apache worker.c compare to prefork?</h5>
+
+
+<p>Worker.c uses threads. Prefork uses forks. Prefork is by default in Apache. Worker.c uses less resources, but is more complex. </p>
+
+
+<h2>How do you update packages on Fedora/Ubuntu?</h2>
+
+<h3>Ubuntu</h3>
+
+<div>
+  <pre><code class='bash'>sudo apt-get update -y</code></pre>
+</div>
+
+
+<h3>Fedora</h3>
+
+<div>
+  <pre><code class='bash'>sudo yum update -y</code></pre>
+</div>
+
+
+<h2>How do you upgrade to a new release on Fedora/Ubuntu?</h2>
+
+<h3>Ubuntu</h3>
+
+<div>
+  <pre><code class='bash'>sudo apt-get upgrade -y</code></pre>
+</div>
+
+
+<h3>Fedora</h3>
+
+<p>Use FedUP <a href="https://fedoraproject.org/wiki/FedUp">https://fedoraproject.org/wiki/FedUp</a></p>
+
+<h2>How do you use SSH proxy to connect to a remote host?</h2>
+
+<p>In your $HOME/.ssh/config use:</p>
+
+<div>
+  <pre><code class='bash'>TCPKeepAlive=yes
+ServerAliveInterval=15
+
+Host finaldestinationhost
+   ProxyCommand ssh user@jumphost nc finaldestinationhost %p</code></pre>
+</div>
+
+
+<p>To ssh use ssh user@finaldestinationhost.</p>
+
+<h2>How do you use SSH to create a dynamic tunnel?</h2>
+
+<p>Let&rsquo;s say there are 3 hosts, one is source, the other is destination and you cannot get to the destination from the source.</p>
+
+<p>In the middle is a gateway that can reach both the source and the destination.</p>
+
+<p>One possible solution to get from source to destination using SSH dynamic tunnel, is to create a dynamic tunnel.</p>
+
+<p>The way it would work is.</p>
+
+<h2>How do you use change MySQL root password?</h2>
+
+<div>
+  <pre><code class='bash'>$mysql -u root -p
+&gt;use mysql;
+&gt;update user set password=PASSWORD(&quot;NEWPASSWORD&quot;) where User=&#39;root&#39;;
+&gt;flush privileges;</code></pre>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/17/ossec-nfs-statd-static/">Ossec NFS Statd Static Port</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-17T14:08:55-04:00" pubdate data-updated="true">Mar 17<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>First edit /etc/default/nfs-common and add:</p>
+
+<div>
+  <pre><code class='bash'>STATDOPTS=&quot;--port 4000 --outgoing-port 4001&quot;</code></pre>
+</div>
+
+
+<p>Next add the file /etc/modprobe.d/options.conf</p>
+
+<div>
+  <pre><code class='bash'>options lockd nlm_udpport=4002 nlm_tcpport=4002</code></pre>
+</div>
+
+
+<p>reboot and you should be good</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/21/risk-analysis/">Risk Analysis</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-21T09:02:05-05:00" pubdate data-updated="true">Feb 21<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Always start off with your threat analysis.  You need to understand what the threats are, you have to identy what your critical assets are, you then figure out your vulnerabilities.  Now take your risk and plot the severity</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/21/how-to-make-an-ubuntu-gold-master-image/">How to Make an Ubuntu Gold Master</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-21T09:02:05-05:00" pubdate data-updated="true">Feb 21<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This guide show you how to make a gold master virtual machine image of Ubuntu 12.04 LTS.  The purpose of this is because we&rsquo;ll be creating a lot of new virtual machines and it&rsquo;s far easier to clone a master image than to install each and every time.  Let&rsquo;s get started&hellip;</p>
+
+<h1>Download Ubuntu Server 12.04 64 bit</h1>
+
+<p><a href="http://www.ubuntu.com/download/server">http://www.ubuntu.com/download/server</a></p>
+
+<p>Now go into VMWare and create the master virtual machine by select new virtual machine.</p>
+
+<h1>Go to VMware and create a new VM</h1>
+
+<p>Choose typical</p>
+
+<p>Choose the ubuntu installer disk and select &ldquo;I will install the operating system later&rdquo;</p>
+
+<p>Choose Linux Version Ubuntu</p>
+
+<p>Call this virtual machine Ubuntu</p>
+
+<p>Make the Disk Size 10 GB</p>
+
+<p>Add the Ubuntu iso to the virtual cd</p>
+
+<p>Power on the Virtual machine</p>
+
+<p>Press Enter to choose the English language</p>
+
+<p>Then, Press F4 to install a minimal virtual machine</p>
+
+<p>Then press enter twice</p>
+
+<p>This will kick off the install, choose all defaults</p>
+
+<p><del>only install the OpenSSH service</del>
+Don&rsquo;t install anything!!! Puppet will take care of everything.</p>
+
+<h1>Update and Upgrade</h1>
+
+<p>login when done and run:
+  sudo apt-get update
+  sudo apt-get upgrade
+  sudo apt-get dist-upgrade</p>
+
+<h1>Add Virtual Machine Tools</h1>
+
+<p>If you are on Virtual Box:
+  sudo apt-get install dkms</p>
+
+<p>If you are on VMWare:
+  sudo apt-get install open-vm-tools</p>
+
+<h1>Add the puppet client agent</h1>
+
+<p>  sudo apt-get install puppet</p>
+
+<p>Configure the puppet defaults
+  vi /etc/defaults/puppet</p>
+
+<h1>Defaults for puppet &ndash; sourced by /etc/init.d/puppet</h1>
+
+<h1>Start puppet on boot?</h1>
+
+<p>START=yes</p>
+
+<h1>Startup options</h1>
+
+<p>DAEMON_OPTS=&ldquo;&mdash;report&rdquo;</p>
+
+<p>Puppet should start on boot and look to the master for the manifests to define it.</p>
+
+<h1>eth0 eth1 problem when cloning</h1>
+
+<p>The root of the problem at our site was udev&rsquo;s handling of devices. Udev keeps a history of devices attached to the computer. What makes sense for i.e. USB sticks (that is, each USB stick you attach will be recorded and mounted to the same point when attached again at a later point in time), causes problems when systems are cloned.</p>
+
+<p>There is a file /etc/udev/rules.d/z25_persistent-net.rules, where udev memorises, which hardware device should get named eth0. Here it looks like this:</p>
+
+<div>
+  <pre><code class='bash'>\# PCI device 14xx:16xx (tg3)
+  ACTION==&quot;add&quot;, SUBSYSTEM==&quot;net&quot;, DRIVERS==&quot;?*&quot;, SYSFS\{address}==&quot;00:11:xx:xx:xx:xx&quot;, NAME=&quot;eth0&quot;</code></pre>
+</div>
+
+
+<p>When you run the image on another computer, the new network adapter is recognised on the PCI bus and a new entry in the above mentioned file is generated. &ldquo;eth0&rdquo; is already given to device 14xx:16xx, so the new device gets named &ldquo;eth1&rdquo;.</p>
+
+<p>If you delete this file, it will be rebuilt during the next system startup and your problem should go away.</p>
+
+<h1>Shutdown</h1>
+
+<p>now shutdown, you now have your golden master</p>
+
+<p>shutdown the VM, this is the golden master</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/01/welcome-to-jekyll/">Welcome to Jekyll!</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-01T11:58:49-04:00" pubdate data-updated="true">Sep 1<span>st</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>You&rsquo;ll find this post in your <code>_posts</code> directory &ndash; edit this post and re-build (or run with the <code>-w</code> switch) to see your changes!
+To add new posts, simply add a file in the <code>_posts</code> directory that follows the convention: YYYY-MM-DD-name-of-post.ext.</p>
+
+<p>Jekyll also offers powerful support for code snippets:</p>
+
+<div>
+  <pre><code class='ruby'>def print_hi(name)
+  puts &quot;Hi, #{name}&quot;
+end
+print_hi(&#39;Tom&#39;)
+#=&gt; prints &#39;Hi, Tom&#39; to STDOUT.</code></pre>
+</div>
+
+
+<p>Check out the <a href="http://jekyllrb.com">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/mojombo/jekyll">Jekyll&rsquo;s GitHub repo</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/15/security/">Security</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-15T11:58:49-04:00" pubdate data-updated="true">Aug 15<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://isc.sans.edu/infocon.html">
+<img src="http://isc.sans.edu/images/status.gif">
+</a></p>
+
+<p>[[Apache Security and Hardening]]</p>
+
+<p>[[Ubuntu Automatic Updates]]</p>
+
+<p>[[10 important Google search terms]]</p>
+
+<p>[[Wireshark Notes]]</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/zero-out-free-space-in-windows/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/openvpn-on-amazon-ec2/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/24/java-review-flow-control/">Java Review - Flow Control</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/abstract-data-types-in-java/">Abstract Data Types (ADT) in Java</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/10/interview-questions/">Interview Questions</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Thomas Mullaly -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Information-Technology | Thomas Mullaly]]></title>
+  <link href="http://thomasmullaly.com/blog/categories/information-technology/atom.xml" rel="self"/>
+  <link href="http://thomasmullaly.com/"/>
+  <updated>2014-07-03T23:20:05-04:00</updated>
+  <id>http://thomasmullaly.com/</id>
+  <author>
+    <name><![CDATA[Thomas Mullaly]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[IT for Startups]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/02/13/it-for-startups/"/>
+    <updated>2013-02-13T00:00:00-05:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/02/13/it-for-startups</id>
+    <content type="html"><![CDATA[<p>IT for startups and small businesses is very difficult.  Until an organization gets to a certain size and/or the organization becomes profitable hiring an IT professional is not an option.  Therefore the burden of IT professional usually becomes the responsibility of the office manager.  This is the reality.</p>
+
+<h1>Security</h1>
+
+<h2>Physical</h2>
+
+<h2>Network</h2>
+
+<h2>Application</h2>
+
+<h1>Server Management</h1>
+
+<h2>Licensing</h2>
+
+<h2>Software</h2>
+
+<p>Software updates
+Antivirus</p>
+
+<h2>Hardware</h2>
+
+<h1>Desktop Management</h1>
+
+<p>Workers hired into a startup must be somewhat proficient with managing their own computer.  There is no standard dektop to deploy, in fact most startups these days require you to bring your own devices.  Startups have a few advantages to compete against big, established companies, one of which is speed.  Users should be comfortable installing and configuring their own software, configuring printers and connecting to resources, with the proper documentation.</p>
+
+<h2>Windows</h2>
+
+<p>Software and security updates
+Anti-virus</p>
+
+<h2>Apple</h2>
+
+<p>Software and security updates
+Anti-virus</p>
+
+<h1>ackups and Disaster Recovery</h1>
+
+<h2>Backups</h2>
+
+<ul>
+<li>Identify critical assets</li>
+<li>Identify acceptable downtime
+
+<h2>Disaster Recovery</h2></li>
+<li>Identify Relocation plan</li>
+<li>Identify acceptable downtime</li>
+</ul>
+
+
+<h1>Networking</h1>
+
+<h2>Internet Service Providers</h2>
+
+<h2>Gateway</h2>
+
+<h2>Wired</h2>
+
+<h2>Wireless</h2>
+
+<p>Wireless network can be tricky.  Operating an office wireless network is unlike running an access point at home.</p>
+
+<h2>IP address space</h2>
+
+<p>Get a spreadsheet</p>
+
+<h1>Applications and Services</h1>
+
+<h2>Finance and Accounting</h2>
+
+<ul>
+<li>Document</li>
+<li>Ensure Whole Disk Encryption on any computer with financial information
+
+<h2>Email</h2></li>
+<li>Document email admin account info</li>
+<li>Document new user creation</li>
+<li>Document user de-activation</li>
+<li>Document Anti-SPAM and anti-virus on server</li>
+<li>Document Backup and Restore Procedures</li>
+<li>Email Policy creation</li>
+<li>Document Email client configuration
+
+<h2>File-sharingx</h2>
+
+<h2>Printing</h2></li>
+<li>Document Printers</li>
+<li>Document Drivers</li>
+<li>Document Installation Instructions
+
+<h2>DHCP</h2></li>
+<li>Document DHCP scope and location of server
+
+<h2>DNS</h2></li>
+</ul>
+
+
+<p><strong>Internal</strong></p>
+
+<ul>
+<li>Document internal dns settings</li>
+</ul>
+
+
+<p><strong>External</strong></p>
+
+<ul>
+<li>Register Name:</li>
+<li>Account Info:</li>
+</ul>
+
+
+<h2>Telephony</h2>
+
+<h2>Licensing</h2>
+
+<p>Get a spreadsheet</p>
+]]></content>
+  </entry>
+  
+</feed>

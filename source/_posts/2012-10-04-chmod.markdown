@@ -1,0 +1,8 @@
+====== Fix course directory permissions ======
+  cd /courses/coursename/f12/profname
+  sudo chmod 750 username
+  sudo chmod +s username
+  sudo chmod 750 username
+  
+This might have worked:
+  sudo chmod g+s username

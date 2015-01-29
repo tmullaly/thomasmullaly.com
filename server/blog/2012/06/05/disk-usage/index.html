@@ -1,0 +1,17 @@
+<p>Account Quotas</p>
+
+<p>Your user account has a home directory which includes such things as your mailbox and mail folders, application data, configuration files (&ldquo;dotfiles&rdquo;), browser cache, and public web space. The Mail quota is set to 2 MB soft, 5 MB hard.  Your home directory is not set programmatically, but the policy is 200 MB.</p>
+
+<p>Checking Disk Usage</p>
+
+<p>You can check your own disk usage by executing this command in your home directory:</p>
+
+<p>  du -sh .</p>
+
+<p>For a comprehensive audit of the directories in your home directory try this command:</p>
+
+<p>  du -sk ~/<em> ~/.??</em> | sort -n</p>
+
+<p>Note: you should be logged into a linux workstation or server (i.e. linux1.cs.umb.edu), the older solaris operating system doesn&rsquo;t have the newer features in the du command.</p>
+
+<p>You will start filling up your home directory if you start using the linux desktops in the cs unix lab.  Specifically, when you use a web browser on a linux workstation, the browser will begin caching in your home directory.  Chrome and Firefox use different directories for their caching and these directories will grow exponentially very quickly.</p>

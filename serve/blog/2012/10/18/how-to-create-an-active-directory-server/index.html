@@ -1,0 +1,57 @@
+<p>====== Clone a new server ======</p>
+
+<p>Create a clone from the Windows 2008 R2 Gold Master</p>
+
+<p>====== Rename the Server ======
+Call it AD
+Shutdown the server</p>
+
+<p>====== Change the Network ======
+While powered off, change the network settings</p>
+
+<p>Change the Network to be <strong>Custom (VMnet7)</strong></p>
+
+<p>Power on the VM
+====== Change the Network Configuration ======
+Open up the Network and Sharing Center</p>
+
+<p>Click on Local Area Network</p>
+
+<p>Click on Properties</p>
+
+<p>Choose IPv4 and Click Properties</p>
+
+<p>Make the network config as follows:
+  IP address: 10.10.10.10
+  Subnet mask: 255.255.255.0
+  Default gateway: 10.10.10.1
+  DNS: 127.0.0.1</p>
+
+<p>Click on OK</p>
+
+<p>====== Install the Active Directory Role ======
+Open the Server Manager</p>
+
+<p>Click on Roles</p>
+
+<p>Click on Add Roles</p>
+
+<p>Next</p>
+
+<p>Select Active Directory Domain Services</p>
+
+<p>Reboot</p>
+
+<p>Open Server Manager and Run the Active Directory Services Installation Wizard (dcpromo.exe)</p>
+
+<p>Create a domain in a new forest</p>
+
+<p>FQDN: tom.umb.edu</p>
+
+<p>Functional Level: Windows Server 2008 R2</p>
+
+<p>Make sure DNS sever is checked</p>
+
+<p>Yes you want to continue</p>
+
+<p>Reboot</p>

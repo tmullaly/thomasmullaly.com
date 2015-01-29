@@ -1,0 +1,295 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Apache Security and Hardening - Thomas Mullaly</title>
+  <meta name="author" content="Thomas Mullaly">
+
+  
+  <meta name="description" content="Disable Apache Signature and/or Apache Banner Apache Signature or Apache Banner is basically the same thing. It is an application name together with &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://thomasmullaly.com/blog/2012/06/04/apache-security-and-hardening">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Thomas Mullaly" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Thomas Mullaly</a></h1>
+  
+    <h2>My site</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:thomasmullaly.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Apache Security and Hardening</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-04T00:00:00-04:00" pubdate data-updated="true">Jun 4<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Disable Apache Signature and/or Apache Banner</h2>
+
+<p>Apache Signature or Apache Banner is basically the same thing. It is an application name together with version name that is printed when performing a web request. Nobody actually needs this information at all, but it is enabled by default. You need to alter the Apache configuration file to disable it.</p>
+
+<div>
+  <pre><code class='bash'>ServerSignature Off
+ServerTokens Prod</code></pre>
+</div>
+
+
+<p>In Ubuntu, you need to change the following file: /etc/apache2/conf.d/security</p>
+
+<p>Double check that ServerSignature and ServerTokens configuration settings are not enabled in some other parts of the configuration file.</p>
+
+<p>To test:</p>
+
+<div>
+  <pre><code class='bash'>telnet remote_server.com 80
+Trying remote_server.com...
+Connected to remote_server.com.
+Escape character is &#39;^]&#39;.
+HEAD / HTTP/1.0            &lt;- after this press 2 times ENTER</code></pre>
+</div>
+
+
+<h2>The Trace HTTP Request</h2>
+
+<p>HTTP TRACE request is used to echo back all received information. It can be tricked to print HTTP cookies and as a result steal HTTP session. Basically this request can be used as part of the Cross Site Scripting attack, or XSS. It is recommended to disable it as a security precaution.</p>
+
+<p>Add the following to the web-server&rsquo;s configuration file. For example alter the following file in Ubuntu: /etc/apache2/conf.d/security</p>
+
+<div>
+  <pre><code class='bash'>TraceEnable off</code></pre>
+</div>
+
+
+<h2>Disable directory indexing</h2>
+
+<p>Directory indexing is a features found in every web-server by default. When directory indexing is enabled, the web-site prints a list of files found in the website directories when the default page does not exists (for example index.php). Directories reported can be viewed by any visitor. It is vulnerable in the sense that these directories can contain configuration, private and backup files which can be used by the attackers to take your server under control.</p>
+
+<p>You can fix this problem by disabling the Apache autoindex module. In some Apache installations it is called mod_autoindex.so. In Ubuntu, you just need to remove the following files:</p>
+
+<div>
+  <pre><code class='bash'>/etc/apache2/mods-enabled/autoindex.load
+/etc/apache2/mods-enabled/autoindex.conf</code></pre>
+</div>
+
+
+<p>So you can do it running the following commands:</p>
+
+<div>
+  <pre><code class='bash'>rm -f /etc/apache2/mods-enabled/autoindex.load
+rm -f /etc/apache2/mods-enabled/autoindex.conf</code></pre>
+</div>
+
+
+<h2>Disable WebDAV</h2>
+
+<p>WebDAV is a file access protocol created over HTTP protocol. It allows you to upload and download files, and change file contents from the website. This service is required only in very rare cases. From our experience, this feature was only required to run SVN server (link). Make sure that WebDAV is disabled in production websites. When WebDAV is enabled, the following commands are supported by Apache: OPTIONS, PROPFIND, etc. These commands are sensitive from computer security point of view.</p>
+
+<p>You can fix this problem by disabling Apache dav, dav_fs and dav_lock modules. In Ubuntu you just need to remove the following files:</p>
+
+<div>
+  <pre><code class='bash'>/etc/apache2/mods-enabled/dav.load
+/etc/apache2/mods-enabled/dav_fs.conf
+/etc/apache2/mods-enabled/dav_fs.load
+/etc/apache2/mods-enabled/dav_lock.load</code></pre>
+</div>
+
+
+<p>So you can do it running the following commands:</p>
+
+<div>
+  <pre><code class='bash'>rm -f /etc/apache2/mods-enabled/dav.load
+rm -f /etc/apache2/mods-enabled/dav_fs.conf
+rm -f /etc/apache2/mods-enabled/dav_fs.load
+rm -f /etc/apache2/mods-enabled/dav_lock.load</code></pre>
+</div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thomas Mullaly</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-04T00:00:00-04:00" pubdate data-updated="true">Jun 4<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/security/'>security</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://thomasmullaly.com/blog/2012/06/04/apache-security-and-hardening/" data-via="" data-counturl="http://thomasmullaly.com/blog/2012/06/04/apache-security-and-hardening/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/06/05/disk-usage/" title="Next Post: Disk Usage">Disk Usage &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/zero-out-free-space-in-windows/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/openvpn-on-amazon-ec2/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/24/java-review-flow-control/">Java Review - Flow Control</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/abstract-data-types-in-java/">Abstract Data Types (ADT) in Java</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/10/interview-questions/">Interview Questions</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Thomas Mullaly -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

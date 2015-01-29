@@ -1,0 +1,905 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Thomas Mullaly</title>
+  <meta name="author" content="Thomas Mullaly">
+
+  
+  <meta name="description" content="The unattended-upgrades package can be used to automatically install updated packages, and can be configured to update all packages or just install &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://thomasmullaly.com/blog/page/7">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Thomas Mullaly" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Thomas Mullaly</a></h1>
+  
+    <h2>My site</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:thomasmullaly.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/16/ubuntu-automatic-updates/">Ubuntu Automatic Updates</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-16T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The unattended-upgrades package can be used to automatically install updated packages, and can be configured to update all packages or just install security updates. First, install the package by entering the following in a terminal:</p>
+
+<p>  sudo apt-get install unattended-upgrades
+To configure unattended-upgrades, edit /etc/apt/apt.conf.d/50unattended-upgrades and adjust the following to fit your needs:</p>
+
+<p><code>
+Unattended-Upgrade::Allowed-Origins {</p>
+
+<pre><code>"${distro_id}:${distro_codename}-security";
+</code></pre>
+
+<p>//  &ldquo;${distro_id}:${distro_codename}-updates&rdquo;;
+//  &ldquo;${distro_id}:${distro_codename}-proposed&rdquo;;
+//  &ldquo;${distro_id}:${distro_codename}-backports&rdquo;;
+};
+</code>
+Certain packages can also be blacklisted and therefore will not be automatically updated. To blacklist a package, add it to the list:
+<code>
+Unattended-Upgrade::Package-Blacklist {
+//      &ldquo;vim&rdquo;;
+//      &ldquo;libc6&rdquo;;
+//      &ldquo;libc6-dev&rdquo;;
+//      &ldquo;libc6-i686&rdquo;;
+};
+</code>
+The double “//” serve as comments, so whatever follows &ldquo;//&rdquo; will not be evaluated.</p>
+
+<p>To enable automatic updates, edit /etc/apt/apt.conf.d/10periodic and set the appropriate apt configuration options:
+<code>
+APT::Periodic::Update-Package-Lists &ldquo;1&rdquo;;
+APT::Periodic::Download-Upgradeable-Packages &ldquo;1&rdquo;;
+APT::Periodic::AutocleanInterval &ldquo;7&rdquo;;
+APT::Periodic::Unattended-Upgrade &ldquo;1&rdquo;;
+</code>
+The above configuration updates the package list, downloads, and installs available upgrades every day. The local download archive is cleaned every week.</p>
+
+<p>You can read more about apt Periodic configuration options in the /etc/cron.daily/apt script header.</p>
+
+<p>The results of unattended-upgrades will be logged to /var/log/unattended-upgrades.</p>
+
+<p>Notifications
+Configuring Unattended-Upgrade::Mail in /etc/apt/apt.conf.d/50unattended-upgrades will enable unattended-upgrades to email an administrator detailing any packages that need upgrading or have problems.</p>
+
+<p>Another useful package is apticron. apticron will configure a cron job to email an administrator information about any packages on the system that have updates available, as well as a summary of changes in each package.</p>
+
+<p>To install the apticron package, in a terminal enter:</p>
+
+<p>  sudo apt-get install apticron
+Once the package is installed edit /etc/apticron/apticron.conf, to set the email address and other options:</p>
+
+<p>  EMAIL=&ldquo;<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#114;&#111;&#111;&#116;&#64;&#x65;&#120;&#x61;&#109;&#112;&#108;&#101;&#x2e;&#x63;&#x6f;&#109;">&#114;&#111;&#x6f;&#x74;&#x40;&#x65;&#x78;&#97;&#x6d;&#x70;&#108;&#x65;&#46;&#x63;&#111;&#x6d;</a>&rdquo;</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/16/ubuntu-ad-client/">Ubuntu AD Client</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-16T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is my original way of using Active Directory as the directory server for linux.  It requires the schema to be extended to include the unix attributes.  In Windows Server 2008 AD, the schema is actually extended by default.  Unfortunately, in order to access the unix attributes in the AD MMC you need to add the NIS role.  The new way of auto generating the userid is way better and is documented here: [[ubuntu rid client]]</p>
+
+<div>
+  <pre><code class='bash'>sudo apt-get install krb5-user libpam-krb5 libpam-ccreds auth-client-config</code></pre>
+</div>
+
+
+<p>edit /etc/krb5.onf</p>
+
+<div>
+  <pre><code class='text'>[logging]
+default = FILE:/var/log/krb5libs.log
+kdc = FILE:/var/log/krb5kdc.log
+admin_server = FILE:/var/log/kadmind.log
+  
+[libdefaults]
+dns_lookup_realm = true
+dns_lookup_kdc = true
+ticket_lifetime = 24h
+forwardable = yes
+  
+[appdefaults]
+pam = {
+  debug = false
+  ticket_lifetime = 36000
+  renew_lifetime = 36000
+  forwardable = true
+  krb4_convert = false
+}</code></pre>
+</div>
+
+
+<p>sudo apt-get install samba winbind</p>
+
+<div>
+  <pre><code class='text'>#GLOBAL PARAMETERS
+  [global]
+     workgroup = CS
+     realm = CS.UMB.EDU
+     preferred master = no
+     server string = %h Linux Test Machine
+     security = ADS
+     encrypt passwords = yes
+     log level = 3
+     log file = /var/log/samba/%m
+     max log size = 50
+     printcap name = cups
+     printing = cups
+     winbind enum users = No
+     winbind enum groups = No
+     winbind use default domain = Yes
+     winbind nested groups = Yes
+     winbind separator = +
+     winbind nss info = rfc2307
+     winbind cache time = 10
+     idmap backend = tdb
+     idmap uid = 60000-70000
+     idmap gid = 60000-70000
+     idmap config CS: backend = ad
+     idmap config CS: range = 10000-20000
+     idmap config CS: schema_mode = rfc2307
+     ;template primary group = &quot;Domain Users&quot;
+     ;template shell = /bin/bash
+  
+  [homes]
+     comment = Home Direcotries
+     valid users = %S
+     read only = No
+     browseable = No
+  
+  [printers]
+     comment = All Printers
+     path = /var/spool/cups
+     browseable = no
+     printable = yes
+     guest ok = yes</code></pre>
+</div>
+
+
+<p>edit /etc/nsswitch.conf</p>
+
+<div>
+  <pre><code class='text'>passwd:         compat winbind
+group:          compat winbind</code></pre>
+</div>
+
+
+<p>net ads join -U Administrator</p>
+
+<p>wbinfo -u</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/15/restclient/">Restclient</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-15T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Fire up firefox and download the RESTClient Add-on.
+Window &ndash;> Add-ons Manager
+Search &ndash;> RESTClient</p>
+
+<p>Method:
+  POST</p>
+
+<p>URL:
+  <a href="http://ec2-184-73-40-56.compute-1.amazonaws.com/sessions.json">http://ec2-184-73-40-56.compute-1.amazonaws.com/sessions.json</a></p>
+
+<p>Headers:
+  Content-Type: application/json</p>
+
+<p>Body:
+  {</p>
+
+<pre><code>"user": 
+{
+  "email": "your@emailaddress.com", "password": "Your_Password"
+}
+</code></pre>
+
+<p>  }</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/12/rails-production-server/">Rails Production Server</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-12T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Load Ubuntu 12.04</p>
+
+<p>Get updates.  Run &lsquo;sudo apt-get update&rsquo; and &lsquo;sudo apt-get upgrade&rsquo; and &lsquo;sudo apt-get dist-upgrade&rsquo;</p>
+
+<p>Reboot.</p>
+
+<p>Install Apache2
+  # sudo apt-get install apache2
+Now perform your [[apache_security_and_hardening|Apache Security and Hardening]]</p>
+
+<p>Install curl
+  # sudo apt-get install curl</p>
+
+<p>Install rvm (Multi-User install)
+  # curl -L <a href="https://get.rvm.io">https://get.rvm.io</a> | sudo bash -s stable</p>
+
+<p>Install Ruby Dependencies:
+  # apt-get install build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison subversion</p>
+
+<p>Install the latest version of ruby
+  # rvm install ruby</p>
+
+<p>Install the rails gems
+  # gem install rails</p>
+
+<p>Install The Ruby Racer
+  # gem install therubyracer</p>
+
+<p>Install nodejs
+  # apt-get install nodejs</p>
+
+<p>Get ready for passenger
+  # apt-get install libcurl4-openssl-dev apache2-prefork-dev libapr1-dev libaprutil1-dev
+  # gem install passenger</p>
+
+<p>Install the passenger module
+  # passenger-install-apache2-module</p>
+
+<p>Edit your Apache configuration file, and add these lines:</p>
+
+<p>  LoadModule passenger_module /usr/local/rvm/gems/ruby-1.9.3-p194/gems/passenger-3.0.13/ext/apache2/mod_passenger.so
+  PassengerRoot /usr/local/rvm/gems/ruby-1.9.3-p194/gems/passenger-3.0.13
+  PassengerRuby /usr/local/rvm/wrappers/ruby-1.9.3-p194/ruby</p>
+
+<p>Deploying a Ruby on Rails application: an example</p>
+
+<p>Suppose you have a Rails application in /somewhere. Add a virtual host to your
+Apache configuration file and set its DocumentRoot to /somewhere/public:</p>
+
+<p>   <VirtualHost *:80></p>
+
+<pre><code>  ServerName www.yourhost.com
+  # !!! Be sure to point DocumentRoot to 'public'!
+  DocumentRoot /somewhere/public    
+  &lt;Directory /somewhere/public&gt;
+     # This relaxes Apache security settings.
+     AllowOverride all
+     # MultiViews must be turned off.
+     Options -MultiViews
+  &lt;/Directory&gt;
+</code></pre>
+
+<p>   </VirtualHost></p>
+
+<p>And that&rsquo;s it! You may also want to check the Users Guide for security and
+optimization tips, troubleshooting and other useful information:</p>
+
+<p>  /usr/local/rvm/gems/ruby-1.9.3-p194/gems/passenger-3.0.13/doc/Users guide Apache.html</p>
+
+<p>Add deploy user and add rvm group
+  # useradd deploy -d /home/deploy -m deploy
+  # passwd deploy
+  # usermod -a -G rvm deploy</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/08/06/windows-media-player-playlist/">Windows Media Player Playlist</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-06T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>  &lt;?wpl version=&ldquo;1.0&rdquo;?>
+  <smil></p>
+
+<pre><code>&lt;head&gt;
+    &lt;meta name="Generator" content="Microsoft Windows Media Player -- 12.0.7601.17514"/&gt;
+    &lt;meta name="ItemCount" content="0"/&gt;
+    &lt;title&gt;MyStreams&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;seq&gt;
+        &lt;media src="http://wmbr.org/WMBR_live_128.m3u"/&gt;
+                  &lt;media src="http://jpr.streamguys.org:80/jpr-classics"/&gt;
+        &lt;media src="http://amber.streamguys.com:4860/listen.pls"/&gt;
+        &lt;media src="http://streams.wgbh.org:8000"/&gt;
+        &lt;media src="http://npr.ic.llnwd.net/stream/npr_live24"/&gt;
+    &lt;/seq&gt;
+&lt;/body&gt;
+</code></pre>
+
+<p>  </smil></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/12/capistrano/">Rails Deployment Using Capistrano</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-12T00:00:00-04:00" pubdate data-updated="true">Jul 12<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Create your new rails project</h2>
+
+<div>
+  <pre><code class='bash'>rails new myapp
+cd myapp</code></pre>
+</div>
+
+
+<h2>Get git initialized</h2>
+
+<div>
+  <pre><code class='bash'>git init</code></pre>
+</div>
+
+
+<h2>Edit your .gitignore file to include some more options</h2>
+
+<div>
+  <pre><code class='bash'>vi .gitignore</code></pre>
+</div>
+
+
+<p>Add this:</p>
+
+<div>
+  <pre><code class='bash'># Added from https://github.com/github/gitignore/blob/master/Rails.gitignore
+*.rbc
+*.sassc
+.sass-cache
+capybara-*.html
+.rspec
+/.bundle
+/vendor/bundle
+/log/*
+/tmp/*
+/db/*.sqlite3
+/public/system/*
+/coverage/
+/spec/tmp/*
+**.orig
+rerun.txt
+pickle-email-*.html</code></pre>
+</div>
+
+
+<h2>Now add the files to git and commit</h2>
+
+<div>
+  <pre><code class='bash'>git add .
+git commit -a -m &#39;initial commit&#39;</code></pre>
+</div>
+
+
+<h2>Edit your Gemfile and uncomment capistrano then run:</h2>
+
+<div>
+  <pre><code class='bash'>bundle install</code></pre>
+</div>
+
+
+<p>Now we&rsquo;re gonna &ldquo;capify&rdquo; the application, run:</p>
+
+<div>
+  <pre><code class='bash'>capify .</code></pre>
+</div>
+
+
+<p>You should see this output:</p>
+
+<div>
+  <pre><code class='bash'>[add] writing &#39;./Capfile&#39;
+[add] writing &#39;./config/deploy.rb&#39;
+[done] capified!</code></pre>
+</div>
+
+
+<p>Capistrano logs into your production servers and checks out the latest version of your production branch, we need to get our app onto a scm server that the production server has access to.  I&rsquo;m going to use bitbucket.org as the example, but it could be anywhere.</p>
+
+<div>
+  <pre><code class='bash'>git remote add origin https://bitbucket.org/my-user-name/myapp.git
+git push origin master</code></pre>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/28/scientific-linux/">Scientific Linux</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-28T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>  Scientific Linux (SL) is a Linux distribution produced by Fermi National Accelerator Laboratory and the European Organization for Nuclear Research (CERN). It is a free and open source operating system based on Red Hat Enterprise Linux and aims to be &ldquo;as close to the commercial enterprise distribution as we can get it.&rdquo;</p>
+
+<p>This product is derived from the free and open source software made available by Red Hat, Inc., but is not produced, maintained or supported by Red Hat. Specifically, this product is built from the source code for Red Hat Enterprise Linux versions, under the terms and conditions of Red Hat Enterprise Linux&rsquo;s EULA and the GNU General Public License.</p>
+
+<p>Perform a minimal install.</p>
+
+<p>A feature of Red Hat Enterprise Server 6 (and therefore of all its clones, so this applies to Scientific Linux 6, too) is that it defaults to managing your network connections with NetworkManager, which isn’t actually installed as part of a minimal install. The net result (no pun intended) is that your network doesn’t work when you first boot into your new, slimline O/S.</p>
+
+<p>The fix is to run the command system-config-network-tui, which allows you to specify a fixed IP address manually. In Centos 6, however, even this tool is not installed as part of a minimal install (I guess they took the word ‘minimal’ literally), so you’ll end up having to edit by hand the /etc/sysconfig/network-scripts/ifcfg-eth0 file.</p>
+
+<p>It looks like this at first:
+  DEVICE=&ldquo;eth0&rdquo;
+  HWADDR=&ldquo;00:0C:29:9B:0C:CD&rdquo;
+  NM_CONTROLLED=&ldquo;yes&rdquo;
+  ONBOOT=&ldquo;no&rdquo;</p>
+
+<p>You’ll need to end up with something looking like this:</p>
+
+<p>  IPADDR=172.16.25.10
+  BOOTPROTO=none
+  NETMASK=255.255.255.0
+  GATEWAY=172.16.25.2
+  DNS1=172.16.25.2</p>
+
+<p>Obviously, you replace those specific IP addresses with whatever suits your local environment. Once the file has the appropriate entries, a reboot will do to make the new settings take effect.</p>
+
+<p>In Scientific Linux 6, the system-config-network-tui tool exists, so you could use that… or you can achieve all these edits with the nano text editor. The Centos 6 minimal install is less forgiving, however, and you’ll have to use vi (because nano is not installed as part of its minimal install option).</p>
+
+<p>[[dhcpd]]</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/28/perl/">Perl</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-28T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>tmullaly@vm22:~> cpan</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/28/dhcpd/">DHCPD</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-28T00:00:00-04:00" pubdate data-updated="true">Jun 28<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div>
+  <pre><code class='bash'>[root@dhcpdns ~]# yum -y install dhcp
+[root@dhcpdns ~]# vi /etc/dhcp/dhcpd.conf
+# create new
+# specify domain name
+option domain-name &quot;cs.umb.edu&quot;;
+# specify DNS&#39;s hostname or IP address
+option domain-name-servers 172.16.25.2;
+# default lease time
+default-lease-time 600;
+# max lease time
+max-lease-time 7200;
+# this DHCP server to be declared valid
+authoritative;
+# specify network address and subnet mask
+subnet 172.16.25.0 netmask 255.255.255.0 {
+# specify the range of lease IP address
+range dynamic-bootp 172.16.25.50 172.16.25.254;
+# specify broadcast address
+option broadcast-address 172.16.25.255;
+# specify default gateway
+option routers 172.16.25.2;
+# filename &quot;pxelinux.0&quot;;
+# next-server &lt;pxe host&gt;;
+}
+[root@dlp ~]#
+/etc/rc.d/init.d/dhcpd start
+Starting dhcpd:
+[  OK  ]
+[root@dlp ~]# chkconfig dhcpd on</code></pre>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/06/06/installing-mysql/">Installing Mysql</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-06T00:00:00-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Installing MySQL</p>
+
+<p>Use apt to install mysql
+  # apt-get install mysql-server mysql-client</p>
+
+<p>Install the MySQL gem<br/>
+  # gem install mysql2</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/8/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/6/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/zero-out-free-space-in-windows/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/openvpn-on-amazon-ec2/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/24/java-review-flow-control/">Java Review - Flow Control</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/abstract-data-types-in-java/">Abstract Data Types (ADT) in Java</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/10/interview-questions/">Interview Questions</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Thomas Mullaly -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

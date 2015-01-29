@@ -1,0 +1,78 @@
+<p>====== Stop Whoopsie ======
+Edit /etc/default/whoopsie and change report_crashes to false
+  service whoopsie stop</p>
+
+<p>====== System ruby, gems and rails ======
+We&rsquo;ll leave the system ruby in place but purge rails and gems
+  apt-get purge rails rubygems
+  apt-get autoremove</p>
+
+<p>====== Add a local user and give privileges ======</p>
+
+<p>I created a local user because my production boxes are appliances and only has what needs to be installed on them.  This environment is different and I am adjusting my install to compensate.
+====== Install some basic packages ======
+  apt-get install build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev  libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison pkg-config</p>
+
+<p>====== Install RVM in multi-user mode ======
+We&rsquo;ll be installing ruby with rvm for each application
+====== Rails ======
+make sure you&rsquo;re using the proper ruby and gem version
+  tom@nginx:~$ which gem ruby
+  /usr/local/rvm/rubies/ruby-2.0.0-p0/bin/gem
+  /usr/local/rvm/rubies/ruby-2.0.0-p0/bin/ruby</p>
+
+<p>Install Rails
+  gem install rails &mdash;no-ri &mdash;no-rdoc</p>
+
+<p>We don&rsquo;t need the Rails documentation or interactive on the server, infact you should add this to your ~/.gemrc
+<code></p>
+
+<h1>/home/{user}/.gemrc</h1>
+
+<hr />
+
+<p>:update_sources: true
+:sources:
+&ndash; <a href="http://gems.rubyforge.org/">http://gems.rubyforge.org/</a>
+&ndash; <a href="http://gems.github.com">http://gems.github.com</a>
+:benchmark: false
+:bulk_threshold: 1000
+:backtrace: false
+:verbose: true
+gem: &mdash;no-ri &mdash;no-rdoc
+</code></p>
+
+<p>====== Install Nginx ======
+  apt-get install python-software-properties</p>
+
+<p>  add-apt-repository ppa:nginx/stable</p>
+
+<p>  sudo apt-get update</p>
+
+<p>  sudo apt-get install nginx</p>
+
+<p>====== Install Unicorn ======
+  gem install unicorn</p>
+
+<p>====== Install NodeJS ======
+  apt-get install nodejs</p>
+
+<p>====== Test Unicorn ======
+  &ndash; create a test app
+  &ndash; cd to test_app
+  &ndash; run:</p>
+
+<p>  % unicorn_rails -p 3000</p>
+
+<p>====== Install rvm wrapper ======
+This is for the unicorn init script.</p>
+
+<p>  rvm wrapper ruby-2.0.0-p0@global bootup unicorn</p>
+
+<p>====== Add unicron init script ======
+Becasue I &rsquo;m always rebooting the server, unicorn needs an init script</p>
+
+<p>[[Unicorn init script]]</p>
+
+<p>====== Install Mysql ======
+  apt-get install mysql-server mysql-client mysql-common libmysql-ruby libmysqlclient-dev</p>

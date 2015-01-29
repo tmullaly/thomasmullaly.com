@@ -1,0 +1,130 @@
+<p>====== How to Create a Virtual Ubuntu Linux Router ======</p>
+
+<p>In order to use our own DHCP server in VMware Workstation/Fusion (and even Virtual Box), we need to use the Host-Only Networking feature.  The reason we need a totally private virtual network is that Bridged Networking would put us on the production network and that&rsquo;s not an option.  Network Address Translation networking would give us a private network, but it&rsquo;s impossible to turn off the dhcp server built into VMware Workstation/Fusion and Virtual Box.  This guide is the setup of a virtual ubuntu linux machine that will have two virtual network interfaces and be configured as a NAT router.  The first network interface will be configured in VMware to NAT and the second network interface will be configure in VMware to Host-Only, acting as our private network&rsquo;s gateway.</p>
+
+<p>Ok, so technically we don&rsquo;t need internet access to perform our [[Capstone Tasks]], but whatever.</p>
+
+<p>====== Create the Virtual Router Image ======
+Now that you&rsquo;ve already created your [[How to make an Ubuntu Gold Master Image|ubuntu server gold master]], clone it and call it &ldquo;router&rdquo;.</p>
+
+<p>Now before you power it up, let&rsquo;s change some settings.</p>
+
+<p>Open up the virtual machine setting control panel.</p>
+
+<p>===== Network Adapter Configuration =====</p>
+
+<p>There should already be a network interface adapter connected to the virtual machine.  Make sure it&rsquo;s of type NAT.</p>
+
+<p>Add a second interface and make sure it&rsquo;s of type &ldquo;Host Only&rdquo;.  Fusion, on my mac only allows for one private network, VMWare Workstation allows for up to 7 different private networks.  If you&rsquo;re on VMware Workstation, make a note of witch one you chose because all of the rest of our virtual machine will have to be configured on the same private network in order to communicate with each other.</p>
+
+<p>===== Processors &amp; RAM =====
+Because we&rsquo;re going to be running so many virtual machines on one host, let&rsquo;s change the memory of the linux router to be only what is needed to perform it&rsquo;s duty.</p>
+
+<p>Click on the Processors &amp; RAM settings and change it to be 128 MB of RAM.</p>
+
+<p>The Processor should already be configured to be 1 CPU, leave it there.</p>
+
+<p>===== USB Devices =====
+Disable USB Devices, just uncheck &ldquo;Enable USB 2.0 support&rdquo;.</p>
+
+<p>We&rsquo;re done now power up the virtual machine.</p>
+
+<p>====== Change the Hostname ======
+Login as the user you created the gold master as and then fire up a root shell.
+  sudo -s
+Sudo, as you know, allows you to run commands as root, the &ldquo;dash s&rdquo; creates a root shell.  This isn&rsquo;t typically a good idea, but I&rsquo;m awesome and I know what I&rsquo;m doing.</p>
+
+<p>Let&rsquo;s change the hostname.
+  vi /etc/hostname
+Change it to &ldquo;router&rdquo; and save it.</p>
+
+<p>Now edit the hosts file.
+  vi /etc/hosts
+You&rsquo;ll see two entries for the loopback address (127.0.0.1), change the second one to &ldquo;router&rdquo;.</p>
+
+<p>reboot and login, the hostname is now changed.</p>
+
+<p>====== Install IP Tables ======
+  apt-get install iptables</p>
+
+<p>====== Configure the Network Interfaces ======
+The first network interface should be already working and configured for dchp so let&rsquo;s add the configuration for the second interface.</p>
+
+<p>  vi /etc/network/interfaces</p>
+
+<p><code></p>
+
+<h1>This file describes the network interfaces available on your system</h1>
+
+<h1>and how to activate them. For more information, see interfaces(5).</h1>
+
+<h1>The loopback network interface</h1>
+
+<p>auto lo
+iface lo inet loopback</p>
+
+<h1>The primary network interface</h1>
+
+<p>auto eth0
+iface eth0 inet dhcp
+  pre-up iptables-restore &lt; /etc/iptables.rules</p>
+
+<h1>The inside interface</h1>
+
+<p>auto eth1
+iface eth1 inet static
+  address 10.10.10.1
+  netmask 255.255.255.0
+  network 10.10.10.0
+  broadcast 10.10.10.255
+</code></p>
+
+<p>====== Enable IPv4 Forwarding ======
+This will make ip forwarding permanent
+  vi /etc/sysctl.conf
+Find this line and make it look the same:
+  # Uncomment the next line to enable packet forwarding for IPv4
+  net.ipv4.ip_forward=1</p>
+
+<p>====== Add the IP Table rules and save them ======
+  iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+  iptables -A FORWARD -i eth0 -o eth1 -m state &mdash;state RELATED,ESTABLISHED -j ACCEPT
+  iptables -A FORWARD -i eth1 -o eth0 -j ACCEPT</p>
+
+<p>  iptables-save > /etc/iptables.rules</p>
+
+<p>====== Rules for it20 ======
+<code>
+iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
+iptables -A FORWARD -i eth1 -o eth0 -m state &mdash;state RELATED,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i eth0 -o eth1 -j ACCEPT
+</code></p>
+
+<p><code>
+root@it20:~# iptables -L -n -v
+Chain INPUT (policy ACCEPT 2035K packets, 2873M bytes)
+ pkts bytes target     prot opt in     out     source               destination</p>
+
+<p>Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination       <br/>
+ 2176  654K ACCEPT     all  &mdash;  eth1   eth0    0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED
+ 2594  537K ACCEPT     all  &mdash;  eth0   eth1    0.0.0.0/0            0.0.0.0/0</p>
+
+<p>Chain OUTPUT (policy ACCEPT 1105K packets, 61M bytes)
+ pkts bytes target     prot opt in     out     source               destination       <br/>
+root@it20:~#
+</code></p>
+
+<p>Problems? try flushing:
+  iptables -F
+  iptables -F -t nat</p>
+
+<p>====== On startup ======
+The script /etc/network/if-pre-up.d/iptablesload will contain:
+<code></p>
+
+<h1>!/bin/sh</h1>
+
+<p>iptables-restore &lt; /etc/iptables.rules
+exit 0
+</code></p>

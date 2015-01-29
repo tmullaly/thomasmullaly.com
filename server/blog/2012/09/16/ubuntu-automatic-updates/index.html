@@ -1,0 +1,51 @@
+<p>The unattended-upgrades package can be used to automatically install updated packages, and can be configured to update all packages or just install security updates. First, install the package by entering the following in a terminal:</p>
+
+<p>  sudo apt-get install unattended-upgrades
+To configure unattended-upgrades, edit /etc/apt/apt.conf.d/50unattended-upgrades and adjust the following to fit your needs:</p>
+
+<p><code>
+Unattended-Upgrade::Allowed-Origins {</p>
+
+<pre><code>"${distro_id}:${distro_codename}-security";
+</code></pre>
+
+<p>//  &ldquo;${distro_id}:${distro_codename}-updates&rdquo;;
+//  &ldquo;${distro_id}:${distro_codename}-proposed&rdquo;;
+//  &ldquo;${distro_id}:${distro_codename}-backports&rdquo;;
+};
+</code>
+Certain packages can also be blacklisted and therefore will not be automatically updated. To blacklist a package, add it to the list:
+<code>
+Unattended-Upgrade::Package-Blacklist {
+//      &ldquo;vim&rdquo;;
+//      &ldquo;libc6&rdquo;;
+//      &ldquo;libc6-dev&rdquo;;
+//      &ldquo;libc6-i686&rdquo;;
+};
+</code>
+The double “//” serve as comments, so whatever follows &ldquo;//&rdquo; will not be evaluated.</p>
+
+<p>To enable automatic updates, edit /etc/apt/apt.conf.d/10periodic and set the appropriate apt configuration options:
+<code>
+APT::Periodic::Update-Package-Lists &ldquo;1&rdquo;;
+APT::Periodic::Download-Upgradeable-Packages &ldquo;1&rdquo;;
+APT::Periodic::AutocleanInterval &ldquo;7&rdquo;;
+APT::Periodic::Unattended-Upgrade &ldquo;1&rdquo;;
+</code>
+The above configuration updates the package list, downloads, and installs available upgrades every day. The local download archive is cleaned every week.</p>
+
+<p>You can read more about apt Periodic configuration options in the /etc/cron.daily/apt script header.</p>
+
+<p>The results of unattended-upgrades will be logged to /var/log/unattended-upgrades.</p>
+
+<p>Notifications
+Configuring Unattended-Upgrade::Mail in /etc/apt/apt.conf.d/50unattended-upgrades will enable unattended-upgrades to email an administrator detailing any packages that need upgrading or have problems.</p>
+
+<p>Another useful package is apticron. apticron will configure a cron job to email an administrator information about any packages on the system that have updates available, as well as a summary of changes in each package.</p>
+
+<p>To install the apticron package, in a terminal enter:</p>
+
+<p>  sudo apt-get install apticron
+Once the package is installed edit /etc/apticron/apticron.conf, to set the email address and other options:</p>
+
+<p>  EMAIL=&ldquo;<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#114;&#111;&#111;&#116;&#64;&#x65;&#120;&#x61;&#109;&#112;&#108;&#101;&#x2e;&#x63;&#x6f;&#109;">&#114;&#111;&#x6f;&#x74;&#x40;&#x65;&#x78;&#97;&#x6d;&#x70;&#108;&#x65;&#46;&#x63;&#111;&#x6d;</a>&rdquo;</p>

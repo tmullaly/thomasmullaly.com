@@ -1,0 +1,32 @@
+====== Prerequisites ======
+Bring up the Domain functional level to Windows Server 2008 R2
+
+Modify the lab computers to PXE boot with the needed [[Dell Optiplex 790 BIOS Configuration]]
+
+Modify the [[configure dhcp|DHCP server configuration]] to include the settings needed by WDS
+
+======Install Windows Deployment Services======
+Add Computer to Domain and login with administrative Domain Account!!!
+
+Install WDS role on the WDS computer
+
+Get the volume licensed install media to add the boot and install image to WDS
+
+Test by installing a default windows 7 install on a machine
+
+======Create Capture Image======
+On WDS go into Boot Images
+
+Click on Create Capture Boot Image
+
+Walk through wizard
+
+Click Add Boot Image
+
+======Custom Install Image======
+
+Create a reference computer (install the operating systeem, applications, and any other changes)
+
+run sysprep /oobe /generalize /reboot
+
+

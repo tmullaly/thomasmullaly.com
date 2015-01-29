@@ -1,0 +1,14 @@
+<p>I added another virtual drive to store the images on and to capture to.</p>
+
+<p>It&rsquo;s mounted on E:</p>
+
+<p>To move the RemoteInstall Directory:</p>
+
+<ol>
+<li><p>First you have to uninitialize
+C:/> WDSUTIL /uninitialize-server</p></li>
+<li><p>Copy the RemoteInstall Directory to the new location</p></li>
+<li><p>Now reinitialize
+c:/> WDSUTIL /Initialize-server /RemInst:E:\RemoteInstall</p></li>
+</ol>
+

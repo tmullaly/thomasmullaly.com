@@ -1,0 +1,17 @@
+"Information technology is a tool; it's a means to an end. What you're trying to accomplish is to get to a much more efficient way to do business, getting more for less." 
+
+---Thomas Mullaly
+
+
+
+^ School ^ Operating Systems ^ Development ^ Other ^
+|[[Capstone Project]]|[[Ubuntu Linux]]|[[Android Development Setup]]|[[Windows Media Player Playlist]]|
+|[[Capstone Tasks]]|[[Debian Linux]]|[[Unix Commands]]|[[Amazon Web Services]]|
+|[[Puppet]]|[[Oracle Solaris 11]]|[[Perl]]|[[Security]]|
+|[[Puppet Tutorial]]|[[Scientific Linux]]|[[Git]]|[[Dell Optiplex 790 BIOS Configuration]]|
+|<del>[[Ubuntu AD client]]</del>|[[Windows 7]]        | [[Rails Production Server]] | [[Windows 7 Software]] | 
+|[[Ubuntu RID NFS Server]]      |[[Windows Server 2008]]|[[Capistrano]] | [[IT for Startups]] |
+|[[Ubuntu RID Client]]          |                     |[[RESTClient]]|[[MRTG]]|
+|[[WDS for CS]]                 |[[Apple OS X]]|[[Ruby on Rails at UMB]]|[[http://www.catornotcat.com|Cat (or Not) Cat]] |
+|[[operator:Operator]] | |[[nginx]]|[[Outgoing port tester]]|
+| | |[[RStudio]]| |

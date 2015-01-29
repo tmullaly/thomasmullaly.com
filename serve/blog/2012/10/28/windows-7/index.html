@@ -1,0 +1,15 @@
+<p>There&rsquo;s been an arp problem with the new dells.</p>
+
+<p><code>
+C:\Windows\system32>arp -a</p>
+
+<p>Interface: 192.168.105.199 &mdash;&ndash; 0xb
+  Internet Address      Physical Address      Type
+  192.168.104.2         00-03-ba-1d-a9-70     dynamic
+  192.168.104.3         00-03-ba-67-d4-e9     dynamic
+</code>
+Type cmd then ctrl + shift + enter to get admin privilege.</p>
+
+<p>  C:\Windows\system32>netsh -c &ldquo;interface ipv4&rdquo;
+  netsh interface ipv4>set neighbors &ldquo;Local Area Connection&rdquo; 192.168.104.1 00-09-43-1b-21-4c
+  netsh interface ipv4>exit</p>

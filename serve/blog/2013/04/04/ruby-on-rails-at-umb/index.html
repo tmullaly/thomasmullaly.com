@@ -1,0 +1,47 @@
+<p>[[Ruby on Rails Links for CS410]]</p>
+
+<p>[[Production Rails Server for CS410]]</p>
+
+<p>[[Development Environment Help]]</p>
+
+<p>I&rsquo;ve installed rvm globally on each linux workstation.</p>
+
+<p>First, make sure you speak with me first, I need to add you into the proper unix group.</p>
+
+<ol>
+<li><p>Check your group to make sure you are in the rvm group
+tmullaly@yel:~$ id
+uid=7265(tmullaly) gid=10241(ugrad) groups=10241(ugrad),1080(cs108-1),20106(rvm)</p></li>
+<li><p>Add this rvm directive to your .bashrc
+[[ -s &ldquo;/etc/profile.d/rvm.sh&rdquo; ]] &amp;&amp; . &ldquo;/etc/profile.d/rvm.sh&rdquo; # Load RVM function</p></li>
+<li><p>Logout and log back in to make sure your .bashrc has been sourced</p></li>
+<li><p>Check to see if ruby and gem is now in your path
+tmullaly@yel:~$ which ruby
+/usr/local/rvm/rubies/ruby-2.0.0-p0/bin/ruby
+tmullaly@yel:~$ which gem
+/usr/local/rvm/rubies/ruby-2.0.0-p0/bin/gem</p></li>
+<li><p>Check what gems are installed
+<code>
+tmullaly@yel:~$ gem list</p></li>
+</ol>
+
+
+<p><strong><em> LOCAL GEMS </em></strong></p>
+
+<p>bundler (1.3.0)
+rake (10.0.3)
+rubygems-bundler (1.1.1)
+rvm (1.11.3.6)
+</code></p>
+
+<ol>
+<li>install rails, or whatever gem you need
+gem install rails
+Gems get install globally per machine, if you install a gem on red, I can use it.  If you install a gem on blue and then you login to cyan, you need to install it again.</li>
+</ol>
+
+
+<p>Here are some more notes to update to a newer version of rvm and/or ruby
+  rvm get stable
+  rvm install ruby
+  rvm &mdash;default use 2.0.0</p>

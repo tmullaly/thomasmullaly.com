@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Security | Thomas Mullaly]]></title>
+  <link href="http://thomasmullaly.com/blog/categories/security/atom.xml" rel="self"/>
+  <link href="http://thomasmullaly.com/"/>
+  <updated>2014-07-03T23:18:54-04:00</updated>
+  <id>http://thomasmullaly.com/</id>
+  <author>
+    <name><![CDATA[Thomas Mullaly]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to Zero Out Free Disk Space in Windows]]></title>
+    <link href="http://thomasmullaly.com/blog/2014/06/02/zero-out-free-space-in-windows/"/>
+    <updated>2014-06-02T00:00:00-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2014/06/02/zero-out-free-space-in-windows</id>
+    <content type="html"><![CDATA[<p>To overwrite deleted data on a volume by using Cipher.exe, use the /w switch with the cipher command. Use the following steps:</p>
+
+<ol>
+<li><p>Quit all programs.</p></li>
+<li><p>Click Start, click Run, type cmd, and then press ENTER.</p></li>
+<li><p>Type cipher /w:driveletter:\foldername, and then press ENTER. Specify the drive and the folder that identifies the volume that contains the deleted data that you want to overwrite. Data that is not allocated to files or folders will be overwritten. This permanently removes the data. This can take a long time if you are overwriting a large space.</p></li>
+</ol>
+
+
+<p>Note With mount points in Windows 2000, you can mount a volume on any empty folder on an NTFS volume. When you do this, the mounted volume does not have a drive letter of its own. The only way to address that volume is by using the path where you created the mount point. Therefore, the /w switch requests a path of a folder, and from that, it determines the associated volume to wipe. Because of the way the file system works, the whole volume must be wiped. A file can be written anywhere on the volume at any time. A folder does not address a specific physical location on disk but is a logical container for file entries in the volume&rsquo;s table of contents (MFT or FAT). To make sure that there is no leftover data in unallocated space, all unallocated space on the volume must be wiped.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to Zero Out Free Disk Space in Windows]]></title>
+    <link href="http://thomasmullaly.com/blog/2014/06/02/openvpn-on-amazon-ec2/"/>
+    <updated>2014-06-02T00:00:00-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2014/06/02/openvpn-on-amazon-ec2</id>
+    <content type="html"><![CDATA[<p><div>
+  <pre><code class='bash'>&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1  yum update
+2  reboot
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;   16  vi /etc/sysconfig/network
+   17  vi /etc/hosts
+   18  reboot
+   19  yum install openvpn
+   20  cd /etc/openvpn/
+   21  ls
+   22  cp /usr/share/doc/openvpn-2.3.2/sample/sample-config-files/server.conf .
+   26  vi server.conf
+   27  mkdir -p /etc/openvpn/easy-rsa/keys
+   35  yum install lzo
+   36  yum-config-manager &amp;mdash;enable epel
+   37  yum install easy-rsa
+   42  cp -rf /usr/share/easy-rsa/2.0/&lt;em&gt; /etc/openvpn/easy-rsa
+   56  vi vars
+   57  source ./vars
+   58  ./clean-all
+   59  ./build-ca
+   65  ./build-key-server server
+   66  ./build-dh
+   67  cd keys/
+   69  cp dh2048.pem ca.crt server.crt server.key /etc/openvpn
+   70  cd ..
+   72  ./build-key macbookair
+   75  iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
+   76  service iptables save
+   77  vi /etc/sysctl.conf
+   80  vi server.conf
+   81  ifconfig
+   82  cd easy-rsa/keys/
+   85  zip macbookair.zip macbookair.&lt;/em&gt;
+   92  mv macbookair.zip /tmp
+   93  cd /tmp
+   94  scp macbookair.zip &lt;a href=&quot;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#x74;&amp;#111;&amp;#x6d;&amp;#64;&amp;#116;&amp;#104;&amp;#x75;&amp;#110;&amp;#100;&amp;#101;&amp;#114;&amp;#104;&amp;#111;&amp;#x75;&amp;#115;&amp;#101;&amp;#46;&amp;#99;&amp;#x6f;&amp;#109;&quot;&gt;&amp;#116;&amp;#111;&amp;#109;&amp;#64;&amp;#x74;&amp;#x68;&amp;#117;&amp;#110;&amp;#x64;&amp;#101;&amp;#114;&amp;#104;&amp;#x6f;&amp;#117;&amp;#115;&amp;#x65;&amp;#46;&amp;#x63;&amp;#111;&amp;#109;&lt;/a&gt;
+   95  mv tom\@thunderhouse.com macbookair.zip
+   96  ls
+   97  rm tom\@thunderhouse.com
+   98  scp macbookair.zip tom@thunderhouse.com:.
+   99  cd /etc/openvpn/
+  100  ls
+  101  cd /usr/share/openvpn/
+  102  ls
+  103  cd
+  104  reboot
+  105  cd /etc/open
+  106  ls
+  107  cd /etc/openvpn/
+  108  ls
+  109  scp ca.crt tom@thunderhouse.com:.
+  110  tail -f /var/log/syslog
+  111  tail -f /var/log/messages
+  112  ps -ef
+  113  netstat -tap
+  114  sysctl -p
+  115  service openvpn start
+  116  tail -f /var/log/messages
+  117  ls
+  118  vi server.conf
+  119  service openvpn start
+  120  chkconfig openvpn on
+  121  tail -f /var/log/messages
+  122  cd /var/log
+  123  ll
+  124  cat secure
+  125  tail -f messages
+  126  w
+  127  top
+  128  cd /etc
+  129  vi aliases
+  130  newaliases
+  131  w
+  132  netstat -tap
+  133  netstat -ta
+  134  netstat
+  135  netstat -a
+  136  netstat -ta
+  137  ifconfig
+  138  netstat -ta -i eth0
+  139  netstat -ta -I eth0
+  140  exit
+  141  ls -la
+  142  ls
+  143  cd /tmp
+  144  ls
+  145  rm macbookair.zip
+  146  cd
+  147  netstat -tap
+  148  iptables =L
+  149  iptables -L
+  150  iptables -L -n -V
+  151  iptables -L -n -v
+  152  yum install netstat-nat
+  153  netstat-nat
+  154  exit
+  155  tail -f /var/log/messages
+  156  history</code></pre>
+</div>
+</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ossec NFS Statd Static Port]]></title>
+    <link href="http://thomasmullaly.com/blog/2014/03/17/ossec-nfs-statd-static/"/>
+    <updated>2014-03-17T14:08:55-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2014/03/17/ossec-nfs-statd-static</id>
+    <content type="html"><![CDATA[<p>First edit /etc/default/nfs-common and add:</p>
+
+<p><div>
+  <pre><code class='bash'>STATDOPTS=&amp;ldquo;&amp;mdash;port 4000 &amp;mdash;outgoing-port 4001&amp;rdquo;</code></pre>
+</div>
+</p>
+
+<p>Next add the file /etc/modprobe.d/options.conf</p>
+
+<p><div>
+  <pre><code class='bash'>options lockd nlm_udpport=4002 nlm_tcpport=4002</code></pre>
+</div>
+</p>
+
+<p>reboot and you should be good</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Risk Analysis]]></title>
+    <link href="http://thomasmullaly.com/blog/2014/02/21/risk-analysis/"/>
+    <updated>2014-02-21T09:02:05-05:00</updated>
+    <id>http://thomasmullaly.com/blog/2014/02/21/risk-analysis</id>
+    <content type="html"><![CDATA[<p>Always start off with your threat analysis.  You need to understand what the threats are, you have to identy what your critical assets are, you then figure out your vulnerabilities.  Now take your risk and plot the severity</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Security]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/08/15/security/"/>
+    <updated>2013-08-15T11:58:49-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/08/15/security</id>
+    <content type="html"><![CDATA[<p><a href="http://isc.sans.edu/infocon.html">
+<img src="http://isc.sans.edu/images/status.gif">
+</a></p>
+
+<p>[[Apache Security and Hardening]]</p>
+
+<p>[[Ubuntu Automatic Updates]]</p>
+
+<p>[[10 important Google search terms]]</p>
+
+<p>[[Wireshark Notes]]</p>
+]]></content>
+  </entry>
+  
+</feed>

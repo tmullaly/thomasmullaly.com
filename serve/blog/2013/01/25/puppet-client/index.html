@@ -1,0 +1,86 @@
+<p>====== Install puppet agent ======
+  apt-get install puppet
+====== Edit /etc/default/puppet ======
+<code></p>
+
+<h1>Defaults for puppet &ndash; sourced by /etc/init.d/puppet</h1>
+
+<h1>Start puppet in boot?</h1>
+
+<p>START=yes</p>
+
+<h1>Startup options</h1>
+
+<p>DAEMON_OPTS=&ldquo;&mdash;report&rdquo;
+</code>
+====== Add the puppet master host to DNS ======
+In my case I&rsquo;m adding to the local hosts file because I don&rsquo;t have access to DNS:
+  23.22.145.26    puppet</p>
+
+<p>====== Check for connectivity to the puppet master======
+  ping puppet</p>
+
+<p>====== Agent Setup ======
+  puppet agent &mdash;test</p>
+
+<p>you should get this:
+<code>
+root@red:~# puppet agent &mdash;test
+warning: peer certificate won&rsquo;t be verified in this SSL session
+warning: peer certificate won&rsquo;t be verified in this SSL session
+info: Creating a new SSL certificate request for red.cs.umb.edu
+info: Certificate Request fingerprint (md5): A0:A6:0C:8A:0E:A9:FD:AB:C9:5D:C8:3C:72:EE:33:57
+warning: peer certificate won&rsquo;t be verified in this SSL session
+warning: peer certificate won&rsquo;t be verified in this SSL session
+warning: peer certificate won&rsquo;t be verified in this SSL session
+Exiting; no certificate found and waitforcert is disabled
+</code>
+I got this because I reinstall the host and didn&rsquo;t backup the certs.
+<code>
+root@red:~# puppet agent &mdash;test
+info: Creating a new SSL key for red.cs.umb.edu
+warning: peer certificate won&rsquo;t be verified in this SSL session
+info: Caching certificate for ca
+warning: peer certificate won&rsquo;t be verified in this SSL session
+info: Caching certificate for red.cs.umb.edu
+err: Could not request certificate: The certificate retrieved from the master does not match the agent&rsquo;s private key.
+Certificate fingerprint: 4F:6B:D2:D7:A9:A4:DE:D6:59:AA:94:C8:59:26:3F:F5
+To fix this, remove the certificate from both the master and the agent and then start a puppet run, which will automatically regenerate a certficate.
+On the master:
+  puppet cert clean red.cs.umb.edu
+On the agent:
+  rm -f /var/lib/puppet/ssl/certs/red.cs.umb.edu.pem
+  puppet agent -t</p>
+
+<p>Exiting; failed to retrieve certificate and waitforcert is disabled
+</code></p>
+
+<p>The Puppet agent found the puppet master, but it got stopped at the certificate roadblock. It isn’t authorized to fetch configurations, so the master is turning it away.</p>
+
+<p>====== Sign the cert on the puppet master======
+=====List the certs waiting to be signed=====
+  puppet cert list</p>
+
+<p><code>
+root@puppet:~# puppet cert list
+  &ldquo;blu&rdquo;            (MD5) 8B:96:E5:59:45:97:EF:C1:BA:34:0F:1E:91:62:AF:1C
+  &ldquo;red.cs.umb.edu&rdquo; (MD5) A0:5D:C8:3C:72:EE:A6:0C:8A:0E:A4:FD:AB:C9:33:57
+</code>
+=====Sign the cert=====
+  puppet cert sign red.cs.umb.edu
+<code>
+root@puppet:~# puppet cert sign red.cs.umb.edu
+Signed certificate request for red.cs.umb.edu
+Removing file Puppet::SSL::CertificateRequest red.cs.umb.edu at &lsquo;/var/lib/puppet/ssl/ca/requests/red.cs.umb.edu.pem&rsquo;
+</code>
+====== Test the Client Agent again======
+  puppet agent &mdash;test</p>
+
+<p><code>
+root@red:~# puppet agent &mdash;test
+warning: peer certificate won&rsquo;t be verified in this SSL session
+info: Caching certificate for red.cs.umb.edu
+info: Caching certificate_revocation_list for ca
+info: Caching catalog for red.cs.umb.edu
+info: Applying configuration version &lsquo;1357769924&rsquo;
+</code></p>

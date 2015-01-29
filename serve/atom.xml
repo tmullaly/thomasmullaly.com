@@ -1,0 +1,2215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Thomas Mullaly]]></title>
+  <link href="http://thomasmullaly.com/atom.xml" rel="self"/>
+  <link href="http://thomasmullaly.com/"/>
+  <updated>2014-07-03T23:18:54-04:00</updated>
+  <id>http://thomasmullaly.com/</id>
+  <author>
+    <name><![CDATA[Thomas Mullaly]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to Zero Out Free Disk Space in Windows]]></title>
+    <link href="http://thomasmullaly.com/blog/2014/06/02/zero-out-free-space-in-windows/"/>
+    <updated>2014-06-02T00:00:00-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2014/06/02/zero-out-free-space-in-windows</id>
+    <content type="html"><![CDATA[<p>To overwrite deleted data on a volume by using Cipher.exe, use the /w switch with the cipher command. Use the following steps:</p>
+
+<ol>
+<li><p>Quit all programs.</p></li>
+<li><p>Click Start, click Run, type cmd, and then press ENTER.</p></li>
+<li><p>Type cipher /w:driveletter:\foldername, and then press ENTER. Specify the drive and the folder that identifies the volume that contains the deleted data that you want to overwrite. Data that is not allocated to files or folders will be overwritten. This permanently removes the data. This can take a long time if you are overwriting a large space.</p></li>
+</ol>
+
+
+<p>Note With mount points in Windows 2000, you can mount a volume on any empty folder on an NTFS volume. When you do this, the mounted volume does not have a drive letter of its own. The only way to address that volume is by using the path where you created the mount point. Therefore, the /w switch requests a path of a folder, and from that, it determines the associated volume to wipe. Because of the way the file system works, the whole volume must be wiped. A file can be written anywhere on the volume at any time. A folder does not address a specific physical location on disk but is a logical container for file entries in the volume&rsquo;s table of contents (MFT or FAT). To make sure that there is no leftover data in unallocated space, all unallocated space on the volume must be wiped.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to Zero Out Free Disk Space in Windows]]></title>
+    <link href="http://thomasmullaly.com/blog/2014/06/02/openvpn-on-amazon-ec2/"/>
+    <updated>2014-06-02T00:00:00-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2014/06/02/openvpn-on-amazon-ec2</id>
+    <content type="html"><![CDATA[<div>
+  <pre><code class='bash'>1  yum update
+    2  reboot
+   16  vi /etc/sysconfig/network
+   17  vi /etc/hosts
+   18  reboot
+   19  yum install openvpn
+   20  cd /etc/openvpn/
+   21  ls
+   22  cp /usr/share/doc/openvpn-2.3.2/sample/sample-config-files/server.conf .
+   26  vi server.conf 
+   27  mkdir -p /etc/openvpn/easy-rsa/keys
+   35  yum install lzo
+   36  yum-config-manager --enable epel
+   37  yum install easy-rsa
+   42  cp -rf /usr/share/easy-rsa/2.0/* /etc/openvpn/easy-rsa
+   56  vi vars 
+   57  source ./vars
+   58  ./clean-all
+   59  ./build-ca
+   65  ./build-key-server server
+   66  ./build-dh 
+   67  cd keys/
+   69  cp dh2048.pem ca.crt server.crt server.key /etc/openvpn
+   70  cd ..
+   72  ./build-key macbookair
+   75  iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
+   76  service iptables save
+   77  vi /etc/sysctl.conf
+   80  vi server.conf 
+   81  ifconfig
+   82  cd easy-rsa/keys/
+   85  zip macbookair.zip macbookair.*
+   92  mv macbookair.zip /tmp
+   93  cd /tmp
+   94  scp macbookair.zip tom@thunderhouse.com
+   95  mv tom\@thunderhouse.com macbookair.zip
+   96  ls
+   97  rm tom\@thunderhouse.com 
+   98  scp macbookair.zip tom@thunderhouse.com:.
+   99  cd /etc/openvpn/
+  100  ls
+  101  cd /usr/share/openvpn/
+  102  ls
+  103  cd
+  104  reboot
+  105  cd /etc/open
+  106  ls
+  107  cd /etc/openvpn/
+  108  ls
+  109  scp ca.crt tom@thunderhouse.com:.
+  110  tail -f /var/log/syslog
+  111  tail -f /var/log/messages 
+  112  ps -ef
+  113  netstat -tap
+  114  sysctl -p
+  115  service openvpn start
+  116  tail -f /var/log/messages 
+  117  ls
+  118  vi server.conf 
+  119  service openvpn start
+  120  chkconfig openvpn on
+  121  tail -f /var/log/messages 
+  122  cd /var/log
+  123  ll
+  124  cat secure 
+  125  tail -f messages 
+  126  w
+  127  top
+  128  cd /etc
+  129  vi aliases
+  130  newaliases
+  131  w
+  132  netstat -tap
+  133  netstat -ta
+  134  netstat
+  135  netstat -a
+  136  netstat -ta
+  137  ifconfig
+  138  netstat -ta -i eth0
+  139  netstat -ta -I eth0
+  140  exit
+  141  ls -la
+  142  ls
+  143  cd /tmp
+  144  ls
+  145  rm macbookair.zip 
+  146  cd 
+  147  netstat -tap
+  148  iptables =L
+  149  iptables -L
+  150  iptables -L -n -V
+  151  iptables -L -n -v
+  152  yum install netstat-nat
+  153  netstat-nat
+  154  exit
+  155  tail -f /var/log/messages 
+  156  history</code></pre>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Java Review - Flow Control]]></title>
+    <link href="http://thomasmullaly.com/blog/2014/05/24/java-review-flow-control/"/>
+    <updated>2014-05-24T00:00:00-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2014/05/24/java-review-flow-control</id>
+    <content type="html"><![CDATA[<h1>Selection</h1>
+
+<h2>If statements with optional else clauses</h2>
+
+<div>
+  <pre><code class='java'>if (boolean condition)
+  statement;
+else
+statement;</code></pre>
+</div>
+
+
+<h2>Switch statements</h2>
+
+<div>
+  <pre><code class='java'>switch (interger value) {
+  case FIRST_NAME:
+    statements;
+  case SECOND_NAME:
+    statements;
+  default:
+    statements;
+}</code></pre>
+</div>
+
+
+<h1>Repetition</h1>
+
+<h2>While</h2>
+
+<div>
+  <pre><code class='java'>while (scan.hasNext()) {
+  statements; // repeated until false above
+}</code></pre>
+</div>
+
+
+<h2>For</h2>
+
+<div>
+  <pre><code class='java'>for (int i = 0; i &lt; MAX; i++) {
+  statements; // repeated until false above
+}</code></pre>
+</div>
+
+
+<h2>Do &hellip; while</h2>
+
+<div>
+  <pre><code class='java'>do {
+  statements; // repeated until false above
+} while (done!);</code></pre>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Abstract Data Types (ADT) in Java]]></title>
+    <link href="http://thomasmullaly.com/blog/2014/05/23/abstract-data-types-in-java/"/>
+    <updated>2014-05-23T00:00:00-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2014/05/23/abstract-data-types-in-java</id>
+    <content type="html"><![CDATA[<p>A data type is a set of values and operations that can be preformed on thoses values.  In Java, the primitive data types (byte, short, int, long, float, double, boolean, char) have values and operations defined in Java itself.  An Abstract Data Type (ADT) is a data type that has values and operations that are NOT defined in the Java language itself.  In Java, ADT is implemented using a class or an interface.</p>
+
+<p>The code for Arrays.sort is designed to sort an array of comparable opjects.</p>
+
+<div>
+  <pre><code class='java'>public static void sort(Comparable [ ] data)</code></pre>
+</div>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Interview Questions]]></title>
+    <link href="http://thomasmullaly.com/blog/2014/04/10/interview-questions/"/>
+    <updated>2014-04-10T15:57:30-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2014/04/10/interview-questions</id>
+    <content type="html"><![CDATA[<h1>Unix Process</h1>
+
+<h2>What is the difference between a process and a thread?</h2>
+
+<p>A thread is a lightweight process.  Each process has a separate stack, text, data and heap. Threads have their own stack, but share text, data and heap with the process. Text is the actual program itself, data is the input to the program and heap is the memory which stores files, locks, sockets. Reference:
+<a href="https://computing.llnl.gov/tutorials/pthreads/#Thread" rel="nofollow"><a href="https://computing.llnl.gov/tutorials/pthreads/#Thread">https://computing.llnl.gov/tutorials/pthreads/#Thread</a></a></p>
+
+<h2>What is a zombie process?</h2>
+
+<p>A zombie process is a one which has completed execution, however it&rsquo;s entry is still in the process table to allow the parent to read the child&rsquo;s exit status. The reason the process is a zombie is because it is &ldquo;dead&rdquo; but not yet &ldquo;reaped&rdquo; by it&rsquo;s parent.  Parent processes normally issue the wait system call to read the child&rsquo;s exit status whereupon the zombie is removed. The kill command does not work on zombie process. When a child dies the parent receives a SIGCHLD signal.</p>
+
+<p>Reference: <a href="http://en.wikipedia.org/wiki/Zombie_process" rel="nofollow"><a href="http://en.wikipedia.org/wiki/Zombie_process">http://en.wikipedia.org/wiki/Zombie_process</a></a></p>
+
+<h2>Describe ways of process inter-communication</h2>
+
+<ul>
+<li>POSIX mmap, message queues, semaphores, and Shared memory</li>
+<li>Anonymous pipes and named pipes</li>
+<li>Unix domain sockets</li>
+<li>RPC</li>
+<li>For a complete list see <a href="http://en.wikipedia.org/wiki/Inter-process_communication" rel="nofollow"><a href="http://en.wikipedia.org/wiki/Inter-process_communication">http://en.wikipedia.org/wiki/Inter-process_communication</a></a></li>
+</ul>
+
+
+<h2>How to daemonize a process</h2>
+
+<ul>
+<li>The fork() call is used to create a separate process.</li>
+<li>The setsid() call is used to detach the process from the parent (normally a shell).</li>
+<li>The file mask should be reset.</li>
+<li>The current directory should be changed to something benign.</li>
+<li>The standard files (stdin,stdout and stderr) need to be reopened.</li>
+</ul>
+
+
+<h2>Describe how processes executes in a Unix shell</h2>
+
+<p>Let&rsquo;s take the example of /bin/ls. When run &ldquo;ls&rdquo; the shell searches in it&rsquo;s path for an executable named &ldquo;ls&rdquo;, when it finds it, the shell will forks off a copy of itself using the fork system call. If the fork succeeds, then in the child process the shell will run &ldquo;exec /bin/ls&rdquo; which will replace the copy of the child shell wit itself.  Any parameters that that are passed to &ldquo;ls&rdquo; are done so by exec.</p>
+
+<h2>When you send a kill -9 to a process, you notice that it does not die, what could have happened?</h2>
+
+<p>During critical section execution, some processes can setup signal blocking.  The system call to mask signals is &ldquo;sigprocmask&rdquo;. When the kernel raises a blocked signal, it is not delivered. Such signals are called pending.  When a pending signal is unblocked, the kernel passes it off to the process to handle.  It is possible that the process was masking -9.</p>
+
+<h2>How do you end up with zombie processes?</h2>
+
+<p>Zombie processes are created when the parent does not reap the child. This can happen due to parent not executing the wait() system call after forking.</p>
+
+<h2>What are Unix Signals?</h2>
+
+<p>Signals are an inter process communication method. The default signal in Linux is SIG-TERM. SIG-INT cannot be ignored and causes an application to be forcefully killed. Use the &ldquo;kill&rdquo; command to send signals to a process. Another popular signal is the &ldquo;HUP&rdquo; signal which is used to &ldquo;reset&rdquo; or &ldquo;hang up&rdquo; applications.</p>
+
+<h1>Networking</h1>
+
+<h2>Define TCP slow start</h2>
+
+<p>Tcp slow start is a congestion control algorithm that starts by increasing the TCP congestion window each time an ACK is received, until an ACK is not received.
+Reference:<a href="http://en.wikipedia.org/wiki/Slow-start" rel="nofollow"><a href="http://en.wikipedia.org/wiki/Slow-start">http://en.wikipedia.org/wiki/Slow-start</a></a></p>
+
+<h2>Name a few TCP connections states</h2>
+
+<ol>
+<li>LISTEN &ndash; Server is listening on a port, such as HTTP</li>
+<li>SYNC-SENT &ndash; Sent a SYN request, waiting for a response</li>
+<li>SYN-RECEIVED &ndash; (Server) Waiting for an ACK, occurs after sending an ACK from the server</li>
+<li>ESTABLISHED &ndash; 3 way TCP handshake has completed</li>
+</ol>
+
+
+<h2>Define the various protocol states of DHCP</h2>
+
+<ul>
+<li>DHCPDISCOVER     client-&gt;server : broadcast to locate server</li></li>
+<li>DHCPOFFER    server-&gt;client :  offer to client with offer of configuration parameters</li></li>
+<li>DHCPREQUEST  client-&gt;server : requesting a dhcp config from server</li></li>
+<li>DHCPACK          server-&gt;client : actual configuration paramters</li></li>
+<li>DHCPNAK          server-&gt;client : indicating client&#8217;s notion of network address is incorrect</li></li>
+<li>DHCPDECLINE      client-&gt;server : address is already in use</li></li>
+<li>DHCPRELEASE      client-&gt;server : giving up of ip address</li></li>
+<li>DHCPINFORM       client-&gt;server : asking for local config parameters</li></li>
+<li>Reference: <a href="https://www.ietf.org/rfc/rfc2131.txt" rel="nofollow"><a href="https://www.ietf.org/rfc/rfc2131.txt">https://www.ietf.org/rfc/rfc2131.txt</a></a></li>
+</ul>
+
+
+<h2>How do you figure out the network and broadcast address of a network given a netmask?</h2>
+
+<h2>Describe a TCP packet fields</h2>
+
+<h2>Difference between TCP/UDP</h2>
+
+<ul>
+<li>Reliable/Unreliable</li>
+<li>Ordered/Unordered</li>
+<li>Heavyweight/Lightweight</li>
+<li>Streaming</li>
+<li>Header size</li>
+<li>Examples:
+
+<h2>What are the different kind of NAT available?</h2>
+
+<p>There is SNAT and DNAT. SNAT stands for source network address translation. DNAT stands for destination network address translation. SNAT occurs when the source IP address if RFC 1918 and is changed to be non-RFC 1918. For instance if you are at home using your cable model and want to connect to and external site such as <a href="http://www.cnn.com" rel="nofollow"><a href="http://www.cnn.com">http://www.cnn.com</a></a>, then your router will change the source address of the TCP packet to be it&rsquo;s external public IP. This is called SNAT. DNAT is when the destination IP address is changed. For instance when your packet reaches the <a href="http://www.cnn.com" rel="nofollow"><a href="http://www.cnn.com">http://www.cnn.com</a></a> router, and the web server behind the router is using RFC 1918 space, then the router might change the destination to be the RFC 1918 IP address of the web server. This is called DNAT.</p></li>
+</ul>
+
+
+<h1>DNS</h1>
+
+<h2>Explain the SOA record in DNS</h2>
+
+<p>SOA stands for Start of Authority and it contains the following entries:</p>
+
+<div>
+  <pre><code class='bash'>@   IN  SOA     nameserver.mycomaind.com.  postmaster.mydomain.com. (
+                               1            ; serial number
+                               3600         ; refresh   [1h]
+                               600          ; retry     [10m]
+                               86400        ; expire    [1d]
+                               3600 )       ; min TTL   [1h]fire</code></pre>
+</div>
+
+
+<p><strong>Serial number</strong> should be refreshed each time a change is made to the zone file. This is how slave DNS servers know to pull a change from the master.</p>
+
+<p><strong>Refresh</strong> is the amount of time a slave DNS server should wait before pulling from the master.</p>
+
+<p><strong>Retry</strong> is how long a slave should wait before retrying to get a zone file if the initial retry fails.</p>
+
+<p><strong>Expire</strong> is how long a secondary server will keep trying to get a zone from the master. If this time expires before a successful zone transfer, the secondary will stop answering queries.</p>
+
+<p><strong>TTL</strong> is how long to keep the data in a zone file.</p>
+
+<h1>Filesystems</h1>
+
+<h2>List open file handles</h2>
+
+<ul>
+<li>lsop -p process-id</li>
+<li>Or ls /proc/process-id/fd</li>
+</ul>
+
+
+<h2>What is an inode?</h2>
+
+<p>An inode is a data structure in Unix that contains metadata about a file. Some of the items contained in an inode are:</p>
+
+<ol>
+<li>mode</li>
+<li>owner (UID, GID)</li>
+<li>size</li>
+<li>atime, ctime, mtime</li>
+<li>acl&rsquo;s</li>
+<li>blocks list of where the data is
+The filename is present in the parent directory&rsquo;s inode structure.</li>
+</ol>
+
+
+<h2>What is the difference between a soft link and a hard link?</h2>
+
+<p>1) Hardlink shares the same inode number as the source link. Softlink has a different inode number. Example:</p>
+
+<div>
+  <pre><code class='bash'>$ touch a
+$ ln a b
+$ ls -i a b
+24 a  24 b
+$ ln -s a c
+$ ls -i a c
+24 a  25 c</code></pre>
+</div>
+
+
+<p>2) In the data portion of the softlink is the name of the source file.</p>
+
+<p>3) Hardlinks are only valid in the same filesystem, softlinks can be across filesystems.</p>
+
+<h2>When would you use a hardlink over a softlink?</h2>
+
+<p>A hardlink is useful when the source file is getting moved around, because renaming the source does not remove the hardlink connection. On the other hand, if you rename the source of a softlink, the softlink is broken. This is because hardlink&rsquo;s share the same inode, and softlink uses the source filename in it&rsquo;s data portion.</p>
+
+<h2>Describe LVM and how it can be helpful</h2>
+
+<p>LVM stands for logical volume manager and it is a way of grouping disks into logical units. The basic unit of LVM is a PE or a physical extent. One disk may be divided into one or more PE&rsquo;s.  One or more PE&rsquo;s are contained in a VG or a volume group. Or or more LV or logical volumes are created out of a VG. For instance, if we have a server with 2x1TB disk drives, we can create 4xPE&rsquo;s on it, each one being 500GB. On disk 1 let&rsquo;s say we name the PE&rsquo;s PE1 and PE3 and on disk 2 we name the PE&rsquo;s PE2 and PE4. We can then create VG0 out of PE1 and PE2, and VG1 out of PE3 and PE4. After that we can create a LV called /root and another one called swap on VG0.</p>
+
+<p>An advantage of using LVM is that we can create &ldquo;software&rdquo; RAID, i.e., we can join multiple disks into one bigger disk. We cannot select the RAID level with LVM, for instance we cannot say that a VG is of RAID 5 type, however we are able to pick and chose the different PE&rsquo;s we want in a VG. Also LVM allows for dynamically growing a disk.</p>
+
+<h2>What is &ldquo;md&rdquo; and how do you use it?</h2>
+
+<p>MD is Linux software RAID. RAID can be done either in hardware wherein there is a RAID controller that does RAID and presents a logical volume to the OS, or RAID can be done in software wherein the kernel has a RAID driver which takes one or more disks can does RAID across them. &ldquo;MD&rdquo; refers to the software RAID component of Linux.</p>
+
+<h2>What are some reasons to consider one filesystem type over another, such as XFS, ext?</h2>
+
+<h2>What is RAID, and define a few RAID levels</h2>
+
+<h3>RAID 0</h3>
+
+<p>RAID 0 comprises striping (but no parity or mirroring). This level provides no data redundancy nor fault tolerance, but improves performance through parallelism of read and write operations across multiple drives. RAID 0 has no error detection mechanism, so the failure of one disk causes the loss of all data on the array.</p>
+
+<h3>RAID 1</h3>
+
+<p>RAID 1 comprises mirroring (without parity or striping). Data are written identically to two (or more) drives, thereby producing a &ldquo;mirrored set&rdquo;. The read request is serviced by any of the drives containing the requested data. This can improve performance if data is read from the disk with the least seek latency and rotational latency. Conversely, write performance can be degraded because all drives must be updated; thus the write performance is determined by the slowest drive. The array continues to operate as long as at least one drive is functioning.</p>
+
+<h3>RAID 2</h3>
+
+<p>RAID 2 comprises bit-level striping with dedicated Hamming-code parity. All disk spindle rotation is synchronized and data is striped such that each sequential bit is on a different drive. Hamming-code parity is calculated across corresponding bits and stored on at least one parity drive. This level is of historical significance only. Although it was used on some early machines (e.g. the Thinking Machines CM-2), it is only recently used by high-performance commercially available systems.</p>
+
+<h3>RAID 3</h3>
+
+<p>RAID 3 comprises byte-level striping with dedicated parity. All disk spindle rotation is synchronized and data is striped such that each sequential byte is on a different drive. Parity is calculated across corresponding bytes and stored on a dedicated parity drive. Although implementations exist, RAID 3 is not commonly used in practice.</p>
+
+<h3>RAID 4</h3>
+
+<p>RAID 4 comprises block-level striping with dedicated parity. This level was previously used by NetApp, but has now been largely replaced by a proprietary implementation of RAID 4 with two parity disks, called RAID-DP.</p>
+
+<h3>RAID 5</h3>
+
+<p>RAID 5 comprises block-level striping with distributed parity. Unlike in RAID 4, parity information is distributed among the drives. It requires that all drives but one be present to operate. Upon failure of a single drive, subsequent reads can be calculated from the distributed parity such that no data is lost. RAID 5 requires at least three disks. RAID 5 is seriously affected by the general trends regarding array rebuild time and chance of failure during rebuild. In August 2012, Dell posted an advisory against the use of RAID 5 in any configuration and of RAID 50 with &ldquo;Class 2 7200 RPM drives of 1 TB and higher capacity&rdquo;.</p>
+
+<h3>RAID 6</h3>
+
+<p>RAID 6 comprises block-level striping with double distributed parity. Double parity provides fault tolerance up to two failed drives. This makes larger RAID groups more practical, especially for high-availability systems, as large-capacity drives take longer to restore. As with RAID 5, a single drive failure results in reduced performance of the entire array until the failed drive has been replaced. With a RAID 6 array, using drives from multiple sources and manufacturers, it is possible to mitigate most of the problems associated with RAID 5. The larger the drive capacities and the larger the array size, the more important it becomes to choose RAID 6 instead of RAID 5. RAID 10 also minimizes these problems.</p>
+
+<h3>RAID 0+1</h3>
+
+<p>RAID 0+1 (also called RAID 01), is a RAID level used for both replicating and sharing data among disks. RAID 0+1 is a mirror of stripes. The usable capacity of a RAID 0+1 array is the same as a RAID 1 array, where half of the total capacity is used to mirror the other half. (N/2) * S<sub>min</sub>, where N is the total number of drives and S<sub>min</sub> is the capacity of the smallest drive in the array.</p>
+
+<h3>RAID 1+0</h3>
+
+<p>A RAID 1+0, sometimes called RAID 1&amp;0 or RAID 10, is similar to a RAID 0+1 with exception that the RAID levels used are reversed—RAID 10 is a stripe of mirrors.</p>
+
+<p>Wikipedia has a very well written on RAID here <a href="https://en.wikipedia.org/wiki/RAID" rel="nofollow"><a href="https://en.wikipedia.org/wiki/RAID">https://en.wikipedia.org/wiki/RAID</a></a>.</p>
+
+<h2>If a filesystem is full, and you see a large file that is taking up a lot of space, how do make space on the filesystem?</h2>
+
+<p>1) If no process has the filehandle open, you can delete the file.</p>
+
+<p>2) If a process has the filehandle open, it is better if you do not delete the file, instead you can &ldquo;cp /dev/null&rdquo; on the file, which will reduce it&rsquo;s size to 0.</p>
+
+<p>3) A filesystem has a reserve, you can reduce the size of this reserve to create more space using tunefs.</p>
+
+<h1>Algorithms</h1>
+
+<h2>Binary tree complexity</h2>
+
+<p>O(log n)</p>
+
+<h2>Hash table complexity</h2>
+
+<p>O(1)</p>
+
+<h1>HTTP</h1>
+
+<h2>Common Http response codes</h2>
+
+<ul>
+<li>200 OK The request has succeeded</li></li>
+<li>500 Internal Server Error (Server Error)</li></li>
+<li>403 Forbidden</li></li>
+<li>301 Permanent Redirect</li></li>
+<li>302 Temporary Redirect</li></li>
+<li><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html" rel="nofollow"><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html</a></a></li>
+</ul>
+
+
+<h2>What is an http cookie</h2>
+
+<ul>
+<li>Http cookie is a small piece of data that a server sends to a browser, which a browser usually stores in it&rsquo;s cookie cache. Cookie can be used to maintain session information since HTTP is stateless, and also for user preferences at a given site. Cookies can also be used to store encrypted password. Browsers send cookies back to the server when they make a connection.</li>
+<li><a href="http://en.wikipedia.org/wiki/HTTP_cookie" rel="nofollow"><a href="http://en.wikipedia.org/wiki/HTTP_cookie">http://en.wikipedia.org/wiki/HTTP_cookie</a></a></li>
+</ul>
+
+
+<h2>Http methods</h2>
+
+<ul>
+<li>Http methods are ways of communicating between server and client. Common examples are http get and http put which is used by http forms for data exchange. Other methods include, post, head,  and connect. </li>
+<li><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html" rel="nofollow">http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html</a></li>
+</ul>
+
+
+<h5>Http headers</h5>
+
+
+<ul>
+<li>Http header fields are common components of HTTP requests and responses. Headers are colon separated name-value pairs in clear text. Some common headers are: Cache-control which specifies where to cache or not the contents of a page, Accept, which can be text/plain, Content-length which specifies the size of the content, Host, which is the domain name of the server.</li>
+<li><a href="http://en.wikipedia.org/wiki/List_of_HTTP_header_fields" rel="nofollow">http://en.wikipedia.org/wiki/List_of_HTTP_header_fields</a></li>
+</ul>
+
+
+<hr />
+
+
+<h3>Databases</h3>
+
+
+<h5>What is the difference between MyISAM and InnoDB?</h5>
+
+
+<p>MyISAM:<br />
+1. Supports table level locking<br />
+2. Is Faster than InnoDB<br />
+3. Does not support foreign keys<br />
+4. Stores table, data and index in different files<br />
+5. Does not support transactions (no commit with rollback)<br />
+6. Useful for more selects with fewer updates<br />
+InnoDB:<br />
+1. Support row level locking<br />
+2. Is slower than MyISAM<br />
+3. Supports foreign keys<br />
+4. Stores table and index in table space<br />
+5. Supports transactions</p>
+
+
+<h5>What are some things to check on a slow database?</h5>
+
+
+<p>MySQL is fairly popular, so let&#8217;s look at some basic MySQL debugging. First off, check the OS to make sure the system is running fine, specially check CPU, memory, SWAP space and disk I/O. Assuming those are all ok, then log into MySQL and check the running queries, you can do so by running the command <i>&#8216;show full processlist&#8217;</i>. This will give you a list of queries running on the server. If you see a query that has been running for an excessively long time, you should investigate that query. See <a href="https://dev.mysql.com/doc/refman/5.1/en/show-processlist.html" rel="nofollow">https://dev.mysql.com/doc/refman/5.1/en/show-processlist.html</a> for additional details.</p>
+
+
+<div>
+  <pre><code class='bash'>mysql&gt; show full processlist;
++-----+------+-----------+-----------+---------+------+-------+-----------------------+
+| Id  | User | Host      | db        | Command | Time | State | Info                  |
++-----+------+-----------+-----------+---------+------+-------+-----------------------+
+| 865 | root | localhost | wordpress | Query   |   -1 | NULL  | show full processlist |
++-----+------+-----------+-----------+---------+------+-------+-----------------------+
+1 row in set (0.00 sec)</code></pre>
+</div>
+
+
+<p>To investigate queries use the command &lsquo;explain&rsquo;. When investigating queries, if you notice the lack of a primary key you should investigate if having a primary key for that particular table makes sense. Having a key in general improves performance of a table. See <a href="https://dev.mysql.com/doc/refman/5.0/en/explain.html" rel="nofollow"><a href="https://dev.mysql.com/doc/refman/5.0/en/explain.html">https://dev.mysql.com/doc/refman/5.0/en/explain.html</a></a> for additional details.</p>
+
+<div>
+  <pre><code class='bash'>mysql&gt; explain select * from wp_posts;
++----+-------------+----------+------+---------------+------+---------+------+------+-------+
+| id | select_type | table    | type | possible_keys | key  | key_len | ref  | rows | Extra |
++----+-------------+----------+------+---------------+------+---------+------+------+-------+
+|  1 | SIMPLE      | wp_posts | ALL  | NULL          | NULL | NULL    | NULL |   19 |       |
++----+-------------+----------+------+---------------+------+---------+------+------+-------+
+1 row in set (0.01 sec)</code></pre>
+</div>
+
+
+
+
+<p>Another item you should investigate is the slow query log file. If you look in <i>/etc/mysql/my.cnf</i>, you will notice 2 lines that relate to slow queries, make sure you uncomment them and restart MySQL. The long_query_time can be adjusted to say 10 seconds, so that any query running longer than 10 seconds is logged. See <a href="https://dev.mysql.com/doc/refman/5.1/en/slow-query-log.html" rel="nofollow">https://dev.mysql.com/doc/refman/5.1/en/slow-query-log.html</a> for additional details.</p>
+
+
+<pre class="brush: plain; title: ; notranslate" title="">
+#log_slow_queries       = /var/log/mysql/mysql-slow.log
+#long_query_time = 2
+</pre>
+
+
+<p>Another thing you can do is enable logging for queries that are not using indexes. As mentioned above using indexes speeds up performance. In <i>/etc/mysql/my.cnf</i> uncomment the below line and restart MySQL. The log will be in the same place as mysql-slow.log.</p>
+
+
+<pre class="brush: plain; title: ; notranslate" title="">
+#log-queries-not-using-indexes
+</pre>
+
+
+<p>Query cache is another item to check. MySQL caches queries and returns results from this cache if the table has not changed. This has a performance improvement of over 200%. You should check the query cache to ensure that there is no memory for the cache and that the cache is not having to be cleared for new items. Additional information can be found here <a href="https://dev.mysql.com/doc/refman/5.1/en/query-cache.html" rel="nofollow">https://dev.mysql.com/doc/refman/5.1/en/query-cache.html</a>.</p>
+
+
+<div>
+  <pre><code class='bash'>mysql&gt; SHOW VARIABLES LIKE &#39;have_query_cache&#39;;
++------------------+-------+
+| Variable_name    | Value |
++------------------+-------+
+| have_query_cache | YES   |
++------------------+-------+
+1 row in set (0.00 sec)
+
+mysql&gt; SHOW STATUS LIKE &#39;Qcache%&#39;;
++-------------------------+----------+
+| Variable_name           | Value    |
++-------------------------+----------+
+| Qcache_free_blocks      | 12       |
+| Qcache_free_memory      | 16491184 |
+| Qcache_hits             | 7645     |
+| Qcache_inserts          | 5539     |
+| Qcache_lowmem_prunes    | 0        |
+| Qcache_not_cached       | 277      |
+| Qcache_queries_in_cache | 156      |
+| Qcache_total_blocks     | 334      |
++-------------------------+----------+
+8 rows in set (0.00 sec)</code></pre>
+</div>
+
+
+
+
+<hr />
+
+
+<h3>Linux Systems</h3>
+
+
+<h5>Define the boot process of a Linux system</h5>
+
+
+<ul>
+<li> Once you power a system on, the first thing that happens is the BIOS loads and performs POST or a power on self test, to ensure that the components needed for a boot are ok. For instance if the CPU is defective, the system will give an error that POST has failed. (BIOS stands for Basic Input/Output system)</li>
+<li>After POST the BIOS looks at the MBR or master book record and executes the boot loader. In case of a Linux system that might be GRUB or Grand Unified BootLoader. GRUB&#8217;s job is to give you the choice of loading a Linux kernel or other OS that you may be running</li>
+<li>Once you ask GRUB to load a kernel, usually an initial ramdisk kernel is loaded, which is a small kernel that understands filesystem. This will in turn mount the filesystem and will start the Linux kernel from the filesystem</li>
+<li>The kernel will then start init, which is the very first process, usually having PID 1. Init will look at /etc/inittab and will switch to the default run-level which on Linux servers tends to be 3.</li>
+<li>There are different run level scripts in /etc/rc.d/rc[0-6].d/ which are then executed based on the runlevel the system needs to be in.</li>
+<li>And that&#8217;s about it!</li>
+</ul>
+
+
+<h5>How do you make changes to kernel parameters that you want to persist across boot?</h5>
+
+
+<p>/etc/sysctl.conf contains kernel parameters that can be modified. You can also use the sysctl command to make changes at runtime.</p>
+
+
+<hr />
+
+
+<h3>Security</h3>
+
+
+<h5>How does SSL work?</h5>
+
+
+<p>SSL stands for secure socket layer. It has been superseded by TLS or transport layer security. TLS is a secure way of communicating through a network. A majority of secure HTTP communication on the web takes place using TLS.  TLS works at session layer and presentation layer of the OSI model.  Initially at the session layer asymmetric encryption takes place, after that at the presentation later symmetric cipher and session key are used. The basic principle behind TLS is to encrypt data going across the network using public key encryption first, followed by using a shared key. Also the other component of TLS is server certificate authentication which is done through a certificate authority. Clients contain a list of certificate authorities, and it uses the public key of the CA in the certificate to verify the certificate being authentic.  A good reference for TLS is here <a href="https://en.wikipedia.org/wiki/Secure_Socket_Layer" rel="nofollow">https://en.wikipedia.org/wiki/Secure_Socket_Layer</a>.</p>
+
+
+<hr />
+
+
+<h3>Miscellaneous</h3>
+
+
+<h5>How does Apache worker.c compare to prefork?</h5>
+
+
+<p>Worker.c uses threads. Prefork uses forks. Prefork is by default in Apache. Worker.c uses less resources, but is more complex. </p>
+
+
+<h2>How do you update packages on Fedora/Ubuntu?</h2>
+
+<h3>Ubuntu</h3>
+
+<div>
+  <pre><code class='bash'>sudo apt-get update -y</code></pre>
+</div>
+
+
+<h3>Fedora</h3>
+
+<div>
+  <pre><code class='bash'>sudo yum update -y</code></pre>
+</div>
+
+
+<h2>How do you upgrade to a new release on Fedora/Ubuntu?</h2>
+
+<h3>Ubuntu</h3>
+
+<div>
+  <pre><code class='bash'>sudo apt-get upgrade -y</code></pre>
+</div>
+
+
+<h3>Fedora</h3>
+
+<p>Use FedUP <a href="https://fedoraproject.org/wiki/FedUp">https://fedoraproject.org/wiki/FedUp</a></p>
+
+<h2>How do you use SSH proxy to connect to a remote host?</h2>
+
+<p>In your $HOME/.ssh/config use:</p>
+
+<div>
+  <pre><code class='bash'>TCPKeepAlive=yes
+ServerAliveInterval=15
+
+Host finaldestinationhost
+   ProxyCommand ssh user@jumphost nc finaldestinationhost %p</code></pre>
+</div>
+
+
+<p>To ssh use ssh user@finaldestinationhost.</p>
+
+<h2>How do you use SSH to create a dynamic tunnel?</h2>
+
+<p>Let&rsquo;s say there are 3 hosts, one is source, the other is destination and you cannot get to the destination from the source.</p>
+
+<p>In the middle is a gateway that can reach both the source and the destination.</p>
+
+<p>One possible solution to get from source to destination using SSH dynamic tunnel, is to create a dynamic tunnel.</p>
+
+<p>The way it would work is.</p>
+
+<h2>How do you use change MySQL root password?</h2>
+
+<div>
+  <pre><code class='bash'>$mysql -u root -p
+&gt;use mysql;
+&gt;update user set password=PASSWORD(&quot;NEWPASSWORD&quot;) where User=&#39;root&#39;;
+&gt;flush privileges;</code></pre>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ossec NFS Statd Static Port]]></title>
+    <link href="http://thomasmullaly.com/blog/2014/03/17/ossec-nfs-statd-static/"/>
+    <updated>2014-03-17T14:08:55-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2014/03/17/ossec-nfs-statd-static</id>
+    <content type="html"><![CDATA[<p>First edit /etc/default/nfs-common and add:</p>
+
+<div>
+  <pre><code class='bash'>STATDOPTS=&quot;--port 4000 --outgoing-port 4001&quot;</code></pre>
+</div>
+
+
+<p>Next add the file /etc/modprobe.d/options.conf</p>
+
+<div>
+  <pre><code class='bash'>options lockd nlm_udpport=4002 nlm_tcpport=4002</code></pre>
+</div>
+
+
+<p>reboot and you should be good</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Risk Analysis]]></title>
+    <link href="http://thomasmullaly.com/blog/2014/02/21/risk-analysis/"/>
+    <updated>2014-02-21T09:02:05-05:00</updated>
+    <id>http://thomasmullaly.com/blog/2014/02/21/risk-analysis</id>
+    <content type="html"><![CDATA[<p>Always start off with your threat analysis.  You need to understand what the threats are, you have to identy what your critical assets are, you then figure out your vulnerabilities.  Now take your risk and plot the severity</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to Make an Ubuntu Gold Master]]></title>
+    <link href="http://thomasmullaly.com/blog/2014/02/21/how-to-make-an-ubuntu-gold-master-image/"/>
+    <updated>2014-02-21T09:02:05-05:00</updated>
+    <id>http://thomasmullaly.com/blog/2014/02/21/how-to-make-an-ubuntu-gold-master-image</id>
+    <content type="html"><![CDATA[<p>This guide show you how to make a gold master virtual machine image of Ubuntu 12.04 LTS.  The purpose of this is because we&rsquo;ll be creating a lot of new virtual machines and it&rsquo;s far easier to clone a master image than to install each and every time.  Let&rsquo;s get started&hellip;</p>
+
+<h1>Download Ubuntu Server 12.04 64 bit</h1>
+
+<p><a href="http://www.ubuntu.com/download/server">http://www.ubuntu.com/download/server</a></p>
+
+<p>Now go into VMWare and create the master virtual machine by select new virtual machine.</p>
+
+<h1>Go to VMware and create a new VM</h1>
+
+<p>Choose typical</p>
+
+<p>Choose the ubuntu installer disk and select &ldquo;I will install the operating system later&rdquo;</p>
+
+<p>Choose Linux Version Ubuntu</p>
+
+<p>Call this virtual machine Ubuntu</p>
+
+<p>Make the Disk Size 10 GB</p>
+
+<p>Add the Ubuntu iso to the virtual cd</p>
+
+<p>Power on the Virtual machine</p>
+
+<p>Press Enter to choose the English language</p>
+
+<p>Then, Press F4 to install a minimal virtual machine</p>
+
+<p>Then press enter twice</p>
+
+<p>This will kick off the install, choose all defaults</p>
+
+<p><del>only install the OpenSSH service</del>
+Don&rsquo;t install anything!!! Puppet will take care of everything.</p>
+
+<h1>Update and Upgrade</h1>
+
+<p>login when done and run:
+  sudo apt-get update
+  sudo apt-get upgrade
+  sudo apt-get dist-upgrade</p>
+
+<h1>Add Virtual Machine Tools</h1>
+
+<p>If you are on Virtual Box:
+  sudo apt-get install dkms</p>
+
+<p>If you are on VMWare:
+  sudo apt-get install open-vm-tools</p>
+
+<h1>Add the puppet client agent</h1>
+
+<p>  sudo apt-get install puppet</p>
+
+<p>Configure the puppet defaults
+  vi /etc/defaults/puppet</p>
+
+<h1>Defaults for puppet &ndash; sourced by /etc/init.d/puppet</h1>
+
+<h1>Start puppet on boot?</h1>
+
+<p>START=yes</p>
+
+<h1>Startup options</h1>
+
+<p>DAEMON_OPTS=&ldquo;&mdash;report&rdquo;</p>
+
+<p>Puppet should start on boot and look to the master for the manifests to define it.</p>
+
+<h1>eth0 eth1 problem when cloning</h1>
+
+<p>The root of the problem at our site was udev&rsquo;s handling of devices. Udev keeps a history of devices attached to the computer. What makes sense for i.e. USB sticks (that is, each USB stick you attach will be recorded and mounted to the same point when attached again at a later point in time), causes problems when systems are cloned.</p>
+
+<p>There is a file /etc/udev/rules.d/z25_persistent-net.rules, where udev memorises, which hardware device should get named eth0. Here it looks like this:</p>
+
+<div>
+  <pre><code class='bash'>\# PCI device 14xx:16xx (tg3)
+  ACTION==&quot;add&quot;, SUBSYSTEM==&quot;net&quot;, DRIVERS==&quot;?*&quot;, SYSFS\{address}==&quot;00:11:xx:xx:xx:xx&quot;, NAME=&quot;eth0&quot;</code></pre>
+</div>
+
+
+<p>When you run the image on another computer, the new network adapter is recognised on the PCI bus and a new entry in the above mentioned file is generated. &ldquo;eth0&rdquo; is already given to device 14xx:16xx, so the new device gets named &ldquo;eth1&rdquo;.</p>
+
+<p>If you delete this file, it will be rebuilt during the next system startup and your problem should go away.</p>
+
+<h1>Shutdown</h1>
+
+<p>now shutdown, you now have your golden master</p>
+
+<p>shutdown the VM, this is the golden master</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Welcome to Jekyll!]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/09/01/welcome-to-jekyll/"/>
+    <updated>2013-09-01T11:58:49-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/09/01/welcome-to-jekyll</id>
+    <content type="html"><![CDATA[<p>You&rsquo;ll find this post in your <code>_posts</code> directory &ndash; edit this post and re-build (or run with the <code>-w</code> switch) to see your changes!
+To add new posts, simply add a file in the <code>_posts</code> directory that follows the convention: YYYY-MM-DD-name-of-post.ext.</p>
+
+<p>Jekyll also offers powerful support for code snippets:</p>
+
+<div>
+  <pre><code class='ruby'>def print_hi(name)
+  puts &quot;Hi, #{name}&quot;
+end
+print_hi(&#39;Tom&#39;)
+#=&gt; prints &#39;Hi, Tom&#39; to STDOUT.</code></pre>
+</div>
+
+
+<p>Check out the <a href="http://jekyllrb.com">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/mojombo/jekyll">Jekyll&rsquo;s GitHub repo</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Security]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/08/15/security/"/>
+    <updated>2013-08-15T11:58:49-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/08/15/security</id>
+    <content type="html"><![CDATA[<p><a href="http://isc.sans.edu/infocon.html">
+<img src="http://isc.sans.edu/images/status.gif">
+</a></p>
+
+<p>[[Apache Security and Hardening]]</p>
+
+<p>[[Ubuntu Automatic Updates]]</p>
+
+<p>[[10 important Google search terms]]</p>
+
+<p>[[Wireshark Notes]]</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rstudio]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/08/01/rstudio/"/>
+    <updated>2013-08-01T00:00:00-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/08/01/rstudio</id>
+    <content type="html"><![CDATA[<p>  sudo add-apt-repository &lsquo;deb <a href="http://cran.rstudio.com/bin/linux/ubuntu">http://cran.rstudio.com/bin/linux/ubuntu</a> precise/&rsquo;</p>
+
+<p>  apt-get update</p>
+
+<p>  apt-key adv &mdash;keyserver keyserver.ubuntu.com &mdash;recv-keys E084DAB9</p>
+
+<p>  apt-get update</p>
+
+<p>  apt-get install r-base</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby on Rails Links for CS410]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/06/12/ruby-on-rails-links-for-cs410/"/>
+    <updated>2013-06-12T13:32:49-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/06/12/ruby-on-rails-links-for-cs410</id>
+    <content type="html"><![CDATA[<h1>Ruby on Rails</h1>
+
+<p>[<a href="http://ruby.railstutorial.org/ruby-on-rails-tutorial-book">http://ruby.railstutorial.org/ruby-on-rails-tutorial-book</a>]
+(<a href="http://ruby.railstutorial.org/ruby-on-rails-tutorial-book">http://ruby.railstutorial.org/ruby-on-rails-tutorial-book</a>)</p>
+
+<p>[<a href="http://railscasts.com/">http://railscasts.com/</a>]
+(<a href="http://railscasts.com/">http://railscasts.com/</a>)</p>
+
+<p>[<a href="http://www.ruby-toolbox.com">http://www.ruby-toolbox.com</a>]
+(<a href="http://www.ruby-toolbox.com">http://www.ruby-toolbox.com</a>)</p>
+
+<p>[<a href="http://guides.rubyonrails.org/">http://guides.rubyonrails.org/</a>]
+(<a href="http://guides.rubyonrails.org/">http://guides.rubyonrails.org/</a>)</p>
+
+<h1>Ruby</h1>
+
+<p>[<a href="http://ruby.activeventure.com/usersguide/rg/index.html">http://ruby.activeventure.com/usersguide/rg/index.html</a>]
+(<a href="http://ruby.activeventure.com/usersguide/rg/index.html">http://ruby.activeventure.com/usersguide/rg/index.html</a>)</p>
+
+<p>[<a href="http://tryruby.org/">http://tryruby.org/</a>]
+(<a href="http://tryruby.org/">http://tryruby.org/</a>)</p>
+
+<p>[<a href="http://koans.heroku.com/">http://koans.heroku.com/</a>]
+(<a href="http://koans.heroku.com/">http://koans.heroku.com/</a>)</p>
+
+<h1>Git</h1>
+
+<p>[<a href="http://randyfay.com/content/rebase-workflow-git">http://randyfay.com/content/rebase-workflow-git</a>]
+(<a href="http://randyfay.com/content/rebase-workflow-git">http://randyfay.com/content/rebase-workflow-git</a>)</p>
+
+<p>Excellent post on building an api for your rails app:</p>
+
+<p>[<a href="http://blog.gomiso.com/2011/06/27/building-a-platform-api-on-rails/">http://blog.gomiso.com/2011/06/27/building-a-platform-api-on-rails/</a>]
+(<a href="http://blog.gomiso.com/2011/06/27/building-a-platform-api-on-rails/">http://blog.gomiso.com/2011/06/27/building-a-platform-api-on-rails/</a>)</p>
+
+<h1>Unicorn</h1>
+
+<p>I like Unicorn because it&rsquo;s Unix</p>
+
+<p>[<a href="http://tomayko.com/writings/unicorn-is-unix">http://tomayko.com/writings/unicorn-is-unix</a>]
+(<a href="http://tomayko.com/writings/unicorn-is-unix">http://tomayko.com/writings/unicorn-is-unix</a>)</p>
+
+<p>Everything You Need to Know About Unicorn</p>
+
+<p>[<a href="https://blog.engineyard.com/2010/everything-you-need-to-know-about-unicorn">https://blog.engineyard.com/2010/everything-you-need-to-know-about-unicorn</a>]
+(<a href="https://blog.engineyard.com/2010/everything-you-need-to-know-about-unicorn">https://blog.engineyard.com/2010/everything-you-need-to-know-about-unicorn</a>)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[VMWare Toolbox Commands]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/06/02/vmware-toolbox-cmd/"/>
+    <updated>2013-06-02T11:58:49-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/06/02/vmware-toolbox-cmd</id>
+    <content type="html"><![CDATA[<div>
+  <pre><code class='bash'>vmware-toolbox-cmd stat hosttime
+vmware-toolbox-cmd timesync status</code></pre>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Unix Commands]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/06/02/unix-commands/"/>
+    <updated>2013-06-02T00:00:00-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/06/02/unix-commands</id>
+    <content type="html"><![CDATA[<p>[[chmod]]</p>
+
+<p>[[disk usage]]</p>
+
+<p>[[convert man page to text]]</p>
+
+<p>[[a2ps]]</p>
+
+<p>[[vmware-toolbox-cmd]]</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Wireshark Notes]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/05/02/wireshark-notes/"/>
+    <updated>2013-05-02T00:00:00-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/05/02/wireshark-notes</id>
+    <content type="html"><![CDATA[<p>Someone is changing the display on our hp printer so I am using wireshark to track it down.</p>
+
+<p>Here is the filter I am using:</p>
+
+<p>  tcp.dstport == 9100 &amp;&amp; tcp.flags.push == 1</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MRTG]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/04/18/mrtg/"/>
+    <updated>2013-04-18T03:12:31-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/04/18/mrtg</id>
+    <content type="html"><![CDATA[<p>MRTG records the traffic on the switch ports by way of snmp.  It&rsquo;s quick and dirty, but it gives you an overall view of what&rsquo;s going on and can indicate if something has gone haywire.</p>
+
+<p>I do one configuration per switch like this:</p>
+
+<div>
+  <pre><code class='bash'>cfgmaker --global &#39;WorkDir: /var/www/mrtg&#39; \
+         --global &#39;Options[_]: bits,growright&#39; \
+         --output=/etc/mrtg/mrtg-10.0.0.1.cfg \
+         public@10.0.0.1</code></pre>
+</div>
+
+
+<p>Then I build the index like this:
+  indexmaker &mdash;output=/var/www/mrtg/index.html *.cfg</p>
+
+<p>Edit crontab with crontab -e</p>
+
+<p>I run as root, you can create a user if you wish</p>
+
+<div>
+  <pre><code class='bash'>*/5 * * * *  env LANG=C /usr/bin/mrtg /etc/mrtg/mrtg-10.0.0.1.cfg --logging /var/log/mrtg.log
+*/5 * * * *  env LANG=C /usr/bin/mrtg /etc/mrtg/mrtg-10.0.0.2.cfg --logging /var/log/mrtg.log
+*/5 * * * *  env LANG=C /usr/bin/mrtg /etc/mrtg/mrtg-10.0.0.2.cfg --logging /var/log/mrtg.log</code></pre>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Outgoing Port Tester]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/04/13/outgoing-port-tester/"/>
+    <updated>2013-04-13T15:28:00-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/04/13/outgoing-port-tester</id>
+    <content type="html"><![CDATA[<p>Outgoing port tester</p>
+
+<p>This server listens on all TCP ports, allowing you to test any outbound TCP port.</p>
+
+<p><a href="http://portquiz.positon.org/">http://portquiz.positon.org/</a></p>
+
+<div>
+  <pre><code class='bash'>nmap -Pn --top-ports 1000 portquiz.net
+
+Starting Nmap 5.21 ( http://nmap.org ) at 2013-04-13 13:41 EDT
+Nmap scan report for portquiz.positon.org (178.33.250.62)
+Host is up (0.085s latency).
+rDNS record for 178.33.250.62: electron.positon.org
+Not shown: 44 filtered ports
+PORT      STATE SERVICE
+3/tcp     open  compressnet
+4/tcp     open  unknown
+6/tcp     open  unknown
+7/tcp     open  echo
+9/tcp     open  discard
+13/tcp    open  daytime
+17/tcp    open  qotd
+19/tcp    open  chargen
+20/tcp    open  ftp-data
+21/tcp    open  ftp
+22/tcp    open  ssh
+23/tcp    open  telnet
+24/tcp    open  priv-mail
+26/tcp    open  rsftp
+30/tcp    open  unknown
+32/tcp    open  unknown
+33/tcp    open  dsp
+37/tcp    open  time
+42/tcp    open  nameserver
+43/tcp    open  whois
+49/tcp    open  tacacs
+53/tcp    open  domain
+70/tcp    open  gopher
+79/tcp    open  finger
+80/tcp    open  http
+81/tcp    open  hosts2-ns
+82/tcp    open  xfer
+83/tcp    open  mit-ml-dev
+84/tcp    open  ctf
+85/tcp    open  mit-ml-dev
+88/tcp    open  kerberos-sec
+89/tcp    open  su-mit-tg
+90/tcp    open  dnsix
+99/tcp    open  metagram
+100/tcp   open  newacct
+106/tcp   open  pop3pw
+109/tcp   open  pop2
+110/tcp   open  pop3
+111/tcp   open  rpcbind
+113/tcp   open  auth
+119/tcp   open  nntp
+125/tcp   open  locus-map
+135/tcp   open  msrpc
+143/tcp   open  imap
+144/tcp   open  news
+146/tcp   open  iso-tp0
+161/tcp   open  snmp
+163/tcp   open  cmip-man
+179/tcp   open  bgp
+199/tcp   open  smux
+211/tcp   open  914c-g
+212/tcp   open  anet
+222/tcp   open  rsh-spx
+254/tcp   open  unknown
+255/tcp   open  unknown
+256/tcp   open  fw1-secureremote
+259/tcp   open  esro-gen
+264/tcp   open  bgmp
+280/tcp   open  http-mgmt
+301/tcp   open  unknown
+306/tcp   open  unknown
+311/tcp   open  asip-webadmin
+340/tcp   open  unknown
+366/tcp   open  odmr
+389/tcp   open  ldap
+406/tcp   open  imsp
+407/tcp   open  timbuktu
+416/tcp   open  silverplatter
+417/tcp   open  onmux
+425/tcp   open  icad-el
+427/tcp   open  svrloc
+443/tcp   open  https
+444/tcp   open  snpp
+458/tcp   open  appleqtc
+464/tcp   open  kpasswd5
+465/tcp   open  smtps
+481/tcp   open  dvs
+497/tcp   open  retrospect
+500/tcp   open  isakmp
+512/tcp   open  exec
+513/tcp   open  login
+514/tcp   open  shell
+524/tcp   open  ncp
+541/tcp   open  uucp-rlogin
+543/tcp   open  klogin
+544/tcp   open  kshell
+545/tcp   open  ekshell
+548/tcp   open  afp
+554/tcp   open  rtsp
+563/tcp   open  snews
+587/tcp   open  submission
+593/tcp   open  http-rpc-epmap
+616/tcp   open  unknown
+617/tcp   open  sco-dtmgr
+625/tcp   open  apple-xsrvr-admin
+631/tcp   open  ipp
+636/tcp   open  ldapssl
+646/tcp   open  ldp
+648/tcp   open  unknown
+667/tcp   open  unknown
+668/tcp   open  unknown
+683/tcp   open  corba-iiop
+687/tcp   open  unknown
+691/tcp   open  resvc
+700/tcp   open  unknown
+705/tcp   open  unknown
+711/tcp   open  unknown
+714/tcp   open  unknown
+720/tcp   open  unknown
+722/tcp   open  unknown
+726/tcp   open  unknown
+749/tcp   open  kerberos-adm
+765/tcp   open  webster
+783/tcp   open  spamassassin
+787/tcp   open  qsc
+800/tcp   open  mdbs_daemon
+801/tcp   open  device
+808/tcp   open  ccproxy-http
+843/tcp   open  unknown
+873/tcp   open  rsync
+880/tcp   open  unknown
+888/tcp   open  accessbuilder
+898/tcp   open  sun-manageconsole
+900/tcp   open  unknown
+901/tcp   open  samba-swat
+902/tcp   open  iss-realsecure
+903/tcp   open  iss-console-mgr
+911/tcp   open  unknown
+912/tcp   open  unknown
+981/tcp   open  unknown
+987/tcp   open  unknown
+990/tcp   open  ftps
+992/tcp   open  telnets
+993/tcp   open  imaps
+995/tcp   open  pop3s
+999/tcp   open  garcon
+1001/tcp  open  unknown
+1002/tcp  open  windows-icfw
+1007/tcp  open  unknown
+1009/tcp  open  unknown
+1010/tcp  open  unknown
+1021/tcp  open  unknown
+1022/tcp  open  unknown
+1023/tcp  open  netvenuechat
+1026/tcp  open  LSA-or-nterm
+1028/tcp  open  unknown
+1030/tcp  open  iad1
+1032/tcp  open  iad3
+1034/tcp  open  zincite-a
+1036/tcp  open  unknown
+1037/tcp  open  unknown
+1038/tcp  open  unknown
+1039/tcp  open  unknown
+1040/tcp  open  netsaint
+1041/tcp  open  unknown
+1042/tcp  open  unknown
+1043/tcp  open  boinc
+1044/tcp  open  unknown
+1045/tcp  open  unknown
+1046/tcp  open  unknown
+1047/tcp  open  unknown
+1048/tcp  open  unknown
+1049/tcp  open  unknown
+1050/tcp  open  java-or-OTGfileshare
+1051/tcp  open  optima-vnet
+1052/tcp  open  ddt
+1053/tcp  open  unknown
+1054/tcp  open  unknown
+1055/tcp  open  ansyslmd
+1056/tcp  open  unknown
+1057/tcp  open  unknown
+1058/tcp  open  nim
+1059/tcp  open  nimreg
+1060/tcp  open  polestar
+1061/tcp  open  unknown
+1062/tcp  open  veracity
+1063/tcp  open  unknown
+1064/tcp  open  unknown
+1065/tcp  open  unknown
+1066/tcp  open  fpo-fns
+1067/tcp  open  instl_boots
+1068/tcp  open  instl_bootc
+1069/tcp  open  cognex-insight
+1070/tcp  open  unknown
+1071/tcp  open  unknown
+1072/tcp  open  unknown
+1073/tcp  open  unknown
+1075/tcp  open  unknown
+1076/tcp  open  sns_credit
+1077/tcp  open  unknown
+1078/tcp  open  unknown
+1079/tcp  open  unknown
+1080/tcp  open  socks
+1082/tcp  open  unknown
+1083/tcp  open  ansoft-lm-1
+1084/tcp  open  ansoft-lm-2
+1085/tcp  open  unknown
+1086/tcp  open  unknown
+1087/tcp  open  unknown
+1088/tcp  open  unknown
+1089/tcp  open  unknown
+1090/tcp  open  unknown
+1091/tcp  open  unknown
+1092/tcp  open  unknown
+1093/tcp  open  unknown
+1094/tcp  open  unknown
+1095/tcp  open  unknown
+1096/tcp  open  unknown
+1099/tcp  open  unknown
+1100/tcp  open  unknown
+1102/tcp  open  unknown
+1104/tcp  open  unknown
+1105/tcp  open  unknown
+1106/tcp  open  unknown
+1107/tcp  open  unknown
+1108/tcp  open  unknown
+1110/tcp  open  nfsd-status
+1111/tcp  open  unknown
+1112/tcp  open  msql
+1113/tcp  open  unknown
+1114/tcp  open  unknown
+1117/tcp  open  unknown
+1119/tcp  open  unknown
+1121/tcp  open  unknown
+1122/tcp  open  unknown
+1123/tcp  open  unknown
+1124/tcp  open  unknown
+1126/tcp  open  unknown
+1130/tcp  open  unknown
+1131/tcp  open  unknown
+1132/tcp  open  unknown
+1137/tcp  open  unknown
+1138/tcp  open  unknown
+1141/tcp  open  unknown
+1145/tcp  open  unknown
+1147/tcp  open  unknown
+1148/tcp  open  unknown
+1149/tcp  open  unknown
+1151/tcp  open  unknown
+1152/tcp  open  unknown
+1154/tcp  open  unknown
+1163/tcp  open  unknown
+1164/tcp  open  unknown
+1165/tcp  open  unknown
+1166/tcp  open  unknown
+1169/tcp  open  unknown
+1174/tcp  open  unknown
+1175/tcp  open  unknown
+1183/tcp  open  unknown
+1185/tcp  open  unknown
+1186/tcp  open  unknown
+1187/tcp  open  unknown
+1192/tcp  open  unknown
+1198/tcp  open  unknown
+1199/tcp  open  unknown
+1201/tcp  open  unknown
+1213/tcp  open  unknown
+1216/tcp  open  unknown
+1217/tcp  open  unknown
+1218/tcp  open  aeroflight-ads
+1233/tcp  open  unknown
+1236/tcp  open  unknown
+1244/tcp  open  unknown
+1247/tcp  open  unknown
+1248/tcp  open  hermes
+1259/tcp  open  unknown
+1271/tcp  open  unknown
+1272/tcp  open  unknown
+1277/tcp  open  unknown
+1287/tcp  open  unknown
+1296/tcp  open  unknown
+1300/tcp  open  unknown
+1301/tcp  open  unknown
+1309/tcp  open  unknown
+1310/tcp  open  unknown
+1311/tcp  open  rxmon
+1322/tcp  open  unknown
+1328/tcp  open  unknown
+1334/tcp  open  unknown
+1352/tcp  open  lotusnotes
+1417/tcp  open  timbuktu-srv1
+1433/tcp  open  ms-sql-s
+1434/tcp  open  ms-sql-m
+1443/tcp  open  ies-lm
+1455/tcp  open  esl-lm
+1461/tcp  open  ibm_wrless_lan
+1494/tcp  open  citrix-ica
+1500/tcp  open  vlsi-lm
+1501/tcp  open  sas-3
+1503/tcp  open  imtc-mcs
+1521/tcp  open  oracle
+1533/tcp  open  virtual-places
+1556/tcp  open  unknown
+1580/tcp  open  unknown
+1583/tcp  open  unknown
+1594/tcp  open  unknown
+1600/tcp  open  issd
+1641/tcp  open  unknown
+1658/tcp  open  unknown
+1666/tcp  open  netview-aix-6
+1687/tcp  open  unknown
+1688/tcp  open  unknown
+1700/tcp  open  mps-raft
+1717/tcp  open  fj-hdnet
+1718/tcp  open  unknown
+1719/tcp  open  unknown
+1720/tcp  open  H.323/Q.931
+1721/tcp  open  unknown
+1723/tcp  open  pptp
+1755/tcp  open  wms
+1761/tcp  open  landesk-rc
+1782/tcp  open  hp-hcip
+1783/tcp  open  unknown
+1801/tcp  open  unknown
+1805/tcp  open  unknown
+1812/tcp  open  unknown
+1839/tcp  open  unknown
+1840/tcp  open  unknown
+1862/tcp  open  unknown
+1863/tcp  open  msnp
+1864/tcp  open  paradym-31
+1875/tcp  open  unknown
+1900/tcp  open  upnp
+1914/tcp  open  unknown
+1935/tcp  open  rtmp
+1947/tcp  open  unknown
+1971/tcp  open  unknown
+1972/tcp  open  unknown
+1974/tcp  open  unknown
+1984/tcp  open  bigbrother
+1998/tcp  open  x25-svc-port
+1999/tcp  open  tcp-id-port
+2001/tcp  open  dc
+2002/tcp  open  globe
+2003/tcp  open  finger
+2006/tcp  open  invokator
+2007/tcp  open  dectalk
+2008/tcp  open  conf
+2009/tcp  open  news
+2010/tcp  open  search
+2013/tcp  open  raid-am
+2020/tcp  open  xinupageserver
+2021/tcp  open  servexec
+2022/tcp  open  down
+2030/tcp  open  device2
+2033/tcp  open  glogger
+2034/tcp  open  scoremgr
+2035/tcp  open  imsldoc
+2038/tcp  open  objectmanager
+2040/tcp  open  lam
+2041/tcp  open  interbase
+2042/tcp  open  isis
+2043/tcp  open  isis-bcast
+2045/tcp  open  cdfunc
+2046/tcp  open  sdfunc
+2047/tcp  open  dls
+2048/tcp  open  dls-monitor
+2049/tcp  open  nfs
+2065/tcp  open  dlsrpn
+2068/tcp  open  advocentkvm
+2099/tcp  open  unknown
+2100/tcp  open  unknown
+2103/tcp  open  zephyr-clt
+2105/tcp  open  eklogin
+2106/tcp  open  ekshell
+2107/tcp  open  unknown
+2111/tcp  open  kx
+2119/tcp  open  unknown
+2121/tcp  open  ccproxy-ftp
+2126/tcp  open  unknown
+2135/tcp  open  unknown
+2144/tcp  open  unknown
+2160/tcp  open  unknown
+2161/tcp  open  apc-agent
+2170/tcp  open  unknown
+2179/tcp  open  unknown
+2190/tcp  open  unknown
+2191/tcp  open  unknown
+2196/tcp  open  unknown
+2200/tcp  open  unknown
+2222/tcp  open  unknown
+2251/tcp  open  unknown
+2260/tcp  open  unknown
+2288/tcp  open  unknown
+2301/tcp  open  compaqdiag
+2323/tcp  open  unknown
+2366/tcp  open  unknown
+2381/tcp  open  unknown
+2382/tcp  open  unknown
+2383/tcp  open  ms-olap4
+2393/tcp  open  unknown
+2394/tcp  open  unknown
+2399/tcp  open  unknown
+2401/tcp  open  cvspserver
+2492/tcp  open  unknown
+2500/tcp  open  rtsserv
+2522/tcp  open  unknown
+2525/tcp  open  unknown
+2557/tcp  open  unknown
+2601/tcp  open  zebra
+2602/tcp  open  ripd
+2604/tcp  open  ospfd
+2605/tcp  open  bgpd
+2607/tcp  open  unknown
+2608/tcp  open  unknown
+2638/tcp  open  sybase
+2701/tcp  open  sms-rcinfo
+2702/tcp  open  sms-xfer
+2710/tcp  open  unknown
+2717/tcp  open  unknown
+2718/tcp  open  unknown
+2725/tcp  open  unknown
+2800/tcp  open  unknown
+2809/tcp  open  corbaloc
+2811/tcp  open  unknown
+2869/tcp  open  unknown
+2875/tcp  open  unknown
+2909/tcp  open  unknown
+2910/tcp  open  unknown
+2920/tcp  open  unknown
+2968/tcp  open  unknown
+2998/tcp  open  iss-realsec
+3000/tcp  open  ppp
+3001/tcp  open  nessus
+3003/tcp  open  unknown
+3005/tcp  open  deslogin
+3006/tcp  open  deslogind
+3007/tcp  open  unknown
+3011/tcp  open  unknown
+3013/tcp  open  unknown
+3017/tcp  open  unknown
+3030/tcp  open  unknown
+3031/tcp  open  unknown
+3050/tcp  open  unknown
+3052/tcp  open  powerchute
+3071/tcp  open  unknown
+3077/tcp  open  unknown
+3128/tcp  open  squid-http
+3168/tcp  open  unknown
+3211/tcp  open  unknown
+3221/tcp  open  unknown
+3260/tcp  open  iscsi
+3261/tcp  open  unknown
+3268/tcp  open  globalcatLDAP
+3269/tcp  open  globalcatLDAPssl
+3283/tcp  open  netassistant
+3300/tcp  open  unknown
+3301/tcp  open  unknown
+3306/tcp  open  mysql
+3322/tcp  open  unknown
+3323/tcp  open  unknown
+3324/tcp  open  unknown
+3325/tcp  open  unknown
+3333/tcp  open  dec-notes
+3351/tcp  open  unknown
+3367/tcp  open  unknown
+3369/tcp  open  unknown
+3370/tcp  open  unknown
+3371/tcp  open  unknown
+3372/tcp  open  msdtc
+3389/tcp  open  ms-term-serv
+3390/tcp  open  unknown
+3404/tcp  open  unknown
+3476/tcp  open  unknown
+3493/tcp  open  unknown
+3517/tcp  open  unknown
+3527/tcp  open  unknown
+3546/tcp  open  unknown
+3551/tcp  open  unknown
+3580/tcp  open  unknown
+3659/tcp  open  unknown
+3689/tcp  open  rendezvous
+3690/tcp  open  svn
+3703/tcp  open  unknown
+3737/tcp  open  unknown
+3766/tcp  open  unknown
+3784/tcp  open  unknown
+3800/tcp  open  unknown
+3801/tcp  open  unknown
+3809/tcp  open  unknown
+3814/tcp  open  unknown
+3826/tcp  open  unknown
+3827/tcp  open  unknown
+3828/tcp  open  unknown
+3851/tcp  open  unknown
+3869/tcp  open  unknown
+3871/tcp  open  unknown
+3878/tcp  open  unknown
+3880/tcp  open  unknown
+3889/tcp  open  unknown
+3905/tcp  open  mupdate
+3914/tcp  open  unknown
+3918/tcp  open  unknown
+3920/tcp  open  unknown
+3945/tcp  open  unknown
+3971/tcp  open  unknown
+3986/tcp  open  mapper-ws_ethd
+3995/tcp  open  unknown
+3998/tcp  open  unknown
+4001/tcp  open  unknown
+4002/tcp  open  mlchat-proxy
+4003/tcp  open  unknown
+4004/tcp  open  unknown
+4005/tcp  open  unknown
+4006/tcp  open  unknown
+4045/tcp  open  lockd
+4111/tcp  open  unknown
+4125/tcp  open  rww
+4126/tcp  open  unknown
+4129/tcp  open  unknown
+4224/tcp  open  xtell
+4242/tcp  open  unknown
+4279/tcp  open  unknown
+4321/tcp  open  rwhois
+4343/tcp  open  unicall
+4443/tcp  open  pharos
+4445/tcp  open  unknown
+4446/tcp  open  unknown
+4449/tcp  open  unknown
+4550/tcp  open  unknown
+4848/tcp  open  unknown
+4899/tcp  open  radmin
+4900/tcp  open  unknown
+4998/tcp  open  maybe-veritas
+5001/tcp  open  commplex-link
+5002/tcp  open  rfe
+5003/tcp  open  filemaker
+5004/tcp  open  unknown
+5009/tcp  open  airport-admin
+5030/tcp  open  unknown
+5033/tcp  open  unknown
+5050/tcp  open  mmcc
+5051/tcp  open  ida-agent
+5054/tcp  open  unknown
+5060/tcp  open  sip
+5061/tcp  open  sip-tls
+5080/tcp  open  unknown
+5087/tcp  open  unknown
+5100/tcp  open  admd
+5101/tcp  open  admdog
+5102/tcp  open  admeng
+5120/tcp  open  unknown
+5190/tcp  open  aol
+5200/tcp  open  unknown
+5214/tcp  open  unknown
+5221/tcp  open  unknown
+5222/tcp  open  unknown
+5225/tcp  open  unknown
+5226/tcp  open  unknown
+5269/tcp  open  unknown
+5280/tcp  open  unknown
+5298/tcp  open  unknown
+5357/tcp  open  unknown
+5405/tcp  open  pcduo
+5414/tcp  open  unknown
+5431/tcp  open  park-agent
+5432/tcp  open  postgresql
+5440/tcp  open  unknown
+5510/tcp  open  secureidprop
+5544/tcp  open  unknown
+5550/tcp  open  sdadmind
+5560/tcp  open  isqlplus
+5566/tcp  open  unknown
+5631/tcp  open  pcanywheredata
+5633/tcp  open  unknown
+5666/tcp  open  nrpe
+5678/tcp  open  unknown
+5679/tcp  open  activesync
+5718/tcp  open  unknown
+5730/tcp  open  unknown
+5800/tcp  open  vnc-http
+5801/tcp  open  vnc-http-1
+5802/tcp  open  vnc-http-2
+5810/tcp  open  unknown
+5811/tcp  open  unknown
+5815/tcp  open  unknown
+5822/tcp  open  unknown
+5825/tcp  open  unknown
+5850/tcp  open  unknown
+5859/tcp  open  unknown
+5862/tcp  open  unknown
+5877/tcp  open  unknown
+5900/tcp  open  vnc
+5901/tcp  open  vnc-1
+5902/tcp  open  vnc-2
+5903/tcp  open  vnc-3
+5904/tcp  open  unknown
+5906/tcp  open  unknown
+5907/tcp  open  unknown
+5910/tcp  open  unknown
+5911/tcp  open  unknown
+5915/tcp  open  unknown
+5922/tcp  open  unknown
+5925/tcp  open  unknown
+5950/tcp  open  unknown
+5952/tcp  open  unknown
+5959/tcp  open  unknown
+5960/tcp  open  unknown
+5961/tcp  open  unknown
+5962/tcp  open  unknown
+5963/tcp  open  unknown
+5987/tcp  open  unknown
+5988/tcp  open  unknown
+5989/tcp  open  unknown
+5998/tcp  open  ncd-diag
+5999/tcp  open  ncd-conf
+6000/tcp  open  X11
+6001/tcp  open  X11:1
+6002/tcp  open  X11:2
+6003/tcp  open  X11:3
+6004/tcp  open  X11:4
+6005/tcp  open  X11:5
+6006/tcp  open  X11:6
+6007/tcp  open  X11:7
+6009/tcp  open  X11:9
+6025/tcp  open  unknown
+6059/tcp  open  X11:59
+6100/tcp  open  unknown
+6101/tcp  open  backupexec
+6106/tcp  open  isdninfo
+6112/tcp  open  dtspc
+6123/tcp  open  unknown
+6129/tcp  open  unknown
+6156/tcp  open  unknown
+6389/tcp  open  unknown
+6502/tcp  open  netop-rc
+6510/tcp  open  unknown
+6543/tcp  open  mythtv
+6547/tcp  open  powerchuteplus
+6565/tcp  open  unknown
+6566/tcp  open  unknown
+6567/tcp  open  unknown
+6580/tcp  open  unknown
+6666/tcp  open  irc
+6668/tcp  open  irc
+6669/tcp  open  irc
+6779/tcp  open  unknown
+6788/tcp  open  unknown
+6789/tcp  open  ibm-db2-admin
+6792/tcp  open  unknown
+6839/tcp  open  unknown
+6881/tcp  open  bittorrent-tracker
+6901/tcp  open  unknown
+6969/tcp  open  acmsoda
+7000/tcp  open  afs3-fileserver
+7002/tcp  open  afs3-prserver
+7004/tcp  open  afs3-kaserver
+7007/tcp  open  afs3-bos
+7019/tcp  open  unknown
+7025/tcp  open  unknown
+7070/tcp  open  realserver
+7100/tcp  open  font-service
+7103/tcp  open  unknown
+7106/tcp  open  unknown
+7200/tcp  open  fodms
+7201/tcp  open  dlip
+7402/tcp  open  unknown
+7435/tcp  open  unknown
+7443/tcp  open  unknown
+7496/tcp  open  unknown
+7512/tcp  open  unknown
+7625/tcp  open  unknown
+7627/tcp  open  unknown
+7676/tcp  open  unknown
+7741/tcp  open  unknown
+7777/tcp  open  unknown
+7778/tcp  open  unknown
+7800/tcp  open  unknown
+7911/tcp  open  unknown
+7920/tcp  open  unknown
+7921/tcp  open  unknown
+7937/tcp  open  nsrexecd
+7938/tcp  open  lgtomapper
+7999/tcp  open  unknown
+8000/tcp  open  http-alt
+8001/tcp  open  unknown
+8002/tcp  open  teradataordbms
+8007/tcp  open  ajp12
+8008/tcp  open  http
+8009/tcp  open  ajp13
+8010/tcp  open  xmpp
+8011/tcp  open  unknown
+8021/tcp  open  ftp-proxy
+8022/tcp  open  unknown
+8031/tcp  open  unknown
+8042/tcp  open  unknown
+8045/tcp  open  unknown
+8080/tcp  open  http-proxy
+8081/tcp  open  blackice-icecap
+8082/tcp  open  blackice-alerts
+8083/tcp  open  unknown
+8084/tcp  open  unknown
+8085/tcp  open  unknown
+8086/tcp  open  unknown
+8087/tcp  open  unknown
+8088/tcp  open  unknown
+8089/tcp  open  unknown
+8090/tcp  open  unknown
+8093/tcp  open  unknown
+8099/tcp  open  unknown
+8100/tcp  open  unknown
+8180/tcp  open  unknown
+8181/tcp  open  unknown
+8192/tcp  open  sophos
+8193/tcp  open  sophos
+8194/tcp  open  sophos
+8222/tcp  open  unknown
+8254/tcp  open  unknown
+8290/tcp  open  unknown
+8291/tcp  open  unknown
+8292/tcp  open  unknown
+8300/tcp  open  unknown
+8333/tcp  open  unknown
+8383/tcp  open  unknown
+8400/tcp  open  unknown
+8402/tcp  open  unknown
+8443/tcp  open  https-alt
+8500/tcp  open  unknown
+8600/tcp  open  unknown
+8649/tcp  open  unknown
+8651/tcp  open  unknown
+8652/tcp  open  unknown
+8654/tcp  open  unknown
+8701/tcp  open  unknown
+8800/tcp  open  unknown
+8873/tcp  open  unknown
+8899/tcp  open  unknown
+8994/tcp  open  unknown
+9000/tcp  open  cslistener
+9001/tcp  open  tor-orport
+9002/tcp  open  unknown
+9003/tcp  open  unknown
+9009/tcp  open  unknown
+9010/tcp  open  unknown
+9011/tcp  open  unknown
+9040/tcp  open  tor-trans
+9050/tcp  open  tor-socks
+9071/tcp  open  unknown
+9080/tcp  open  unknown
+9081/tcp  open  unknown
+9090/tcp  open  zeus-admin
+9091/tcp  open  unknown
+9099/tcp  open  unknown
+9100/tcp  open  jetdirect
+9101/tcp  open  jetdirect
+9102/tcp  open  jetdirect
+9103/tcp  open  jetdirect
+9110/tcp  open  unknown
+9111/tcp  open  DragonIDSConsole
+9200/tcp  open  wap-wsp
+9207/tcp  open  unknown
+9220/tcp  open  unknown
+9290/tcp  open  unknown
+9415/tcp  open  unknown
+9418/tcp  open  git
+9485/tcp  open  unknown
+9500/tcp  open  unknown
+9502/tcp  open  unknown
+9503/tcp  open  unknown
+9535/tcp  open  man
+9575/tcp  open  unknown
+9593/tcp  open  unknown
+9594/tcp  open  msgsys
+9595/tcp  open  pds
+9618/tcp  open  unknown
+9666/tcp  open  unknown
+9876/tcp  open  sd
+9877/tcp  open  unknown
+9878/tcp  open  unknown
+9898/tcp  open  unknown
+9900/tcp  open  iua
+9917/tcp  open  unknown
+9943/tcp  open  unknown
+9944/tcp  open  unknown
+9968/tcp  open  unknown
+9998/tcp  open  unknown
+9999/tcp  open  abyss
+10001/tcp open  unknown
+10002/tcp open  unknown
+10003/tcp open  unknown
+10004/tcp open  unknown
+10009/tcp open  unknown
+10010/tcp open  unknown
+10012/tcp open  unknown
+10024/tcp open  unknown
+10025/tcp open  unknown
+10082/tcp open  amandaidx
+10180/tcp open  unknown
+10215/tcp open  unknown
+10243/tcp open  unknown
+10566/tcp open  unknown
+10616/tcp open  unknown
+10617/tcp open  unknown
+10621/tcp open  unknown
+10626/tcp open  unknown
+10628/tcp open  unknown
+10629/tcp open  unknown
+10778/tcp open  unknown
+11110/tcp open  unknown
+11111/tcp open  unknown
+11967/tcp open  unknown
+12000/tcp open  cce4x
+12174/tcp open  unknown
+12265/tcp open  unknown
+12345/tcp open  netbus
+13456/tcp open  unknown
+13722/tcp open  netbackup
+13782/tcp open  netbackup
+13783/tcp open  netbackup
+14000/tcp open  unknown
+14238/tcp open  unknown
+14441/tcp open  unknown
+14442/tcp open  unknown
+15000/tcp open  hydap
+15002/tcp open  unknown
+15003/tcp open  unknown
+15004/tcp open  unknown
+15660/tcp open  unknown
+15742/tcp open  unknown
+16000/tcp open  unknown
+16001/tcp open  unknown
+16012/tcp open  unknown
+16016/tcp open  unknown
+16018/tcp open  unknown
+16080/tcp open  osxwebadmin
+16113/tcp open  unknown
+16992/tcp open  unknown
+16993/tcp open  unknown
+17877/tcp open  unknown
+17988/tcp open  unknown
+18040/tcp open  unknown
+18101/tcp open  unknown
+18988/tcp open  unknown
+19101/tcp open  unknown
+19283/tcp open  unknown
+19315/tcp open  unknown
+19350/tcp open  unknown
+19780/tcp open  unknown
+19801/tcp open  unknown
+19842/tcp open  unknown
+20000/tcp open  unknown
+20005/tcp open  btx
+20031/tcp open  unknown
+20221/tcp open  unknown
+20222/tcp open  unknown
+20828/tcp open  unknown
+21571/tcp open  unknown
+22939/tcp open  unknown
+23502/tcp open  unknown
+24444/tcp open  unknown
+24800/tcp open  unknown
+25734/tcp open  unknown
+25735/tcp open  unknown
+26214/tcp open  unknown
+27000/tcp open  flexlm0
+27352/tcp open  unknown
+27353/tcp open  unknown
+27355/tcp open  unknown
+27356/tcp open  unknown
+27715/tcp open  unknown
+28201/tcp open  unknown
+30000/tcp open  unknown
+30718/tcp open  unknown
+30951/tcp open  unknown
+31038/tcp open  unknown
+31337/tcp open  Elite
+32768/tcp open  unknown
+32769/tcp open  unknown
+32770/tcp open  sometimes-rpc3
+32771/tcp open  sometimes-rpc5
+32772/tcp open  sometimes-rpc7
+32773/tcp open  sometimes-rpc9
+32774/tcp open  sometimes-rpc11
+32775/tcp open  sometimes-rpc13
+32776/tcp open  sometimes-rpc15
+32777/tcp open  sometimes-rpc17
+32778/tcp open  sometimes-rpc19
+32779/tcp open  sometimes-rpc21
+32780/tcp open  sometimes-rpc23
+32781/tcp open  unknown
+32782/tcp open  unknown
+32783/tcp open  unknown
+32784/tcp open  unknown
+32785/tcp open  unknown
+33354/tcp open  unknown
+33899/tcp open  unknown
+34571/tcp open  unknown
+34572/tcp open  unknown
+34573/tcp open  unknown
+35500/tcp open  unknown
+38292/tcp open  landesk-cba
+40193/tcp open  unknown
+40911/tcp open  unknown
+41511/tcp open  unknown
+42510/tcp open  unknown
+44176/tcp open  unknown
+44442/tcp open  coldfusion-auth
+44443/tcp open  coldfusion-auth
+44501/tcp open  unknown
+45100/tcp open  unknown
+48080/tcp open  unknown
+49152/tcp open  unknown
+49153/tcp open  unknown
+49154/tcp open  unknown
+49155/tcp open  unknown
+49156/tcp open  unknown
+49157/tcp open  unknown
+49158/tcp open  unknown
+49159/tcp open  unknown
+49160/tcp open  unknown
+49161/tcp open  unknown
+49163/tcp open  unknown
+49165/tcp open  unknown
+49167/tcp open  unknown
+49175/tcp open  unknown
+49176/tcp open  unknown
+49400/tcp open  compaqdiag
+49999/tcp open  unknown
+50000/tcp open  iiimsf
+50001/tcp open  unknown
+50002/tcp open  iiimsf
+50003/tcp open  unknown
+50006/tcp open  unknown
+50300/tcp open  unknown
+50389/tcp open  unknown
+50500/tcp open  unknown
+50636/tcp open  unknown
+50800/tcp open  unknown
+51103/tcp open  unknown
+51493/tcp open  unknown
+52673/tcp open  unknown
+52822/tcp open  unknown
+52848/tcp open  unknown
+52869/tcp open  unknown
+54045/tcp open  unknown
+54328/tcp open  unknown
+55055/tcp open  unknown
+55056/tcp open  unknown
+55555/tcp open  unknown
+55600/tcp open  unknown
+56737/tcp open  unknown
+56738/tcp open  unknown
+57294/tcp open  unknown
+57797/tcp open  unknown
+58080/tcp open  unknown
+60020/tcp open  unknown
+60443/tcp open  unknown
+61532/tcp open  unknown
+61900/tcp open  unknown
+62078/tcp open  iphone-sync
+63331/tcp open  unknown
+64623/tcp open  unknown
+64680/tcp open  unknown
+65000/tcp open  unknown
+65129/tcp open  unknown
+65389/tcp open  unknown
+
+Nmap done: 1 IP address (1 host up) scanned in 26.45 seconds</code></pre>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Unicorn Init Script]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/04/06/unicorn-init-script/"/>
+    <updated>2013-04-06T00:00:00-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/04/06/unicorn-init-script</id>
+    <content type="html"><![CDATA[<div>
+  <pre><code class='bash'>#!/bin/sh
+set -e
+# Example init script, this can be used with nginx, too,
+# since nginx and unicorn accept the same signals
+# Feel free to change any of the following variables for your app:
+TIMEOUT=${TIMEOUT-60}
+APP_ROOT=/var/rails/tom/MyApp
+PID=$APP_ROOT/tmp/pids/unicorn.pid
+CMD=&quot;/var/rails/tom/.rvm/bin/bootup_unicorn -D -c $APP_ROOT/config/unicorn.rb&quot;
+#INIT_CONF=$APP_ROOT/config/init.conf
+action=&quot;$1&quot;
+set -u
+#test -f &quot;$INIT_CONF&quot; &amp;&amp; . $INIT_CONF
+old_pid=&quot;$PID.oldbin&quot;
+cd $APP_ROOT || exit 1
+sig () {
+    test -s &quot;$PID&quot; &amp;&amp; kill -$1 `cat $PID`
+}
+oldsig () {
+    test -s $old_pid &amp;&amp; kill -$1 `cat $old_pid`
+}
+case $action in
+start)
+    sig 0 &amp;&amp; echo &gt;&amp;2 &quot;Already running&quot; &amp;&amp; exit 0
+    $CMD
+    ;;
+stop)
+    sig QUIT &amp;&amp; exit 0
+    echo &gt;&amp;2 &quot;Not running&quot;
+    ;;
+force-stop)
+    sig TERM &amp;&amp; exit 0
+    echo &gt;&amp;2 &quot;Not running&quot;
+    ;;
+restart|reload)
+    sig HUP &amp;&amp; echo reloaded OK &amp;&amp; exit 0
+    echo &gt;&amp;2 &quot;Couldn&#39;t reload, starting &#39;$CMD&#39; instead&quot;
+    $CMD
+    ;;
+upgrade)
+    if sig USR2 &amp;&amp; sleep 2 &amp;&amp; sig 0 &amp;&amp; oldsig QUIT
+    then
+        n=$TIMEOUT
+        while test -s $old_pid &amp;&amp; test $n -ge 0
+        do
+            printf &#39;.&#39; &amp;&amp; sleep 1 &amp;&amp; n=$(( $n - 1 ))
+        done
+        echo
+        if test $n -lt 0 &amp;&amp; test -s $old_pid
+        then
+            echo &gt;&amp;2 &quot;$old_pid still exists after $TIMEOUT seconds&quot;
+            exit 1
+        fi
+        exit 0
+    fi
+    echo &gt;&amp;2 &quot;Couldn&#39;t upgrade, starting &#39;$CMD&#39; instead&quot;
+    $CMD
+    ;;
+reopen-logs)
+    sig USR1
+    ;;
+*)
+    echo &gt;&amp;2 &quot;Usage: $0 &lt;start|stop|restart|upgrade|force-stop|reopen-logs&gt;&quot;
+    exit 1
+    ;;
+esac</code></pre>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Production Rails Server for Cs410]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/04/06/production-rails-server-for-cs410/"/>
+    <updated>2013-04-06T00:00:00-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/04/06/production-rails-server-for-cs410</id>
+    <content type="html"><![CDATA[<p>====== Stop Whoopsie ======
+Edit /etc/default/whoopsie and change report_crashes to false
+  service whoopsie stop</p>
+
+<p>====== System ruby, gems and rails ======
+We&rsquo;ll leave the system ruby in place but purge rails and gems
+  apt-get purge rails rubygems
+  apt-get autoremove</p>
+
+<p>====== Add a local user and give privileges ======</p>
+
+<p>I created a local user because my production boxes are appliances and only has what needs to be installed on them.  This environment is different and I am adjusting my install to compensate.
+====== Install some basic packages ======
+  apt-get install build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev  libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison pkg-config</p>
+
+<p>====== Install RVM in multi-user mode ======
+We&rsquo;ll be installing ruby with rvm for each application
+====== Rails ======
+make sure you&rsquo;re using the proper ruby and gem version
+  tom@nginx:~$ which gem ruby
+  /usr/local/rvm/rubies/ruby-2.0.0-p0/bin/gem
+  /usr/local/rvm/rubies/ruby-2.0.0-p0/bin/ruby</p>
+
+<p>Install Rails
+  gem install rails &mdash;no-ri &mdash;no-rdoc</p>
+
+<p>We don&rsquo;t need the Rails documentation or interactive on the server, infact you should add this to your ~/.gemrc
+<code></p>
+
+<h1>/home/{user}/.gemrc</h1>
+
+<hr />
+
+<p>:update_sources: true
+:sources:
+&ndash; <a href="http://gems.rubyforge.org/">http://gems.rubyforge.org/</a>
+&ndash; <a href="http://gems.github.com">http://gems.github.com</a>
+:benchmark: false
+:bulk_threshold: 1000
+:backtrace: false
+:verbose: true
+gem: &mdash;no-ri &mdash;no-rdoc
+</code></p>
+
+<p>====== Install Nginx ======
+  apt-get install python-software-properties</p>
+
+<p>  add-apt-repository ppa:nginx/stable</p>
+
+<p>  sudo apt-get update</p>
+
+<p>  sudo apt-get install nginx</p>
+
+<p>====== Install Unicorn ======
+  gem install unicorn</p>
+
+<p>====== Install NodeJS ======
+  apt-get install nodejs</p>
+
+<p>====== Test Unicorn ======
+  &ndash; create a test app
+  &ndash; cd to test_app
+  &ndash; run:</p>
+
+<p>  % unicorn_rails -p 3000</p>
+
+<p>====== Install rvm wrapper ======
+This is for the unicorn init script.</p>
+
+<p>  rvm wrapper ruby-2.0.0-p0@global bootup unicorn</p>
+
+<p>====== Add unicron init script ======
+Becasue I &rsquo;m always rebooting the server, unicorn needs an init script</p>
+
+<p>[[Unicorn init script]]</p>
+
+<p>====== Install Mysql ======
+  apt-get install mysql-server mysql-client mysql-common libmysql-ruby libmysqlclient-dev</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails Developerment Environment Help]]></title>
+    <link href="http://thomasmullaly.com/blog/2013/04/04/development-environment-help/"/>
+    <updated>2013-04-04T05:27:50-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2013/04/04/development-environment-help</id>
+    <content type="html"><![CDATA[<p>Apple&rsquo;s OS X Mountain Lion can be tricky to set up here&rsquo;s how we solved one problem</p>
+
+<div>
+  <pre><code class='bash'>rvm remove 2.0.0 # get rid of unsuccessful installation
+rvm get head --autolibs=3 # get the latest RVM and build required libs
+rvm requirements # just in case, install all other required stuff
+rvm install ruby-2.0.0
+rvm --default use ruby-2.0.0</code></pre>
+</div>
+
+]]></content>
+  </entry>
+  
+</feed>

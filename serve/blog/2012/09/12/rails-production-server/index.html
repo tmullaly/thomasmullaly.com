@@ -1,0 +1,73 @@
+<p>Load Ubuntu 12.04</p>
+
+<p>Get updates.  Run &lsquo;sudo apt-get update&rsquo; and &lsquo;sudo apt-get upgrade&rsquo; and &lsquo;sudo apt-get dist-upgrade&rsquo;</p>
+
+<p>Reboot.</p>
+
+<p>Install Apache2
+  # sudo apt-get install apache2
+Now perform your [[apache_security_and_hardening|Apache Security and Hardening]]</p>
+
+<p>Install curl
+  # sudo apt-get install curl</p>
+
+<p>Install rvm (Multi-User install)
+  # curl -L <a href="https://get.rvm.io">https://get.rvm.io</a> | sudo bash -s stable</p>
+
+<p>Install Ruby Dependencies:
+  # apt-get install build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison subversion</p>
+
+<p>Install the latest version of ruby
+  # rvm install ruby</p>
+
+<p>Install the rails gems
+  # gem install rails</p>
+
+<p>Install The Ruby Racer
+  # gem install therubyracer</p>
+
+<p>Install nodejs
+  # apt-get install nodejs</p>
+
+<p>Get ready for passenger
+  # apt-get install libcurl4-openssl-dev apache2-prefork-dev libapr1-dev libaprutil1-dev
+  # gem install passenger</p>
+
+<p>Install the passenger module
+  # passenger-install-apache2-module</p>
+
+<p>Edit your Apache configuration file, and add these lines:</p>
+
+<p>  LoadModule passenger_module /usr/local/rvm/gems/ruby-1.9.3-p194/gems/passenger-3.0.13/ext/apache2/mod_passenger.so
+  PassengerRoot /usr/local/rvm/gems/ruby-1.9.3-p194/gems/passenger-3.0.13
+  PassengerRuby /usr/local/rvm/wrappers/ruby-1.9.3-p194/ruby</p>
+
+<p>Deploying a Ruby on Rails application: an example</p>
+
+<p>Suppose you have a Rails application in /somewhere. Add a virtual host to your
+Apache configuration file and set its DocumentRoot to /somewhere/public:</p>
+
+<p>   <VirtualHost *:80></p>
+
+<pre><code>  ServerName www.yourhost.com
+  # !!! Be sure to point DocumentRoot to 'public'!
+  DocumentRoot /somewhere/public    
+  &lt;Directory /somewhere/public&gt;
+     # This relaxes Apache security settings.
+     AllowOverride all
+     # MultiViews must be turned off.
+     Options -MultiViews
+  &lt;/Directory&gt;
+</code></pre>
+
+<p>   </VirtualHost></p>
+
+<p>And that&rsquo;s it! You may also want to check the Users Guide for security and
+optimization tips, troubleshooting and other useful information:</p>
+
+<p>  /usr/local/rvm/gems/ruby-1.9.3-p194/gems/passenger-3.0.13/doc/Users guide Apache.html</p>
+
+<p>Add deploy user and add rvm group
+  # useradd deploy -d /home/deploy -m deploy
+  # passwd deploy
+  # usermod -a -G rvm deploy</p>

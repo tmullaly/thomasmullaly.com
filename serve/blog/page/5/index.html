@@ -1,0 +1,907 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Thomas Mullaly</title>
+  <meta name="author" content="Thomas Mullaly">
+
+  
+  <meta name="description" content="======Synchronize time with external NTP server on Windows Server 2008====== Time synchronization is an important aspect for all computers on the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://thomasmullaly.com/blog/page/5">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Thomas Mullaly" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Thomas Mullaly</a></h1>
+  
+    <h2>My site</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:thomasmullaly.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/18/windows-server-2008/">Windows Server 2008</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-18T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>======Synchronize time with external NTP server on Windows Server 2008======</p>
+
+<p>Time synchronization is an important aspect for all computers on the network. By default, the clients computers get their time from a Domain Controller and the Domain Controller gets his time from the domain’s PDC Operation Master. Therefore the PDC must synchronize his time from an external source. I usually use the servers listed at the NTP Pool Project website. Before you begin, don’t forget to open the default UDP 123 port (in- and outbound) on your (corporate) firewall.</p>
+
+<p>First, locate your PDC Server. Open the command prompt and type:
+  C:>netdom /query fsmo
+Log in to your PDC Server and open the command prompt.
+Stop the W32Time service:
+  C:>net stop w32time
+Configure the external time sources, type:
+  C:> w32tm /config /syncfromflags:manual /manualpeerlist:”0.pool.ntp.org, 1.pool.ntp.org, 2.pool.ntp.org”
+Make your PDC a reliable time source for the clients. Type:
+  C:>w32tm /config /reliable:yes
+Start the w32time service:
+  C:>net start w32time
+The windows time service should begin synchronizing the time. You can check the external NTP servers in the time configuration by typing:
+  C:>w32tm /query /configuration
+You can also check the status:
+  C:\Users\tmullaly>w32tm /query /status
+  Leap Indicator: 0(no warning)
+  Stratum: 3 (secondary reference &ndash; syncd by (S)NTP)
+  Precision: -6 (15.625ms per tick)
+  Root Delay: 0.0978394s
+  Root Dispersion: 7.8137172s
+  ReferenceId: 0xCE392C11 (source IP:  206.57.44.17)
+  Last Successful Sync Time: 12/18/2012 7:15:14 PM
+  Source: 1.pool.ntp.org
+  Poll Interval: 6 (64s)</p>
+
+<p>Check the Event Viewer for any errors.
+Tested on Windows Server 2008 Standard</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/10/gold-master-windows-2008-server-virtual-machine-image/">Gold Master Windows 2008 Server Virtual Machine Image</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-10T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Create a new VM and choose to install later</p>
+
+<p>When the VM is created, add the install disk to the cdrom and boot the vm</p>
+
+<p>Choose English for Language and Time and US for Keyboard</p>
+
+<p>Then Choose install now</p>
+
+<p>Select the operating system you want to install: Select Windows Server 2008 R2 Standard (Full Installation)</p>
+
+<p>Accept the TOS</p>
+
+<p>Choose the Custom Install</p>
+
+<p>Choose the Disk you want to intall to</p>
+
+<p>Start the Install</p>
+
+<p>The install end and reboots</p>
+
+<p>Create the Administrator password</p>
+
+<p>Change the Time Zone and make sure the Time is correct</p>
+
+<p>Install VMWare Tools (Typical Install)</p>
+
+<p>Reboot</p>
+
+<p>Login as Administrator</p>
+
+<p>Turn on and Check for updates</p>
+
+<p>Update everything</p>
+
+<p>Don&rsquo;t forget to sysprep</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/08/ubuntu-rid-nfs-server/">Ubuntu Rid Nfs Server</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-08T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>====== Network Configuration ======
+rename to fileserver
+  vi /etc/hostname
+  vi /etc/hosts</p>
+
+<p>Create static interface and add the Active Directory Server as the DNS
+  vi /etc/network/interfaces</p>
+
+<p><code>
+auto eth0
+iface eth0 inet static
+  address 10.10.10.30
+  netmask 255.255.255.0
+  network 10.10.10.0
+  gateway 10.10.10.1
+  dns-nameservers 10.10.10.10
+  dns-search tom.umb.edu
+</code></p>
+
+<p>reboot and check if /etc/resolve.conf has the windows ad server as its dns
+====== Get Kerberos working ======</p>
+
+<p>  sudo apt-get install krb5-user libpam-krb5 libpam-ccreds auth-client-config</p>
+
+<p>use TOM.UMB.EDU as Realm</p>
+
+<p>  Vi /etc/krb5.conf</p>
+
+<p>  [logging]
+  default = FILE:/var/log/krb5libs.log
+  kdc = FILE:/var/log/krb5kdc.log
+  admin_server = FILE:/var/log/kadmind.log</p>
+
+<p>  [libdefaults]
+  dns_lookup_realm = true
+  dns_lookup_kdc = true
+  ticket_lifetime = 24h
+  forwardable = yes</p>
+
+<p>  [appdefaults]
+  pam = {
+   debug = false
+   ticket_lifetime = 36000
+   renew_lifetime = 36000
+   forwardable = true
+   krb4_convert = false
+  }</p>
+
+<p>test kerberos
+  [root@rid-nfs ~]# host -t srv <em>kerberos.</em>tcp.tom.umb.edu
+  <em>kerberos.</em>tcp.tom.umb.edu has SRV record 0 100 88 ad.tom.umb.edu.</p>
+
+<p>====== Samba and winbind ======</p>
+
+<p>  sudo apt-get install samba winbind</p>
+
+<p>  vi /etc/samba/smb.conf</p>
+
+<p>  #GLOBAL PARAMETERS
+  [global]</p>
+
+<pre><code> workgroup = TOM
+ realm = TOM.UMB.EDU
+ preferred master = no
+ server string = Home Directory Server
+ security = ADS
+ encrypt passwords = yes
+ log level = 3
+ log file = /var/log/samba/%m
+ max log size = 50
+ printcap name = cups
+ printing = cups
+ winbind enum users = Yes
+ winbind enum groups = Yes
+ winbind use default domain = Yes
+ winbind nested groups = Yes
+ winbind separator = +
+ winbind cache time = 10
+ idmap uid = 10000-20000
+ idmap gid = 10000-20000
+ idmap config TOM: backend = rid
+ idmap config TOM: range = 10000-20000
+ allow trusted domains = No
+ template shell = /bin/bash
+ template homedir = /home/%D/%U
+ ;template primary group = "Domain Users"
+</code></pre>
+
+<p>  [homes]</p>
+
+<pre><code> comment = Home Direcotries
+ path = /export/home/
+ valid users = %S
+ read only = No
+ browseable = No
+ inherit acls = yes
+ inherit permissions = yes
+ writable = yes
+</code></pre>
+
+<p>  [printers]</p>
+
+<pre><code> comment = All Printers
+ path = /var/spool/cups
+ browseable = no
+ printable = yes
+ guest ok = yes
+</code></pre>
+
+<p>  vi nsswitch.conf</p>
+
+<p>  passwd: compat winbind
+  group: compat winbind
+  shadow: compat</p>
+
+<p>restart winbind nmbd and smbd</p>
+
+<p>join the domain
+  net ads join -U Administrator</p>
+
+<p>test
+  wbinfo -u
+  getent passwd
+====== Setup the NFS Server ======</p>
+
+<p>  apt-get install acl nfs-kernel-server</p>
+
+<p>  mkdir /export/home</p>
+
+<p>add user directories and modify permissions</p>
+
+<p>  vi /etc/exports</p>
+
+<p>  /export/home 10.10.10.0/24(rw,sync,no_subtree_check)</p>
+
+<p>export the new directory
+  service nfs-kernel-server restart</p>
+
+<p>test
+  exportfs</p>
+
+<p>enable ACL support (important, this will fix file permission creation issues</p>
+
+<p>Open /etc/fstab, navigate to the entry for the home directory
+partition, and add acl to the list of options.
+  /dev/sda1 /export/home ext3 defaults,acl 0 0
+With this option in place, remount the ﬁlesystem.
+  sudo mount -o remount /dev/sda1</p>
+
+<p>My setup was a bit different in /etc/fstab
+  /dev/mapper/ubuntu-root /               ext4    errors=remount-ro,acl 0       1</p>
+
+<p>====== Sign the Puppet Cert on Master ======
+<code>
+root@puppet:/etc/puppet# puppet cert list
+  &ldquo;fileserver.tom.umb.edu&rdquo; (MD5) E0:C3:90:FF:55:A8:81:A3:05:DD:61:A4:07:4B:EB:7B
+root@puppet:/etc/puppet# puppet cert sign fileserver.tom.umb.edu
+Signed certificate request for fileserver.tom.umb.edu
+Removing file Puppet::SSL::CertificateRequest fileserver.tom.umb.edu at &lsquo;/var/lib/puppet/ssl/ca/requests/fileserver.tom.umb.edu.pem&rsquo;
+</code>
+====== Go Setup the Linux Client ======
+[[ubuntu_rid_client]]</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/08/puppet/">Puppet</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-08T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>======Puppet Recipies======
+<a href="http://projects.puppetlabs.com/projects/puppet/wiki/Puppet_Patterns">http://projects.puppetlabs.com/projects/puppet/wiki/Puppet_Patterns</a></p>
+
+<p>Some of my puppet configurations:</p>
+
+<p>====== Dr Java ======
+<code ruby>
+class drjava {</p>
+
+<p>  file { &ldquo;drjava-stable-20120818-r5686.jar&rdquo;:</p>
+
+<pre><code>path    =&gt; '/usr/bin/drjava-stable-20120818-r5686.jar',
+ensure  =&gt; file,
+source =&gt; 'puppet:///modules/drjava/drjava-stable-20120818-r5686.jar',
+owner =&gt; 'root',
+group =&gt; 'root',
+mode =&gt; '644',
+</code></pre>
+
+<p>  }</p>
+
+<p>  file { &ldquo;drjava&rdquo;:</p>
+
+<pre><code>path =&gt; '/usr/bin/drjava',
+ensure  =&gt; file,
+source =&gt; 'puppet:///modules/drjava/drjava',
+owner =&gt; 'root',
+group =&gt; 'root',
+mode =&gt; '755',
+</code></pre>
+
+<p>  }</p>
+
+<p>  file { &ldquo;drjava.desktop&rdquo;:</p>
+
+<pre><code>path =&gt; '/usr/share/applications/drjava.desktop',
+ensure  =&gt; file,
+source =&gt; 'puppet:///modules/drjava/drjava.desktop',
+owner =&gt; 'root',
+group =&gt; 'root',
+mode =&gt; '644',
+</code></pre>
+
+<p>  }</p>
+
+<pre><code>file { "drjava.png":
+path =&gt; '/usr/share/app-install/icons/drjava.png',
+ensure  =&gt; file,
+source =&gt; 'puppet:///modules/drjava/drjava.png',
+owner =&gt; 'root',
+group =&gt; 'root',
+mode =&gt; '644',
+</code></pre>
+
+<p>  }</p>
+
+<p>}
+</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/06/puppet-on-oracle-solaris-11/">Puppet on Oracle Solaris 11</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-06T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Install [[Oracle Solaris 11]]</p>
+
+<p>Install OpenCSW
+  pkgadd -d <a href="http://get.opencsw.org/now">http://get.opencsw.org/now</a></p>
+
+<p>Add /opt/csw/bin to path
+  export PATH=$PATH:/opt/csw/bin</p>
+
+<p>Install the puppet agent
+  pkgutil &mdash;install puppet</p>
+
+<p>The puppet agent will auto start, if you need to add the puppet master to /etc/hosts and restart puppet:</p>
+
+<p>  svcs</p>
+
+<p>this prints out the services running</p>
+
+<p>  svcadm restart cswpuppetd</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/26/virtual-windows-deployment-server/">Virtual Windows Deployment Server</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-26T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I added another virtual drive to store the images on and to capture to.</p>
+
+<p>It&rsquo;s mounted on E:</p>
+
+<p>To move the RemoteInstall Directory:</p>
+
+<ol>
+<li><p>First you have to uninitialize
+C:/> WDSUTIL /uninitialize-server</p></li>
+<li><p>Copy the RemoteInstall Directory to the new location</p></li>
+<li><p>Now reinitialize
+c:/> WDSUTIL /Initialize-server /RemInst:E:\RemoteInstall</p></li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/25/amazon-web-services/">Amazon Web Services</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-25T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I got my fist EC2 instance last weekend.</p>
+
+<p>[[<a href="http://ec2-184-73-40-56.compute-1.amazonaws.com">http://ec2-184-73-40-56.compute-1.amazonaws.com</a>]] is running
+[[<a href="http://www.catornotcat.com|Cat">http://www.catornotcat.com|Cat</a> (or Not Cat)]]</p>
+
+<p>My second instance:</p>
+
+<p>[[<a href="http://ec2-23-22-145-26.compute-1.amazonaws.com">http://ec2-23-22-145-26.compute-1.amazonaws.com</a>]]</p>
+
+<p>====== How to change the time zone on AWS EC2 Linux machine ======</p>
+
+<p>Different servers available in the cloud will have different time zone. For running some crons in your time zone, this can be achieved by changing the time zone of the machine. This is something easy on the Linux box. You just need is to follow the following steps:</p>
+
+<p>1) Remove the localtime
+  rm /etc/localtime</p>
+
+<p>2) All the time zone are placed in the location /usr/share/zoneinfo/, now you need is to create a soft link of the appropriate time zone to /etc/localtime. For ex: if you want to change the timezone to be changed to the EST. You just have to execute the command given below:
+  ln -s /usr/share/zoneinfo/EST /etc/localtime
+Thats it. Now the time zone of the machine has been changed to EST.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/14/deploy-a-virtual-windows-7-desktop-using-windows-deployment-server/">Deploy a Virtual Windows 7 Desktop Using Windows Deployment Server</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-14T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Creating Computer Account Objects in AD DS
+====== Pre Stage the client computer account ======
+You can use Windows Deployment Services to link physical computers to computer account objects in Active Directory Domain Servers (AD DS). This is called prestaging the client. Prestaged clients are also called known computers. This allows you to then configure properties on the computer account to control the installation for the client. For example, you can configure the network boot program and the unattend file that the client should receive, as well as the server from which the client should download the network boot program. You can create a computer account object and associate it with a physical computer using the following methods:</p>
+
+<pre><code>* Using WDSUTIL. You can prestage client computers before they have attempted a network boot, by running WDSUTIL /Add-Device /Device:&lt;name&gt; /ID:&lt;ID&gt;. You cannot prestage computers by using the Windows Deployment Services MMC snap-in, but you can set the Auto-Add policy and approve or reject pending computers.
+* Using the Active Directory Users and Computers snap-in. You can prestage client computers before they have attempted a network boot using AD DS. For instructions, see the section "To prestage a client computer" in How to Manage Client Computers.
+* Enabling the Auto-Add policy. If you enable this policy, when you approve the installation for an unknown client, the installation will proceed and a computer account will be created in AD DS for the client. For more information, see Enabling the Auto-Add Policy
+* Using Windows Deployment Services as part of the image installation. By default, all operating system installations using Windows Deployment Services result in a client computer that is joined to a domain. You can disable this functionality using the Client tab of the server’s properties
+</code></pre>
+
+<p><a href="http://technet.microsoft.com/en-us/library/cc771206">http://technet.microsoft.com/en-us/library/cc771206</a>(v=ws.10).aspx</p>
+
+<p>WDSUTIL /Add-Device /Device:W7PreStage /ID:000c29d2cc4f /JoinDomain:Yes /OU:OU=Workstations /Domain:OU=Workstations,DC=tom,DC=umb,DC=edu</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/13/deploy-ubuntu-linux-desktop-using-windows-deployment-server-and-puppet/">Deploy Ubuntu Linux Desktop Using Windows Deployment Server and Puppet</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-13T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Deploying a Linux desktop will take a few steps.
+1. WDS &ndash; pxelinux
+2. debian preseed
+3. puppet</p>
+
+<p>pxelinux.cfg/default</p>
+
+<p><code>
+LABEL ubuntu-804 MENU LABEL ^1. Ubuntu 12.04 Standard Desktop kernel ubuntu-8.04-installer/i386/linux append vga=normal initrd=ubuntu-8.04-installer/i386/initrd.gz debian-installer/framebuffer=true console-setup/ask_detect=false console-setup/layoutcode=gb locale=en_GB netcfg/wireless_wep= netcfg/choose_interface=eth0 netcfg/get_hostname= url=<a href="http://">http://</a>&lt;your-webserver>/preseed/install.preseed netcfg/dhcp_timeout=60 splash &mdash;
+</code></p>
+
+<p>The append line is quite lengthy and contains automations for things that can&rsquo;t be preseeded with the file from the webserver, because at that stage the network is not yet initialised. The install.preseed file is just a modified file from the example preseeding file, which can be found in the installation-guide-i686 debian package.</p>
+
+<p>However we don&rsquo;t only want to install a standard desktop, we also want to make some automated customisations to it right after the installation. For this (and general configuration management) we use Puppet, which is packaged for Ubuntu. To get that activated, we append this line in the preseeding file:</p>
+
+<p><code>
+d-i pkgsel/include string puppet
+</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/07/puppet-master-server/">Puppet Master Server</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-07T00:00:00-05:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>====== Choose a Package Source ======
+Download the “puppetlabs-release” package for your OS version.
+You can see a full list of these packages on the front page of <a href="http://apt.puppetlabs.com/.">http://apt.puppetlabs.com/.</a> They are all named puppetlabs-release-<CODE NAME>.deb.</p>
+
+<p>Install the package by running dpkg -i <PACKAGE NAME>.
+For example, to enable the repository for Ubuntu 12.04 Precise Pangolin:</p>
+
+<p>  $ wget <a href="http://apt.puppetlabs.com/puppetlabs-release-precise.deb">http://apt.puppetlabs.com/puppetlabs-release-precise.deb</a>
+  $ sudo dpkg -i puppetlabs-release-precise.deb
+  $ sudo apt-get update</p>
+
+<p>====== Install the Puppet Master ======
+  apt-get install puppetmaster
+====== Configure Reporting ======
+How to see client changes in the master log
+My default puppet configuration shows all the interesting changes in the client&rsquo;s /var/log/daemon.log. I&rsquo;d rather be able to see those client-side changes in the master&rsquo;s log. Making this happen involves turning on puppet&rsquo;s client reporting mechanism.
+=====client-side reporting=====
+This is controlled by a setting in puppet.conf or a command line parameter to puppetd. I added the switch to
+/etc/default/puppet:
+<code></p>
+
+<h1>Defaults for puppet &ndash; sourced by /etc/init.d/puppet</h1>
+
+<h1>Start puppet on boot?</h1>
+
+<p>START=yes</p>
+
+<h1>Startup options</h1>
+
+<p>DAEMON_OPTS=&ldquo;&mdash;report&rdquo;
+</code>
+=====server handling of reports=====
+On the server side, puppet has several options for processing reports. The default is to create a yaml file in /var/lib/puppet/report/<nodename> To tell puppet to send the client report of changes to syslog (which in this case is sent to daemon.log), make this change to /etc/puppet/puppet.conf
+<code>
+[master]
+reports = log
+</code>
+Now, if you fiddle with a puppet controlled resource on the client (like adding a blank line to /etc/hosts), and restart the puppet client, you&rsquo;ll see puppet&rsquo;s corrective actions reported in the master&rsquo;s /var/log/daemon.log.</p>
+
+<p>====== Signing Client Certificates ======
+On the master
+  puppet cert list
+  puppet cert sign blue.cs.umb.edu</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/6/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/4/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/zero-out-free-space-in-windows/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/openvpn-on-amazon-ec2/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/24/java-review-flow-control/">Java Review - Flow Control</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/abstract-data-types-in-java/">Abstract Data Types (ADT) in Java</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/10/interview-questions/">Interview Questions</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Thomas Mullaly -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

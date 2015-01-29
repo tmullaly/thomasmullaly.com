@@ -1,0 +1,426 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ubuntu Winbind RID Client - Thomas Mullaly</title>
+  <meta name="author" content="Thomas Mullaly">
+
+  
+  <meta name="description" content="Network Time Protocol Keeping a computer system&rsquo;s clock accurate is critical for many things. In setting up samba and winbind to connect to a &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://thomasmullaly.com/blog/2013/03/09/ubuntu-rid-client">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Thomas Mullaly" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Thomas Mullaly</a></h1>
+  
+    <h2>My site</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:thomasmullaly.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Ubuntu Winbind RID Client</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-09T00:00:00-05:00" pubdate data-updated="true">Mar 9<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>Network Time Protocol</h1>
+
+<p>Keeping a computer system&rsquo;s clock accurate is critical for many things.  In setting up samba and winbind to connect to a windows domain you need kerberos working.  Kerberos is dependent on the clock accuracy of the clients and servers.</p>
+
+<p><strong>Do not install ntpd on virtual machines!!!</strong>
+Virtual machines should have the client vm tools installed, which among other things, keeps the clock synced with the host machine.  You <strong>should</strong> have some sort of time synchronization installed on the host machine.</p>
+
+<div>
+  <pre><code class='bash'>sudo apt-get install ntp</code></pre>
+</div>
+
+
+<h1>Kerberos</h1>
+
+<div>
+  <pre><code class='bash'>sudo apt-get install krb5-user libpam-krb5 libpam-ccreds auth-client-config</code></pre>
+</div>
+
+
+<p>use TOM.UMB.EDU as Realm</p>
+
+<p>Edit /etc/krb5.conf</p>
+
+<div>
+  <pre><code class='bash'>vi /etc/krb5.conf</code></pre>
+</div>
+
+
+<p>Make it look like this:</p>
+
+<div>
+  <pre><code class='bash'>[logging]
+default = FILE:/var/log/krb5libs.log
+kdc = FILE:/var/log/krb5kdc.log
+admin_server = FILE:/var/log/kadmind.log
+
+[libdefaults]
+dns_lookup_realm = true
+dns_lookup_kdc = true
+ticket_lifetime = 24h
+forwardable = yes
+
+[appdefaults]
+pam = {
+ debug = false
+ ticket_lifetime = 36000
+ renew_lifetime = 36000
+ forwardable = true
+ krb4_convert = false
+}</code></pre>
+</div>
+
+
+<p>test kerberos</p>
+
+<div>
+  <pre><code class='bash'>[root@rid-nfs ~]# host -t srv _kerberos._tcp.cs.umb.edu
+_kerberos._tcp.cs.umb.edu has SRV record 0 100 88 win-ad.cs.umb.edu.</code></pre>
+</div>
+
+
+<h1>Samba and winbind</h1>
+
+<div>
+  <pre><code class='bash'>sudo apt-get install samba winbind
+
+vi /etc/samba/smb.conf
+
+  #GLOBAL PARAMETERS
+  [global]
+     workgroup = TOM
+     realm = TOM.UMB.EDU
+     preferred master = no
+     server string = Home Directory Server
+     security = ADS
+     encrypt passwords = yes
+     log level = 3
+     log file = /var/log/samba/%m
+     max log size = 50
+     printcap name = cups
+     printing = cups
+     winbind enum users = Yes
+     winbind enum groups = Yes
+     winbind use default domain = Yes
+     winbind nested groups = Yes
+     winbind separator = +
+     winbind cache time = 10
+     idmap uid = 10000-20000
+     idmap gid = 10000-20000
+     idmap config TOM: backend = rid
+     idmap config TOM: range = 10000-20000
+     allow trusted domains = No
+     template shell = /bin/bash
+     template homedir = /home/%D/%U
+     ;template primary group = &quot;Domain Users&quot;
+
+  vi nsswitch.conf</code></pre>
+</div>
+
+
+<p>restart winbind nmbd and smbd</p>
+
+<p>join the domain
+  net ads join -U Administrator</p>
+
+<p>test
+  wbinfo -u
+  wbinfo -g
+  getent passwd</p>
+
+<p>As root:
+  kinit -V
+  net ads info</p>
+
+<h1>nsswitch.conf</h1>
+
+<p>Edit your /etc/nsswitch.conf file and add winbind</p>
+
+<div>
+  <pre><code class='bash'>passwd:         compat winbind
+group:          compat winbind
+shadow:         compat</code></pre>
+</div>
+
+
+<h1>Home Directories</h1>
+
+<p>You&rsquo;ve got three choices here</p>
+
+<p>The traditional unix network used a centralized fileserver/fileservers to store the user&rsquo;s home directory.  Upon logon to any system on the network, the user&rsquo;s home directory would be auto-mounted and appear local.  This worked very well in the 80&rsquo;s and early 90&rsquo;s but today we live in a different world.</p>
+
+<h2>Traditional Unix Automount</h2>
+
+<h3>Configure Automount</h3>
+
+<div>
+  <pre><code class='bash'>sudo apt-get install autofs</code></pre>
+</div>
+
+
+<p>To mount user home directories at login, we need to conﬁgure the automount service. Open
+/etc/auto.master and add the following entry.
+/home /etc/auto.home</p>
+
+<p>Now create /etc/auto.home and add this line</p>
+
+<div>
+  <pre><code class='bash'>* -fstype=nfs,nolock,nosuid rid-nfs.cs.umb.edu:/export/home/&amp;</code></pre>
+</div>
+
+
+<h3>Configure PAM</h3>
+
+<p>If you want to be able to change your password</p>
+
+<p>/etc/pam.d/common-password:</p>
+
+<div>
+  <pre><code class='bash'>password   sufficient pam_winbind.so
+password   required   pam_unix.so nullok obscure min=4 max=8 md5</code></pre>
+</div>
+
+
+<h2>The New Way, PAM Make Home Directory</h2>
+
+<p>The pam_mkhomedir PAM module will create a users home directory if it does not exist when the session begins. This allows users to be present in central database (such as NIS, kerberos or LDAP) without using a distributed file system or pre-creating a large number of directories.  The skeleton directory (usually /etc/skel/) is used to copy default files and also set’s a umask for the creation.  This is probably the best for performance reasons and local disks a big and cheap.  All software should be in source control anyway.</p>
+
+<p>The new users home directory will not be removed after logout of the user.</p>
+
+<p>Add this to /etc/pam.d/common-account</p>
+
+<div>
+  <pre><code class='bash'>session    required    pam_mkhomedir.so skel=/etc/skel/ umask=0022</code></pre>
+</div>
+
+
+<p>You can read more about it on the debian documentation site: <a href="http://www.debian-administration.org/articles/403">http://www.debian-administration.org/articles/403</a></p>
+
+<h2>smb auto mounting</h2>
+
+<p>Actually you can skip nfs altogether and mount the users windows homedirectory:</p>
+
+<p>Install libpam-mount:</p>
+
+<p>  apt-get install libpam-mount</p>
+
+<p>When you install libpam-mount it should add the pammount directive in pam.d/common-session</p>
+
+<p>I changed where the directory gets mounted to be just /home/username in smb.conf</p>
+
+<p>Now edit the /etc/security/pam_mount.conf.xml</p>
+
+<div>
+  <pre><code class='bash'>&lt;!-- mkmountpoint enable=&quot;1&quot; remove=&quot;true&quot; / --&gt;
+&lt;mkmountpoint enable=&quot;1&quot; remove=&quot;false&quot; /&gt;
+
+
+&lt;volume user=&quot;*&quot; server=&quot;snap&quot; path=&quot;home_dir&quot; mountpoint=&quot;home&quot; fstype=&quot;cifs&quot; /&gt;
+
+&lt;cifsmount&gt;mount -t cifs //%(SERVER)/%(USER) %(MNTPT)/%(USER) -o &quot;user=%(USER),uid=%(USERUID),gid=%(USERGID)%(before=\&quot;,\&quot; OPTIONS)&quot;&lt;/cifsmount&gt;
+
+&lt;umount&gt;umount %(MNTPT)/%(USER)&lt;/umount&gt;
+
+&lt;/pam_mount&gt;</code></pre>
+</div>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thomas Mullaly</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-09T00:00:00-05:00" pubdate data-updated="true">Mar 9<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://thomasmullaly.com/blog/2013/03/09/ubuntu-rid-client/" data-via="" data-counturl="http://thomasmullaly.com/blog/2013/03/09/ubuntu-rid-client/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/03/05/a2ps/" title="Previous Post: a2ps">&laquo; a2ps</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/03/10/oracle-solaris-11/" title="Next Post: Oracle Solaris 11">Oracle Solaris 11 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/zero-out-free-space-in-windows/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/openvpn-on-amazon-ec2/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/24/java-review-flow-control/">Java Review - Flow Control</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/abstract-data-types-in-java/">Abstract Data Types (ADT) in Java</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/10/interview-questions/">Interview Questions</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Thomas Mullaly -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

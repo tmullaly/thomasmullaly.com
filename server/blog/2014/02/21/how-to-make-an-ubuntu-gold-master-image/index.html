@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How to Make an Ubuntu Gold Master - Thomas Mullaly</title>
+  <meta name="author" content="Thomas Mullaly">
+
+  
+  <meta name="description" content="This guide show you how to make a gold master virtual machine image of Ubuntu 12.04 LTS. The purpose of this is because we&rsquo;ll be creating a lot &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://thomasmullaly.com/blog/2014/02/21/how-to-make-an-ubuntu-gold-master-image">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Thomas Mullaly" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Thomas Mullaly</a></h1>
+  
+    <h2>My site</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:thomasmullaly.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">How to Make an Ubuntu Gold Master</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-21T09:02:05-05:00" pubdate data-updated="true">Feb 21<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This guide show you how to make a gold master virtual machine image of Ubuntu 12.04 LTS.  The purpose of this is because we&rsquo;ll be creating a lot of new virtual machines and it&rsquo;s far easier to clone a master image than to install each and every time.  Let&rsquo;s get started&hellip;</p>
+
+<h1>Download Ubuntu Server 12.04 64 bit</h1>
+
+<p><a href="http://www.ubuntu.com/download/server">http://www.ubuntu.com/download/server</a></p>
+
+<p>Now go into VMWare and create the master virtual machine by select new virtual machine.</p>
+
+<h1>Go to VMware and create a new VM</h1>
+
+<p>Choose typical</p>
+
+<p>Choose the ubuntu installer disk and select &ldquo;I will install the operating system later&rdquo;</p>
+
+<p>Choose Linux Version Ubuntu</p>
+
+<p>Call this virtual machine Ubuntu</p>
+
+<p>Make the Disk Size 10 GB</p>
+
+<p>Add the Ubuntu iso to the virtual cd</p>
+
+<p>Power on the Virtual machine</p>
+
+<p>Press Enter to choose the English language</p>
+
+<p>Then, Press F4 to install a minimal virtual machine</p>
+
+<p>Then press enter twice</p>
+
+<p>This will kick off the install, choose all defaults</p>
+
+<p><del>only install the OpenSSH service</del>
+Don&rsquo;t install anything!!! Puppet will take care of everything.</p>
+
+<h1>Update and Upgrade</h1>
+
+<p>login when done and run:
+  sudo apt-get update
+  sudo apt-get upgrade
+  sudo apt-get dist-upgrade</p>
+
+<h1>Add Virtual Machine Tools</h1>
+
+<p>If you are on Virtual Box:
+  sudo apt-get install dkms</p>
+
+<p>If you are on VMWare:
+  sudo apt-get install open-vm-tools</p>
+
+<h1>Add the puppet client agent</h1>
+
+<p>  sudo apt-get install puppet</p>
+
+<p>Configure the puppet defaults
+  vi /etc/defaults/puppet</p>
+
+<h1>Defaults for puppet &ndash; sourced by /etc/init.d/puppet</h1>
+
+<h1>Start puppet on boot?</h1>
+
+<p>START=yes</p>
+
+<h1>Startup options</h1>
+
+<p>DAEMON_OPTS=&ldquo;&mdash;report&rdquo;</p>
+
+<p>Puppet should start on boot and look to the master for the manifests to define it.</p>
+
+<h1>eth0 eth1 problem when cloning</h1>
+
+<p>The root of the problem at our site was udev&rsquo;s handling of devices. Udev keeps a history of devices attached to the computer. What makes sense for i.e. USB sticks (that is, each USB stick you attach will be recorded and mounted to the same point when attached again at a later point in time), causes problems when systems are cloned.</p>
+
+<p>There is a file /etc/udev/rules.d/z25_persistent-net.rules, where udev memorises, which hardware device should get named eth0. Here it looks like this:</p>
+
+<div>
+  <pre><code class='bash'>\# PCI device 14xx:16xx (tg3)
+  ACTION==&quot;add&quot;, SUBSYSTEM==&quot;net&quot;, DRIVERS==&quot;?*&quot;, SYSFS\{address}==&quot;00:11:xx:xx:xx:xx&quot;, NAME=&quot;eth0&quot;</code></pre>
+</div>
+
+
+<p>When you run the image on another computer, the new network adapter is recognised on the PCI bus and a new entry in the above mentioned file is generated. &ldquo;eth0&rdquo; is already given to device 14xx:16xx, so the new device gets named &ldquo;eth1&rdquo;.</p>
+
+<p>If you delete this file, it will be rebuilt during the next system startup and your problem should go away.</p>
+
+<h1>Shutdown</h1>
+
+<p>now shutdown, you now have your golden master</p>
+
+<p>shutdown the VM, this is the golden master</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Thomas Mullaly</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-21T09:02:05-05:00" pubdate data-updated="true">Feb 21<span>st</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://thomasmullaly.com/blog/2014/02/21/how-to-make-an-ubuntu-gold-master-image/" data-via="" data-counturl="http://thomasmullaly.com/blog/2014/02/21/how-to-make-an-ubuntu-gold-master-image/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/09/01/welcome-to-jekyll/" title="Previous Post: Welcome to Jekyll!">&laquo; Welcome to Jekyll!</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/02/21/risk-analysis/" title="Next Post: Risk Analysis">Risk Analysis &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/zero-out-free-space-in-windows/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/06/02/openvpn-on-amazon-ec2/">How to Zero Out Free Disk Space in Windows</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/24/java-review-flow-control/">Java Review - Flow Control</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/abstract-data-types-in-java/">Abstract Data Types (ADT) in Java</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/10/interview-questions/">Interview Questions</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Thomas Mullaly -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

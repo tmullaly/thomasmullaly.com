@@ -1,0 +1,218 @@
+<p>====== NetworkManager ======
+NetworkManager sucks, at least in our lab environment.  I don&rsquo;t want users messing around with any network settings, creating vps or managing a wireless card.  Our desktops and servers don&rsquo;t move around so the advantages of using it do not exist.</p>
+
+<p>Remove it!!!
+  apt-get purge network-manager</p>
+
+<p>Now edit this file:
+  /etc/network/interfaces
+<code>
+auto lo
+iface lo inet loopback</p>
+
+<p>auto eth0
+iface eth0 inet dhcp
+</code></p>
+
+<p>====== Avahi-daemon ======
+Remove it!!!</p>
+
+<p>  apt-get remove avahi-daemon</p>
+
+<p>====== Change the Unity login screen ======</p>
+
+<p>  vi /etc/lightdm/lightdm.conf</p>
+
+<p>  [SeatDefaults]
+  user-session=ubuntu
+  greeter-session=unity-greeter
+  greeter-show-manual-login=true
+  allow-guest=false
+  greeter-hide-users=true</p>
+
+<p>====== Mail ======
+First get autofs in place</p>
+
+<p>  apt-get install mailutils postfix</p>
+
+<p>look at the following files and configure
+  /etc/mailname
+  /etc/postfix/main.cf</p>
+
+<p>setup sym link to enable automounting
+  rm -rf /var/mail
+  ln -s /spool/mail /var/mail</p>
+
+<p>====== Install a printer ======
+If you have a cups server, all you need is the cups client.
+see here: <a href="http://www.debianadmin.com/setup-cups-common-unix-printing-system-server-and-client-in-debian.html">http://www.debianadmin.com/setup-cups-common-unix-printing-system-server-and-client-in-debian.html</a></p>
+
+<p>  apt-get install cups-client
+  apt-get install a2ps
+<del>apt-get install cups-bsd</del></p>
+
+<p><code>
+ServerName sf01.cs.umb.edu</p>
+
+<h1>ServerName ip-address[:port]</h1>
+
+<h1>Encryption Always</h1>
+
+<h1>Encryption Never</h1>
+
+<h1>Encryption Required</h1>
+
+<p>Encryption IfRequested
+</code></p>
+
+<p>  service cups restart</p>
+
+<p>====== Install ant ======</p>
+
+<p>  sudo apt-get install ant ant-optional</p>
+
+<p>====== Install Google Chrome on Ubuntu 12.04 ======
+Install chrome from google official repository.</p>
+
+<p>First we need to add the repository source to the update manager.</p>
+
+<p>Step 1 » Setup key .
+  wget -q -O &ndash; <a href="https://dl-ssl.google.com/linux/linux_signing_key.pub">https://dl-ssl.google.com/linux/linux_signing_key.pub</a> | sudo apt-key add &ndash;</p>
+
+<p>Step 2 » Type this command exactly to add chrome repositories .
+  sudo sh -c &lsquo;echo &ldquo;deb <a href="http://dl.google.com/linux/chrome/deb/">http://dl.google.com/linux/chrome/deb/</a> stable main&rdquo; >> /etc/apt/sources.list.d/google.list&rsquo;</p>
+
+<p>Step 3 » Now Update the package list .
+  sudo apt-get update</p>
+
+<p>Step 4 » Finally install google chrome
+  sudo apt-get install google-chrome-stable</p>
+
+<p>This should auto update chrome whenever the system does an upgrade.</p>
+
+<p>====== List packages installed ======
+  apt-cache pkgnames > pkgnames
+====== Install from list of packages ======
+  cat pkgnames | xargs apt-get install
+====== Automatic Updating ======
+  apt-get install unattended-upgrades</p>
+
+<p>  /etc/apt/apt.conf.d/10periodic
+<code>
+APT::Periodic::Update-Package-Lists &ldquo;1&rdquo;;
+APT::Periodic::Download-Upgradeable-Packages &ldquo;1&rdquo;;
+APT::Periodic::AutocleanInterval &ldquo;7&rdquo;;
+APT::Periodic::Unattended-Upgrade &ldquo;1&rdquo;;
+</code></p>
+
+<p>  /etc/apt/apt.conf.d/50unattended-upgrades
+<code>
+// Automatically upgrade packages from these (origin:archive) pairs
+Unattended-Upgrade::Allowed-Origins {</p>
+
+<pre><code>    "${distro_id}:${distro_codename}-security";
+    "${distro_id}:${distro_codename}-updates";
+</code></pre>
+
+<p>//      &ldquo;${distro_id}:${distro_codename}-proposed&rdquo;;
+//      &ldquo;${distro_id}:${distro_codename}-backports&rdquo;;</p>
+
+<pre><code>"Google\, Inc.:stable";
+</code></pre>
+
+<p>};</p>
+
+<p>// List of packages to not update
+Unattended-Upgrade::Package-Blacklist {
+//      &ldquo;vim&rdquo;;
+//      &ldquo;libc6&rdquo;;
+//      &ldquo;libc6-dev&rdquo;;
+//      &ldquo;libc6-i686&rdquo;;
+};</p>
+
+<p>// This option allows you to control if on a unclean dpkg exit
+// unattended-upgrades will automatically run
+//   dpkg &mdash;force-confold &mdash;configure -a
+// The default is true, to ensure updates keep getting installed
+//Unattended-Upgrade::AutoFixInterruptedDpkg &ldquo;false&rdquo;;</p>
+
+<p>// Split the upgrade into the smallest possible chunks so that
+// they can be interrupted with SIGUSR1. This makes the upgrade
+// a bit slower but it has the benefit that shutdown while a upgrade
+// is running is possible (with a small delay)
+//Unattended-Upgrade::MinimalSteps &ldquo;true&rdquo;;</p>
+
+<p>// Install all unattended-upgrades when the machine is shuting down
+// instead of doing it in the background while the machine is running
+// This will (obviously) make shutdown slower
+//Unattended-Upgrade::InstallOnShutdown &ldquo;true&rdquo;;</p>
+
+<p>// Send email to this address for problems or packages upgrades
+// If empty or unset then no email is sent, make sure that you
+// have a working mail setup on your system. A package that provides
+// &lsquo;mailx&rsquo; must be installed.
+Unattended-Upgrade::Mail &ldquo;root@localhost&rdquo;;</p>
+
+<p>// Set this value to &ldquo;true&rdquo; to get emails only on errors. Default
+// is to always send a mail if Unattended-Upgrade::Mail is set
+//Unattended-Upgrade::MailOnlyOnError &ldquo;true&rdquo;;</p>
+
+<p>// Do automatic removal of new unused dependencies after the upgrade
+// (equivalent to apt-get autoremove)
+//Unattended-Upgrade::Remove-Unused-Dependencies &ldquo;false&rdquo;;</p>
+
+<p>// Automatically reboot <em>WITHOUT CONFIRMATION</em> if a
+// the file /var/run/reboot-required is found after the upgrade
+Unattended-Upgrade::Automatic-Reboot &ldquo;true&rdquo;;</p>
+
+<p>// Use apt bandwidth limit feature, this example limits the download
+// speed to 70kb/sec
+//Acquire::<a href="http::Dl-Limit">http::Dl-Limit</a> &ldquo;70&rdquo;;
+</code></p>
+
+<p>  /etc/apt/apt.conf.d/20auto-upgrades
+<code>
+APT::Periodic::Update-Package-Lists &ldquo;1&rdquo;;
+APT::Periodic::Unattended-Upgrade &ldquo;1&rdquo;;
+</code>
+====== Turn off and disable Whoopsie ======
+New in Ubuntu 12.04 is whoopsie – which sends a crash log to ubuntu. Nice feature? Well no as they don’t tell you about it nor to they ask you, they just do it.</p>
+
+<p>Nice privacy issue guys.</p>
+
+<p>To tell if you have it check the file /etc/default/whoopsie</p>
+
+<p>  [General]
+  report_crashes=true</p>
+
+<p>If you see that then it’s enabled. You’ll also see a process running called whoopsie as well.</p>
+
+<p>To turn it off just change it from true to false &amp; kill the whoopsie process (or reboot).</p>
+
+<p>====== last: /var/log/wtmp: No such file or directory ======
+as a work around you can run:
+  touch /var/log/{btmp,lastlog,wtmp}</p>
+
+<p>====== deja-dup-monitor ======
+For deja-dup I did
+<code></p>
+
+<h1>X-GNOME-Autostart-Delay=120</h1>
+
+<p>X-GNOME-Autostart-enabled=false
+</code>
+in /etc/xdg/autostart/deja-dup-monitor.desktop &hellip;</p>
+
+<p>You do not have to reboot, simple restart of X is sufficient&hellip;</p>
+
+<p>====== Ubuntu VM stall problem ======
+Fixed!!!</p>
+
+<p>The core switch was the problem, bad memory module.</p>
+
+<p>Now java is killing the VM&rsquo;s</p>
+
+<p>Re-Nice the processes:</p>
+
+<pre><code>renice +5 `pgrep java`
+</code></pre>

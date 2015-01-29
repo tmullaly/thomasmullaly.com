@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ubuntu | Thomas Mullaly]]></title>
+  <link href="http://thomasmullaly.com/blog/categories/ubuntu/atom.xml" rel="self"/>
+  <link href="http://thomasmullaly.com/"/>
+  <updated>2014-07-03T23:18:54-04:00</updated>
+  <id>http://thomasmullaly.com/</id>
+  <author>
+    <name><![CDATA[Thomas Mullaly]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu AD Client]]></title>
+    <link href="http://thomasmullaly.com/blog/2012/09/16/ubuntu-ad-client/"/>
+    <updated>2012-09-16T00:00:00-04:00</updated>
+    <id>http://thomasmullaly.com/blog/2012/09/16/ubuntu-ad-client</id>
+    <content type="html"><![CDATA[<p>This is my original way of using Active Directory as the directory server for linux.  It requires the schema to be extended to include the unix attributes.  In Windows Server 2008 AD, the schema is actually extended by default.  Unfortunately, in order to access the unix attributes in the AD MMC you need to add the NIS role.  The new way of auto generating the userid is way better and is documented here: [[ubuntu rid client]]</p>
+
+<p><div>
+  <pre><code class='bash'>sudo apt-get install krb5-user libpam-krb5 libpam-ccreds auth-client-config</code></pre>
+</div>
+</p>
+
+<p>edit /etc/krb5.onf
+<div>
+  <pre><code class='text'>[logging]
+default = FILE:/var/log/krb5libs.log
+kdc = FILE:/var/log/krb5kdc.log
+admin_server = FILE:/var/log/kadmind.log&lt;/p&gt;
+
+&lt;p&gt;[libdefaults]
+dns_lookup_realm = true
+dns_lookup_kdc = true
+ticket_lifetime = 24h
+forwardable = yes&lt;/p&gt;
+
+&lt;p&gt;[appdefaults]
+pam = {
+  debug = false
+  ticket_lifetime = 36000
+  renew_lifetime = 36000
+  forwardable = true
+  krb4_convert = false
+}</code></pre>
+</div>
+</p>
+
+<p>sudo apt-get install samba winbind
+<div>
+  <pre><code class='text'>#GLOBAL PARAMETERS
+  [global]&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; workgroup = CS
+ realm = CS.UMB.EDU
+ preferred master = no
+ server string = %h Linux Test Machine
+ security = ADS
+ encrypt passwords = yes
+ log level = 3
+ log file = /var/log/samba/%m
+ max log size = 50
+ printcap name = cups
+ printing = cups
+ winbind enum users = No
+ winbind enum groups = No
+ winbind use default domain = Yes
+ winbind nested groups = Yes
+ winbind separator = +
+ winbind nss info = rfc2307
+ winbind cache time = 10
+ idmap backend = tdb
+ idmap uid = 60000-70000
+ idmap gid = 60000-70000
+ idmap config CS: backend = ad
+ idmap config CS: range = 10000-20000
+ idmap config CS: schema_mode = rfc2307
+ ;template primary group = &quot;Domain Users&quot;
+ ;template shell = /bin/bash
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;  [homes]&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; comment = Home Direcotries
+ valid users = %S
+ read only = No
+ browseable = No
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;  [printers]&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; comment = All Printers
+ path = /var/spool/cups
+ browseable = no
+ printable = yes
+ guest ok = yes
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;</code></pre>
+</div>
+</p>
+
+<p>edit /etc/nsswitch.conf
+<div>
+  <pre><code class='text'>passwd:         compat winbind
+group:          compat winbind</code></pre>
+</div>
+</p>
+
+<p>net ads join -U Administrator</p>
+
+<p>wbinfo -u</p>
+]]></content>
+  </entry>
+  
+</feed>

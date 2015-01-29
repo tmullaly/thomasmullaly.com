@@ -1,0 +1,60 @@
+---
+layout: post
+title:  "Git"
+date:   2013-03-13 12:45:20
+categories: linux
+---
+#Typical Usage
+Create a new branch
+{% highlight bash %}
+git branch production
+git checkout production
+git merge master
+git push origin production
+{% endhighlight %}
+     
+#Simple single user private hosting
+
+If you want to use users as a simple single user repository.
+
+ssh to users
+
+Now create your repository:
+{% highlight bash %}
+mkdir myrepo.git
+cd !$
+git --bare init
+{% endhighlight %}
+  
+The last step creates an empty repository, assuming you have a local repository that you want to push to a remote server.
+
+Now on your local machine:
+
+If you've already defined a remote origin, you'll want to delete the remote first:
+{% highlight bash %}
+git remote rm origin
+{% endhighlight %}  
+Now you can add the new remote:
+{% highlight bash %}
+git remote add origin username@users.cs.umb.edu:myrepo.git
+git push origin master
+{% endhighlight %}  
+Make sure you add a default merge and remote:
+{% highlight bash %}
+  git config branch.master.remote origin && git config branch.master.merge refs/heads/master
+{% endhighlight %}  
+#Rebase
+{{ http://home.cofares.net/GIT/book/assets/images/figure/object-blob.png?recache}}
+Say you've forked a project and want to update your clone to the forks.
+{% highlight bash %}
+git clone git@bitbucket.org:tommyfun/androidcatornotcat.git
+cd androidcatornotcat/
+ls
+git status
+git remote add upstream git@bitbucket.org:lamdersar/androidcatornotcat.git
+git fetch upstream
+git status
+git checkout master
+git rebase upstream/master
+git push
+{% endhighlight %}
