@@ -2,6 +2,9 @@
 layout: nil
 ---
 User-agent: *
-Disallow: 
+Disallow:
+#Disallow: /page
+#Disallow: /categories
+#Disallow: /blog
 
 Sitemap: {{ site.url }}/sitemap.xml 

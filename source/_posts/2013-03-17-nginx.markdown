@@ -1,10 +1,12 @@
-{{:nginx.png?200|}}
-
-
-  apt-get install python-software-properties
-  
-  add-apt-repository ppa:nginx/stable
-  
-  sudo apt-get update
-  
-  sudo apt-get install nginx
+---
+layout: post
+title:  "Nginx"
+date:   2013-03-17 10:26:10
+categories: ["linux","nginx","ubuntu"]
+---
+{% highlight bash %}
+apt-get install python-software-properties  
+add-apt-repository ppa:nginx/stable
+sudo apt-get update
+sudo apt-get install nginx
+{% endhighlight %}
