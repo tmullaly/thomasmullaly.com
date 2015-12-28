@@ -1,17 +1,20 @@
 ---
 layout: page
 title: "Thomas Mullaly's R&#233sum&#233"
-date: 2014-09-08 11:26:00
+date: 2015-07-14 11:26:00
 comments: true
 sharing: true
 footer: true
 ---
 ##Experience
+### Help Desk 2015-present
+#### Department of Mathematics at MIT, Cambridge, MA
+Managing the department help desk, desktops, printers and servers.
 
-### Chief Technology Officer 2014-present
+### Chief Technology Officer 2014-2015
 
 #### NextGen Realty, Boston, MA
-Managed three Active Directory domains with Windows 7 clients, VMWare ESXi 5.1, Drobo SAN, Barracuda Web Filter Security Appliance, Barracuda Spam Firewall Security Appliance, ESET Antivirus.  MikroTik Routerboard, three asterisk/freepbx pbx's with grandstream phones, redesigned the physical network architecture, implemented Veeam backup for ESXi guests, Rackspace hosting and backup, Ubuntu servers, Apache and IIS web servers, managed dns hosting using djbdns, managed multiple wordpress installations, managed openfire jabber server, postfix, intermedia hosted Exchange Server, MySQL server, implemented Request Tracker for a helpdesk ticket system, used Jira to manage application development.
+Managed three Active Directory domains with Windows 7 clients, VMWare ESXi 5.1, Drobo SAN, Barracuda Web Filter Security Appliance, Barracuda Spam Firewall Security Appliance, ESET Antivirus.  MikroTik Routerboard, three asterisk/freepbx pbx's with grandstream phones, redesigned the physical network architecture, implemented Veeam backup for ESXi guests, Rackspace hosting and backup, Ubuntu and RHEL servers, Apache and IIS web servers, managed dns hosting using djbdns, managed multiple wordpress installations, managed openfire jabber server, postfix, intermedia hosted Exchange Server, MySQL server, implemented Request Tracker for a helpdesk ticket system, used Jira to manage application development.
 
 ### Lead Unix Operator 2012-2014
 
@@ -22,7 +25,7 @@ Managed student employees in a help desk environment.  Implemented web based doc
 
 #### IT Consultant, Boston, MA
 
-Contracted for various startups providing IT strategy and support.  Desktop management, security solutions, network solutions and general troubleshooting.
+Contracted part-time for various startups providing IT strategy and support.  Desktop management, security solutions, network solutions and general troubleshooting.
 
 ### Ruby On Rails Developer 2010-2012
 
@@ -88,5 +91,5 @@ Member of the UMass Boston Collegiate Cyber Defense Competition (CCDC) 2012 team
 Assistant coach for the UMass Boston Collegiate Cyber Defense Competition (CCDC) 2014 team.  Mentored students learning how to secure servers and troubleshooting steps and techniques.
 
 ###Programming Languages and Frameworks, Etc.
-Java, Python, Perl, Ruby, Ruby On Rails, Capistrano, SQL, Bash scripting, Puppet, Git, OSSEC, heroku, AWS, kvm, VMware
+Java, Python, Perl, Ruby, Ruby On Rails, Capistrano, SQL, Bash scripting, Puppet, Git, OSSEC, heroku, AWS, RackSpace, kvm, apache, nginx, WordPress, VMware, Ubuntu, RHEL, Visual Basic, rsync, Veeam, djbdns
 
