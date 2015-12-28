@@ -7,8 +7,10 @@ sharing: true
 footer: true
 ---
 ##Experience
+
 ### Help Desk 2015-present
-#### Department of Mathematics at MIT, Cambridge, MA
+
+#### MIT Department of Mathematics, Cambridge, MA
 Managing the department help desk, desktops, printers and servers.
 
 ### Chief Technology Officer 2014-2015
