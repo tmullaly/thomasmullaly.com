@@ -7,8 +7,8 @@ require "stringex"
 #ssh_user       = "tom@thomasmullaly.com"
 ssh_user       = "root@104.236.31.244"
 ssh_port       = "22"
-#document_root  = "/var/www/thomasmullaly/"
-document_root  = "/usr/share/nginx/html/"
+document_root  = "/var/www/thomasmullaly.com/"
+#document_root  = "/usr/share/nginx/html/"
 rsync_delete   = false
 rsync_args     = ""  # Any extra arguments to pass to rsync
 deploy_default = "rsync"
