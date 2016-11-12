@@ -3,7 +3,7 @@ layout: post
 title: "Pure-FTPd on Ubuntu 12.04"
 date: 2015-04-22 20:37:07 -0400
 comments: true
-categories: ["Linux", "Ubuntu"]
+categories: ["linux", "ubuntu"]
 ---
 This is a simple setup to allow your designer ftp access to a web directory.  The problem that I encountered was for a web server running wordpress.  Apache runs as the user www-data with an id of 33 on Ubuntu 12.04.  The wordpress files have to be ownership as the webserver for you to download and install updates through wordpress's web interface.  I guess I could just have the core wordpress files and the plugins directory and given the rest the user account permissions but I didn't.  The Pure-ftp server allow me to create virtual users and I can give them any uid, except 0 (root).  For security, I would just allow from the designers ip address.
 <!-- more -->
