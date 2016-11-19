@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Linux Auto Deployment using iPXE and Salt Stack"
+title: "Linux Auto Deployment using iPXE and SaltStack"
 date: 2016-11-04 18:30:26 -0400
 comments: true
-categories: ["linux", "salt", "ipxe", "dhcp", "tftp", "ubuntu"]
+categories: ["linux", "salt", "saltstack", "ipxe", "pxe", "dhcp", "tftp", "ubuntu"]
 ---
-This is a how to setup a linux deployment system.
+This is how to setup a linux deployment system using pxe and saltstack.  These directions are for a sandboxed virtual environment but are directly appicable to a production environment.
 <!-- more -->
 
 # Router
