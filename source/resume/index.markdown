@@ -11,7 +11,7 @@ footer: true
 ### Help Desk 2015-present
 
 #### MIT Department of Mathematics, Cambridge, MA
-Managing the department help desk, desktops, printers and servers.
+Co-management and administration of the department's Ubuntu/Fedora servers and Fedora workstations as well as support for Mac and Windows workstations.  Management and maintenance of the department's printers.  Monitoring of the network for purposes of security, performance, and troubleshooting.  Create and maintain technical documentation for our network and server environment. Make documentation for end-users available through our website and also through manuals in the computer labs.  Provide end-users with a high standard of customer service and support, assisting with all aspects of their computer needs.  In the event of an emergency, to act as backup for consulting systems coordinators.  Administer the department’s Applied Mathematics Computational Laboratory, including seven servers running Fedora and various parallel computational technologies.  Support a Linux cluster and computational servers.
 
 ### Chief Technology Officer 2014-2015
 
@@ -42,7 +42,7 @@ Implemented and managed the desktop / server / network / datacenter / virtualiza
 ###Unix Administrator 2000-2001 
 
 ####RevBox, Boston, MA
-Setup and responsible for Sun Enterprise 420's and 450, Solaris 7, Veritas Volume Manager, Veritas Filesystem, Checkpoint FW-1, Red Hat Linux 6, Cisco IOS 12.0, Cisco 1720 Access Routers, Cisco IPsec VPN/Firewall, Security Audit, NIS/NFS, SNMP Management, 24x7 Monitoring solution, Perl, Oracle, AOLServer, IPlanet Enterprise Server, IPlanet Directory Server, IPlanet Calendar Server
+Setup and responsible for Sun Enterprise 420's and 450, Solaris 7, Veritas Volume Manager, Veritas Filesystem, Checkpoint FW-1, Red Hat Linux 6, Cisco IOS 12.0, Cisco 1720 Access Routers, Cisco IPsec VPN/Firewall, Security Audit, NIS/NFS, SNMP Management, 24x7 Monitoring solution, Perl, Oracle, AOLServer, IPlanet Enterprise Server, IPlanet Directory Server, IPlanet Calendar Server.
 
 ###Front-end Web Developer 1999-2000
 
