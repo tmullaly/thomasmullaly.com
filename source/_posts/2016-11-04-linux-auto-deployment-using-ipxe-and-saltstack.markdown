@@ -69,11 +69,19 @@ Now to save the iptable rules
 netfilter-persistent save
 netfilter-persistent reload
 {% endhighlight %}
-Other
+iptstate will show you the traffic of a connected client
 {% highlight bash %}
-sysctl -p
+apt-get install iptstate
 apt-get install netstat-nat
 {% endhighlight %}
+Afterwards when you want to expose an internal vm through the router:
+{% highlight bash %}
+iptables -t nat -A PREROUTING -p tcp --dport 8080 -j DNAT --to-destination 10.20.30.26
+iptables -L -v -n
+iptables -t nat -A PREROUTING -p udp --dport 1194 -j DNAT --to-destination 10.20.30.25
+iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT --to-destination 10.20.30.25
+{% endhighlight %}
+
 #Main Server
 
 I'm going to combine the deployment services onto one system. It's a basic Ubuntu 16.04 Server install and I'm calling it "server".
